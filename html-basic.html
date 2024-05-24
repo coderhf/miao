@@ -14,12 +14,16 @@
   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate quasi enim maiores itaque nam necessitatibus accusantium ipsam amet officiis assumenda similique, voluptatum quia praesentium architecto at reprehenderit sint laboriosam qui.</p>
   <a href="https://www.jd.com/" target="_blank">在新窗口打开京东</a>
   <a href="mailto:falf@qq.com">点我发邮件</a>
+  <a href="#footer">跳到页面底部</a>
+  <a href="aaaa" download="aaa.pdf">点我下载文件</a>
 
   <div>
     <img src="https://ts1.cn.mm.bing.net/th?id=OIP-C.Rmu2HNfPTot9nN9kWt0dbgHaNK&w=187&h=333&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2" alt="贝加尔湖" width="200" height="200">
   </div>
+
   <hr>
   <hr>
+  <marquee behavior="" direction="">piao</marquee>
   <div>
     <em>这几种强调</em>
     <b>有什么</b>
@@ -27,6 +31,12 @@
     <u>这个？</u>
     <i>这个？</i>
   </div>
+  &lt; !--这段注释需要出现在页面里面 --&gt;
+  <pre>
+    function a() {
+      return 8
+    }
+  </pre>
   <hr>
   <ul>
     <li>小学
@@ -59,8 +69,78 @@
   </dl>
   <hr>
 
-  <h2>Google搜索</h2>
+  <h2>必应搜索</h2>
+  <form target="_blank" action="https://cn.bing.com/search">
+    <input type="text" name="q">
+    <input type="text" name="PC" value="U316" hidden>
+    <input type="text" name="FORM" value="CHROMN" hidden>
+    <button>在新窗口打开搜索结果</button>
+  </form>
   <hr>
+  <form action="">
+    <p>个人信息调查表</p>
+    <dl>
+      <dt>性别</dt>
+      <dd>
+        <label for="">
+          <input type="radio" name="sex" value="male">男
+        </label>
+        <label for="">
+          <input type="radio" name="sex" value="female">女
+        </label>
+      </dd>
 
+      <dt>年龄</dt>
+      <dd>
+        <select name="age" id="">
+          <option value="" hidden>请选择</option>
+          <optgroup label="少年">
+            <option value="1-6">1到6岁</option>
+            <option value="6-12">6到12岁</option>
+          </optgroup>
+          <optgroup label="青年">
+            <option value="13-15">13到15岁</option>
+            <option value="16-18">16到18岁</option>
+          </optgroup>
+          <optgroup label="青年">
+            <option value="13-15">13到15岁</option>
+            <option value="16-18">16到18岁</option>
+          </optgroup>
+        </select>
+      </dd>
+      <dt>生日</dt>
+      <dd>
+        <input type="date" name="birthday">
+      </dd>
+      <dt>生辰</dt>
+      <dd>
+        <input type="time" name="birthTime" id="">
+      </dd>
+      <dt>照片</dt>
+      <dd>
+        <input hidden type="file" name="img" id="avatar-upload">
+        <label for="avatar-upload">点我上传照片，我比文件上传按钮好看</label>
+      </dd>
+      <dt>自我介绍</dt>
+      <dd>
+        <textarea name="intro" cols="30" rows="10">&lt;/textarea></textarea>
+      </dd>
+    </dl>
+    <fieldset disabled>
+      <legend>这里全部禁用了</legend>
+      <input type="text"><input type="text">
+      <input type="text"><input type="text">
+    </fieldset>
+    <button>提交</button>
+    <button type="reset">重置</button>
+  </form>
+  <hr>
+  <div>aaa&nbsp;&nbsp;&nbsp;&nbsp;bbbbbb</div>
+  <pre>
+    aaa    bbbbbb
+  </pre>
+  &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+  &lt;span>&lt;/span>
+  <div id="footer"></div>
 </body>
 </html>
