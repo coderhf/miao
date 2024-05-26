@@ -7,7 +7,7 @@
 
     <style>
       /* 只能在这个style标签里写css，不能改变html结构 */
-      p.red {
+      body > p:first-child {
         color: red;
       }
 
@@ -54,10 +54,26 @@
       a[href$=".pdf" i] {
         font-size: 30px;
       }
+
+      .a ul li:nth-child(-n+7):nth-child(n+4) {
+        color: red;
+      }
+
+      .b ul li:nth-child(-n+25) {
+        color: red;
+      }
+
+      .b ul li:nth-child(n+65) {
+        color: red;
+      }
+
+      .b ul li:nth-child(-n+50):nth-child(n+35) {
+        color: blue;
+      }
     </style>
   </head>
   <body>
-    <p class="red">红色</p>
+    <p>红色</p>
 
     <p class="a" tabindex="1">鼠标悬浮时为红色，按下去时为绿色，获得焦点时为蓝色</p>
 
