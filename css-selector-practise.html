@@ -43,11 +43,11 @@
         color: orange;
       }
 
-      a[href^="mailto:"] {
+      a[href^="mailto:" i] {
         color: blue;
       }
 
-      a[href^="tel:"] {
+      a[href^="tel:" i] {
         color: yellow;
       }
 
@@ -69,6 +69,20 @@
 
       .b ul li:nth-child(-n+50):nth-child(n+35) {
         color: blue;
+      }
+
+      /* 合数和1 */
+      div.prime ul li:first-child,
+      div.prime ul li:nth-child(2n+4),
+      div.prime ul li:nth-child(3n+9),
+      div.prime ul li:nth-child(5n+25),
+      div.prime ul li:nth-child(7n+49) {
+        color: rgb(174, 157, 157);
+      }
+
+      /* 素数 */
+      div.prime ul li:not(:first-child):not(:nth-child(2n+4)):not(:nth-child(3n+9)):not(:nth-child(5n+25)):not(:nth-child(7n+49)) {
+        color: red;
       }
     </style>
   </head>
@@ -98,7 +112,7 @@
       <a href="https://www.jd.com/">jd</a>
       <a href="https://www.lksdjfwief.com/">你肯定没访问过我</a>
       <a href="https://damiao.tpddns.cn:44313/codes/mailto.html">这不是邮件链接</a>
-      <a href="mailto:a@b.com">给我发邮件</a>
+      <a href="MAILTO:a@b.com">给我发邮件</a>
       <a href="mailto:a@b.com">给我发邮件</a>
       <a href="tel:12345678">给我打电话</a>
       <a href="tel:12345678">给我打电话</a>
