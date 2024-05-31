@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      margin: 0;
+    }
+    
+    div.header {
+      background-color: #000;
+    }
+
+    p.content {
+      width: 600px;
+      margin: auto;
+      color: #fff;
+      background-color: #000;
+    }
+
+    p.main {
+      width: 600px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    ul.item {
+      list-style: none;
+      padding: 0;
+      width: 600px;
+      margin: 0 auto;
+    }
+
+    ul.item li {
+      width: 180px;
+      height: 40px;
+      line-height: 34px;
+      box-sizing: border-box;
+      margin: 15px 0;
+      border: 3px solid;
+      text-align: center;
+      background-color: lightsalmon;
+    }
+
+    ul.item li:hover {
+      background-color: red;
+    }
+
+    ul.item li:nth-child(n+5) {
+      margin-left: 210px;
+    }
+
+    ul.item li:nth-child(n+9) {
+      margin-left: 420px;
+    }
+
+    ul.item li:nth-child(4n+5) {
+      margin-top: -220px;
+    }
+
+    ul.link {
+      width: 600px;
+      margin: 20px auto;
+      list-style: none;
+      padding: 0;
+    }
+
+    ul.link li {
+      border-bottom: 1px dotted #666;
+    }
+    
+    ul.link li:last-child {
+      border-bottom: none;
+    }
+
+    div.footer {
+      background-color: violet;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <p class="content">
+      hello world 请调整浏览器窗口大小查看效果hello world 请调整浏览器窗口大小查看效果hello world 请调整浏览器窗口大小查看效果hello world 请调整浏览器窗口大小查看效果hello world
+      请调整浏览器窗口大小查看效果hello world 请调整浏览器窗口大小查看效果
+    </p>
+  </div>
+
+  <p class="main">
+    页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px
+    页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px
+  </p>
+
+  <ul class="item">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+    <li>8</li>
+    <li>9</li>
+    <li>10</li>
+    <li>11</li>
+    <li>12</li>
+  </ul>
+
+  <ul class="link">
+    <li>link</li>
+    <li>link</li>
+    <li>link</li>
+    <li>link</li>
+    <li>link</li>
+  </ul>
+
+  <div class="footer">
+    ©版权所有<br>
+    本页所有布局均使用块元素
+  </div>
+</body>
+</html>
