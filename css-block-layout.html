@@ -26,14 +26,15 @@
       margin-left: auto;
     }
 
-    ul.item {
+    ul.item, ul.item1 {
       list-style: none;
       padding: 0;
       width: 600px;
       margin: 0 auto;
     }
 
-    ul.item li {
+    ul.item li,
+    ul.item1 li {
       width: 180px;
       height: 40px;
       line-height: 34px;
@@ -58,6 +59,21 @@
 
     ul.item li:nth-child(4n+5) {
       margin-top: -220px;
+    }
+
+    ul.item1 {
+      font-size: 0;
+    }
+
+    ul.item1 li {
+      font-size: 16px;
+      display: inline-block;
+      margin-bottom: 0;
+      margin-right: 30px;
+    }
+
+    ul.item1 li:nth-child(3n+3) {
+      margin-right: 0;
     }
 
     ul.link {
@@ -95,6 +111,21 @@
   </p>
 
   <ul class="item">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+    <li>8</li>
+    <li>9</li>
+    <li>10</li>
+    <li>11</li>
+    <li>12</li>
+  </ul>
+
+  <ul class="item1">
     <li>1</li>
     <li>2</li>
     <li>3</li>
