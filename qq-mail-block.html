@@ -15,20 +15,29 @@
       overflow: auto;
     }
 
-    section aside {
-      width: 200px;
+    section {
+      font-size: 0;
       height: calc(100vh - 120px);
+    }
+
+    section * {
+      font-size: 16px;
+    }
+
+    section aside {
+      display: inline-block;
+      width: 200px;
+      height: 100%;
       background-color: #cc6767;
       overflow: auto;
     }
 
     section main {
+      display: inline-block;
       width: calc(100% - 200px);
-      height: calc(100vh - 120px);
+      height: 100%;
       background-color: #25b6e2;
       overflow: auto;
-      margin-left: 200px;
-      margin-top: calc(120px - 100vh);
     }
   </style>
 </head>
