@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    * {
+      background-color: rgba(0, 0, 0, 0.08);
+      box-shadow: inset 0 0 1px red;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    ul.menu {
+      font-size: 0;
+    }
+
+    ul.menu > li {
+      display: inline-block;
+      position: relative;
+      padding: 0.5em 1em;
+      font-size: 16px;
+    }
+
+    ul.menu > li ul {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      display: none;
+    }
+
+    ul.menu li:hover > ul{
+      display: block;
+    }
+
+    ul.menu li:hover {
+      background-color: gold;
+    }
+
+    ul.menu > li ul li {
+      white-space: nowrap;
+    }
+
+    ul.menu > li ul ul {
+      left: 100%;
+      top: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <ul class="menu">
+    <li>文件
+      <ul>
+        <li>flajfl fl jl
+          <ul>
+            <li>111 345ltjopgsjhg jfallajlf jl</li>
+            <li>fasjhkfgg  pjtga ghj oj l</li>
+            <li>fafjl</li>
+          </ul>
+        </li>
+        <li>aa fdfg
+          <ul>
+            <li>flljl fjolg</li>
+            <li>aasa fjat 5t</li>
+            <li>fafjl</li>
+          </ul>
+        </li>
+        <li>a oofeh
+          <ul>
+            <li>111 345ltjopgsjhg jfallajlf jl</li>
+            <li>fasjhkfgg pjtga ghj oj l</li>
+            <li>fafjl</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>编辑
+      <ul>
+        <li>flajfl fl jl</li>
+        <li>aa fdfg</li>
+        <li>a oofeh</li>
+      </ul>
+    </li>
+    <li>选择
+      <ul>
+        <li>flajfl fl jl</li>
+        <li>aa fdfg</li>
+        <li>a oofeh</li>
+      </ul>
+    </li>
+    <li>查看
+      <ul>
+        <li>flajfl fl jl</li>
+        <li>aa fdfg</li>
+        <li>a oofeh</li>
+      </ul>
+    </li>
+  </ul>
+</body>
+
+</html>
