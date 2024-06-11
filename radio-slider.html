@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      xbackground-color: rgba(0, 0, 0, 0.08);
+      xbox-shadow: inset 0 0 1px red;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    input {
+      display: none;
+    }
+
+    img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s;
+    }
+
+    div.container {
+      position: relative;
+      width: 40%;
+      height: 300px;
+      margin: auto;
+      xbackground-color: red;
+    }
+
+    div.dots {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      xbackground-color: white;
+    }
+
+    div.dots label {
+      float: left;
+      width: 10px;
+      height: 10px;
+      background-color: #999;
+      border-radius: 9999px;
+      margin: 5px;
+      border: 2px solid #666;
+      cursor: pointer;
+    }
+
+    input:first-child:checked~div.container img:first-child {
+      opacity: 1;
+    }
+
+    input:nth-child(2):checked~div.container img:nth-child(2) {
+      opacity: 1;
+    }
+
+    input:nth-child(3):checked~div.container img:nth-child(3) {
+      opacity: 1;
+    }
+
+    input:nth-child(1):checked~div.container div.dots label:nth-child(1) {
+      background-color: #fff;
+    }
+
+    input:nth-child(2):checked~div.container div.dots label:nth-child(2) {
+      background-color: #fff;
+    }
+
+    input:nth-child(3):checked~div.container div.dots label:nth-child(3) {
+      background-color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <input checked type="radio" name="a" id="s1">
+  <input type="radio" name="a" id="s2">
+  <input type="radio" name="a" id="s3">
+
+  <div class="container">
+    <img
+      src="https://travel.12306.cn/imgs/resources/uploadfiles/images/243945e6-c45d-4870-9cf5-77e488068646_product_W572_H370.jpg"
+      alt="">
+    <img
+      src="https://travel.12306.cn/imgs/resources/uploadfiles/images/fcd7173f-7651-46e7-a126-bdc199e1f6f7_product_W572_H370.jpg"
+      alt="">
+    <img
+      src="https://travel.12306.cn/imgs/resources/uploadfiles/images/b0c76b21-531b-4af4-a607-cf5672c72ded_product_W572_H370.jpg"
+      alt="">
+
+    <div class="dots">
+      <label for="s1"></label>
+      <label for="s2"></label>
+      <label for="s3"></label>
+    </div>
+  </div>
+</body>
+
+</html>
