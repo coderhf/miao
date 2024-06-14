@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>小米首页</title>
+  <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4585485_hv6ybav0jro.css">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
@@ -36,14 +37,18 @@
           <li class="float-left h-[full]"><a href="#" class="block text-[#b0b0b0] hover:text-white">Selection Location</a></li>
         </ul>
 
-        <div class="float-right w-[120px] h-[40px] ml-[15px]">
-          <a href="#" class="block h-full bg-[#424242] leading-[40px] text-center text-[#b0b0b0] text-[12px]">
-            <i></i>
+        <div class="float-right w-[120px] h-[40px] ml-[15px] relative group">
+          <a href="#" class="block h-full bg-[#424242] leading-[40px] text-center text-[#b0b0b0] text-[12px] hover:bg-white hover:text-[#ff6700]">
+            <i class="iconfont icon-gouwuche"></i>
             <span>购物车</span>
             (
             <span>0</span>
             )
           </a>
+          <div class="absolute w-[316px] h-0 bg-white top-full right-0 text-[#424242] text-sm text-center 
+          shadow-md leading-[100px] group-hover:h-[100px] overflow-hidden transition-[height] duration-300 ease-linear">
+            <span>购物车中还没有商品，赶紧选购吧!</span>
+          </div>
         </div>
 
         <ul class="float-right leading-[40px] text-[12px]">
@@ -53,10 +58,19 @@
           <span class="float-left mx-1 text-[#424242]">|</span>
           <li class="float-left h-[full]"><a href="#" class="block text-[#b0b0b0] hover:text-white">消息通知</a></li>
         </ul>
-
-        
       </div>
     </header>
+
+    <div>
+      <nav class="mx-auto w-[1226px] h-[100px]">
+        <h1>
+          小米官网
+          <a href="#" title="小米官网">
+            <img src="	https://cdn.cnbj1.fds.api.mi-img.com/mi.com-assets/shop/img/logo-mi2.png" alt="">
+          </a>
+        </h1>
+      </nav>
+    </div>
   </div>
 </body>
 </html>
