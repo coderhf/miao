@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,162 @@
   <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4585485_hv6ybav0jro.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    
+    .slider {
+      position: relative;
+      height: 460px;
+    }
 
-    
+    .slider input {
+      display: none;
+    }
+
+    .slider a {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: 1000ms;
+    }
+
+    .slider .arrow {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      z-index: 50;
+      width: 41px;
+      height: 69px;
+      line-height: 69px;
+      font-size: 56px;
+      text-align: center;
+      color: #a09d9d;
+    }
+
+    .slider .arrow.left-arrow {
+      left: 0;
+    }
+
+    .slider .arrow.right-arrow {
+      right: 0;
+    }
+
+    .slider .arrow:hover {
+      color: white;
+      background-color: #3338;
+    }
+
+    .slider .arrow label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: none;
+      cursor: pointer;
+    }
+
+    .slider .dot {
+      display: flex;
+      position: absolute;
+      bottom: 20px;
+      right: 30px;
+      gap: 8px;
+    }
+
+    .slider .dot label {
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+      box-sizing: content-box;
+      border: 2px solid #fff;
+      border-color: hsla(0, 0%, 100%, .3);
+      background-color: rgba(0, 0, 0, .4);
+      cursor: pointer;
+    }
+
+    .slider .dot label:hover {
+      background-color: hsla(0, 0%, 100%, .4);
+      border-color: rgba(0, 0, 0, .4);
+    }
+
+    input:nth-child(1):checked~a:nth-of-type(1) {
+      opacity: 1;
+    }
+
+    input:nth-child(2):checked~a:nth-of-type(2) {
+      opacity: 1;
+    }
+
+    input:nth-child(3):checked~a:nth-of-type(3) {
+      opacity: 1;
+    }
+
+    input:nth-child(4):checked~a:nth-of-type(4) {
+      opacity: 1;
+    }
+
+    input:nth-child(5):checked~a:nth-of-type(5) {
+      opacity: 1;
+    }
+
+    input:nth-child(6):checked~a:nth-of-type(6) {
+      opacity: 1;
+    }
+
+    input:nth-child(1):checked~.arrow label:nth-child(1) {
+      display: block;
+    }
+
+    input:nth-child(2):checked~.arrow label:nth-child(2) {
+      display: block;
+    }
+
+    input:nth-child(3):checked~.arrow label:nth-child(3) {
+      display: block;
+    }
+
+    input:nth-child(4):checked~.arrow label:nth-child(4) {
+      display: block;
+    }
+
+    input:nth-child(5):checked~.arrow label:nth-child(5) {
+      display: block;
+    }
+
+    input:nth-child(6):checked~.arrow label:nth-child(6) {
+      display: block;
+    }
+
+    input:nth-child(1):checked~.dot label:nth-child(1) {
+      background-color: hsla(0, 0%, 100%, .4);
+      border-color: rgba(0, 0, 0, .4);
+    }
+
+    input:nth-child(2):checked~.dot label:nth-child(2) {
+      background-color: hsla(0, 0%, 100%, .4);
+      border-color: rgba(0, 0, 0, .4);
+    }
+
+    input:nth-child(3):checked~.dot label:nth-child(3) {
+      background-color: hsla(0, 0%, 100%, .4);
+      border-color: rgba(0, 0, 0, .4);
+    }
+
+    input:nth-child(4):checked~.dot label:nth-child(4) {
+      background-color: hsla(0, 0%, 100%, .4);
+      border-color: rgba(0, 0, 0, .4);
+    }
+
+    input:nth-child(5):checked~.dot label:nth-child(5) {
+      background-color: hsla(0, 0%, 100%, .4);
+      border-color: rgba(0, 0, 0, .4);
+    }
+
+    input:nth-child(6):checked~.dot label:nth-child(6) {
+      background-color: hsla(0, 0%, 100%, .4);
+      border-color: rgba(0, 0, 0, .4);
+    }
   </style>
 </head>
+
 <body class="bg-white">
   <div class="mi-container">
     <header class="h-[40px] bg-[#333]">
@@ -39,18 +191,21 @@
           <span class="float-left mx-1 text-[#424242]">|</span>
           <li class="float-left h-[full]"><a href="#" class="block text-[#b0b0b0] hover:text-white">下载app</a></li>
           <span class="float-left mx-1 text-[#424242]">|</span>
-          <li class="float-left h-[full]"><a href="#" class="block text-[#b0b0b0] hover:text-white">Selection Location</a></li>
+          <li class="float-left h-[full]"><a href="#" class="block text-[#b0b0b0] hover:text-white">Selection
+              Location</a></li>
         </ul>
 
         <div class="float-right w-[120px] h-[40px] ml-[15px] relative group">
-          <a href="#" class="block h-full bg-[#424242] leading-[40px] text-center text-[#b0b0b0] text-[12px] hover:bg-white hover:text-[#ff6700]">
+          <a href="#"
+            class="block h-full bg-[#424242] leading-[40px] text-center text-[#b0b0b0] text-[12px] hover:bg-white hover:text-[#ff6700]">
             <i class="iconfont icon-gouwuche"></i>
             <span>购物车</span>
             (
             <span>0</span>
             )
           </a>
-          <div class="absolute w-[316px] h-0 bg-white top-full right-0 text-[#424242] text-sm text-center 
+          <div
+            class="absolute w-[316px] h-0 bg-white top-full right-0 text-[#424242] text-sm text-center 
           shadow-md leading-[100px] group-hover:h-[100px] overflow-hidden transition-[height] duration-300 ease-linear">
             <span>购物车中还没有商品，赶紧选购吧!</span>
           </div>
@@ -79,13 +234,15 @@
             <ul class="flex self-stretch text-[16px] text-[#333] mt-[10px] group">
               <li class="flex items-center hover:text-[#ff6700] group/item px-[10px]">
                 <a href="#" class="mt-[-10px]">Xiaomi手机</a>
-                <div class="下拉内容 bg-white h-0 group-hover:h-[229px] group-hover:delay-0 group-hover:border-t delay-100 overflow-hidden w-full absolute left-0 top-full group-hover/item:z-50 group-hover/item:delay-0 border-t-[#b0b0b0] shadow-md transition-all">
+                <div
+                  class="下拉内容 bg-white h-0 group-hover:h-[229px] group-hover:delay-0 group-hover:border-t delay-100 overflow-hidden w-full absolute z-[90] left-0 top-full group-hover/item:delay-0 border-t-[#b0b0b0] shadow-md transition-all">
                   <ul class="h-full w-[1226px] mx-auto flex items-center text-[12px]">
-                    <li class="grow relative after:content-[''] after:absolute after:h-[95px] after:w-[1px] after:bg-slate-200
+                    <li class="h-[76px] relative after:content-[''] after:absolute after:h-[95px] after:w-[1px] after:bg-slate-200
                     after:right-0 after:top-[35px]">
                       <a href="#" class="mt-[35px] mx-[12px] block">
-                        <img src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/0dce5029e2367f3e70cd786cb192d04a.png?thumb=1&w=240&h=165&f=webp&q=90" 
-                        alt="" class="w-[160px] h-[110px]">
+                        <img
+                          src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/0dce5029e2367f3e70cd786cb192d04a.png?thumb=1&w=240&h=165&f=webp&q=90"
+                          alt="" class="w-[160px] h-[110px]">
                         <div class="mt-[16px] leading-[20px] text-center text-[#333]">Xiaomi Civi 4 Pro</div>
                         <p class="text-center text-[#ff6700] leading-[20px]">2999元起</p>
                       </a>
@@ -139,14 +296,15 @@
                         <p class="text-center text-[#ff6700] leading-[20px]">2999元起</p>
                       </a>
                     </li>
-                    
-                    
+
+
                   </ul>
                 </div>
               </li>
               <li class="flex items-center hover:text-[#ff6700] group/item px-[10px]">
                 <a href="#" class="mt-[-10px]">Redmi手机</a>
-                <div class="下拉内容 bg-white h-0 group-hover:h-[229px] group-hover:border-t group-hover:delay-0 delay-100 overflow-hidden w-full absolute left-0 top-full group-hover/item:z-50 group-hover/item:delay-0 border-t-[#b0b0b0] shadow-md transition-all">
+                <div
+                  class="下拉内容 bg-white h-0 group-hover:h-[229px] group-hover:border-t group-hover:delay-0 delay-100 overflow-hidden w-full absolute z-[90] left-0 top-full group-hover/item:delay-0 border-t-[#b0b0b0] shadow-md transition-all">
                   <ul class="h-full w-[1226px] mx-auto flex items-center text-[12px]">
                     <li class="grow relative after:content-[''] after:absolute after:h-[95px] after:w-[1px] after:bg-slate-200
                                                   after:right-0 after:top-[35px]">
@@ -207,14 +365,15 @@
                         <p class="text-center text-[#ff6700] leading-[20px]">2999元起</p>
                       </a>
                     </li>
-                
-                
+
+
                   </ul>
                 </div>
               </li>
               <li class="flex items-center hover:text-[#ff6700] group/item px-[10px]">
                 <a href="#" class="mt-[-10px]">电视</a>
-                <div class="下拉内容 bg-white h-0 group-hover:h-[229px] group-hover:delay-0 group-hover:border-t delay-100 overflow-hidden w-full absolute left-0 top-full group-hover/item:z-50 group-hover/item:delay-0 border-t-[#b0b0b0] shadow-md transition-all">
+                <div
+                  class="下拉内容 bg-white h-0 group-hover:h-[229px] group-hover:delay-0 group-hover:border-t delay-100 overflow-hidden w-full absolute z-[90] left-0 top-full group-hover/item:delay-0 border-t-[#b0b0b0] shadow-md transition-all">
                   <ul class="h-full w-[1226px] mx-auto flex items-center text-[12px]">
                     <li class="grow relative after:content-[''] after:absolute after:h-[95px] after:w-[1px] after:bg-slate-200
                                                   after:right-0 after:top-[35px]">
@@ -275,14 +434,15 @@
                         <p class="text-center text-[#ff6700] leading-[20px]">2999元起</p>
                       </a>
                     </li>
-                
-                
+
+
                   </ul>
                 </div>
               </li>
               <li class="flex items-center hover:text-[#ff6700] group/item px-[10px]">
                 <a href="#" class="mt-[-10px]">笔记本</a>
-                <div class="下拉内容 bg-white h-0 group-hover:h-[229px] group-hover:border-t group-hover:delay-0 delay-100 overflow-hidden w-full absolute left-0 top-full group-hover/item:z-50 group-hover/item:delay-0 border-t-[#b0b0b0] shadow-md transition-all">
+                <div
+                  class="下拉内容 bg-white h-0 group-hover:h-[229px] group-hover:border-t group-hover:delay-0 delay-100 overflow-hidden w-full absolute z-[90] left-0 top-full group-hover/item:delay-0 border-t-[#b0b0b0] shadow-md transition-all">
                   <ul class="h-full w-[1226px] mx-auto flex items-center text-[12px]">
                     <li class="grow relative after:content-[''] after:absolute after:h-[95px] after:w-[1px] after:bg-slate-200
                                                   after:right-0 after:top-[35px]">
@@ -343,14 +503,15 @@
                         <p class="text-center text-[#ff6700] leading-[20px]">2999元起</p>
                       </a>
                     </li>
-                
-                
+
+
                   </ul>
                 </div>
               </li>
               <li class="flex items-center hover:text-[#ff6700] group/item px-[10px]">
                 <a href="#" class="mt-[-10px]">平板</a>
-                <div class="下拉内容 bg-white h-0 group-hover:h-[229px] group-hover:border-t group-hover:delay-0 delay-100 overflow-hidden w-full absolute left-0 top-full group-hover/item:z-50 group-hover/item:delay-0 border-t-[#b0b0b0] shadow-md transition-all">
+                <div
+                  class="下拉内容 bg-white h-0 group-hover:h-[229px] group-hover:border-t group-hover:delay-0 delay-100 overflow-hidden w-full absolute z-[90] left-0 top-full group-hover/item:delay-0 border-t-[#b0b0b0] shadow-md transition-all">
                   <ul class="h-full w-[1226px] mx-auto flex items-center text-[12px]">
                     <li class="grow relative after:content-[''] after:absolute after:h-[95px] after:w-[1px] after:bg-slate-200
                                                   after:right-0 after:top-[35px]">
@@ -411,14 +572,15 @@
                         <p class="text-center text-[#ff6700] leading-[20px]">2999元起</p>
                       </a>
                     </li>
-                
-                
+
+
                   </ul>
                 </div>
               </li>
               <li class="flex items-center hover:text-[#ff6700] group/item px-[10px]">
                 <a href="#" class="mt-[-10px]">家电</a>
-                <div class="下拉内容 bg-white h-0 group-hover:h-[229px] group-hover:border-t group-hover:delay-0 delay-100 overflow-hidden w-full absolute left-0 top-full group-hover/item:z-50 group-hover/item:delay-0 border-t-[#b0b0b0] shadow-md transition-all">
+                <div
+                  class="下拉内容 bg-white h-0 group-hover:h-[229px] group-hover:border-t group-hover:delay-0 delay-100 overflow-hidden w-full absolute z-[90] left-0 top-full group-hover/item:delay-0 border-t-[#b0b0b0] shadow-md transition-all">
                   <ul class="h-full w-[1226px] mx-auto flex items-center text-[12px]">
                     <li class="grow relative after:content-[''] after:absolute after:h-[95px] after:w-[1px] after:bg-slate-200
                                                   after:right-0 after:top-[35px]">
@@ -479,14 +641,15 @@
                         <p class="text-center text-[#ff6700] leading-[20px]">2999元起</p>
                       </a>
                     </li>
-                
-                
+
+
                   </ul>
                 </div>
               </li>
               <li class="flex items-center hover:text-[#ff6700] group/item px-[10px]">
                 <a href="#" class="mt-[-10px]">路由器</a>
-                <div class="下拉内容 bg-white h-0 group-hover:h-[229px] group-hover:border-t group-hover:delay-0 delay-100 overflow-hidden w-full absolute left-0 top-full group-hover/item:z-50 group-hover/item:delay-0 border-t-[#b0b0b0] shadow-md transition-all">
+                <div
+                  class="下拉内容 bg-white h-0 group-hover:h-[229px] group-hover:border-t group-hover:delay-0 delay-100 overflow-hidden w-full absolute z-[90] left-0 top-full group-hover/item:delay-0 border-t-[#b0b0b0] shadow-md transition-all">
                   <ul class="h-full w-[1226px] mx-auto flex items-center text-[12px]">
                     <li class="grow relative after:content-[''] after:absolute after:h-[95px] after:w-[1px] after:bg-slate-200
                                                   after:right-0 after:top-[35px]">
@@ -547,37 +710,44 @@
                         <p class="text-center text-[#ff6700] leading-[20px]">2999元起</p>
                       </a>
                     </li>
-                
-                
+
+
                   </ul>
                 </div>
               </li>
               <li class="flex items-center hover:text-[#ff6700] px-[10px]">
                 <a href="#" class="mt-[-10px]">服务中心</a>
-                
+
               </li>
               <li class="flex items-center hover:text-[#ff6700] px-[10px]">
                 <a href="#" class="mt-[-10px]">社区</a>
-                
+
               </li>
-            </ul> 
+            </ul>
 
             <form class="h-[50px] flex text-[14px] ml-[70px]">
               <label class="peer flex relative">
                 <input type="text" name="" id="" placeholder="小米手环8" class="peer search outline-0 w-[244px] border border-[#e0e0e0] border-r-0 px-[10px] bg-white
                   hover:border-[#b0b0b0] focus:border-[#ff6700]">
-                <ul class="hidden peer-focus:block absolute w-full text-[12px] top-full left-0 text-[#333] border border-[#ff6700] border-t-0">
-                  <li class="hover:bg-[#fafafa]"><a href="#" class="h-[30px] leading-[30px] block pl-[16px]">手机换新</a></li>
+                <ul
+                  class="hidden peer-focus:block bg-white absolute z-50 w-full text-[12px] top-full left-0 text-[#333] border border-[#ff6700] border-t-0">
+                  <li class="hover:bg-[#fafafa]"><a href="#" class="h-[30px] leading-[30px] block pl-[16px]">手机换新</a>
+                  </li>
                   <li class="hover:bg-[#fafafa]"><a href="#" class="h-[30px] leading-[30px] block pl-[16px]">空调</a></li>
-                  <li class="hover:bg-[#fafafa]"><a href="#" class="h-[30px] leading-[30px] block pl-[16px]">Redmin K70 Pro</a></li>
-                  <li class="hover:bg-[#fafafa]"><a href="#" class="h-[30px] leading-[30px] block pl-[16px]">笔记本电脑</a></li>
+                  <li class="hover:bg-[#fafafa]"><a href="#" class="h-[30px] leading-[30px] block pl-[16px]">Redmin K70
+                      Pro</a></li>
+                  <li class="hover:bg-[#fafafa]"><a href="#" class="h-[30px] leading-[30px] block pl-[16px]">笔记本电脑</a>
+                  </li>
                   <li class="hover:bg-[#fafafa]"><a href="#" class="h-[30px] leading-[30px] block pl-[16px]">风扇</a></li>
                   <li class="hover:bg-[#fafafa]"><a href="#" class="h-[30px] leading-[30px] block pl-[16px]">手表</a></li>
-                  <li class="hover:bg-[#fafafa]"><a href="#" class="h-[30px] leading-[30px] block pl-[16px]">显示器</a></li>
-                  <li class="hover:bg-[#fafafa]"><a href="#" class="h-[30px] leading-[30px] block pl-[16px]">小米手环8</a></li>
+                  <li class="hover:bg-[#fafafa]"><a href="#" class="h-[30px] leading-[30px] block pl-[16px]">显示器</a>
+                  </li>
+                  <li class="hover:bg-[#fafafa]"><a href="#" class="h-[30px] leading-[30px] block pl-[16px]">小米手环8</a>
+                  </li>
                 </ul>
               </label>
-              <button class="iconfont icon-sousuo w-[50px] font-bold bg-white  border border-[#e0e0e0] text-black 
+              <button
+                class="iconfont icon-sousuo w-[50px] font-bold bg-white  border border-[#e0e0e0] text-black 
               peer-hover:border-[#b0b0b0] hover:bg-[#ff6700] hover:text-white peer-has-[:focus]:border-[#ff6700]"></button>
             </form>
           </div>
@@ -585,7 +755,1321 @@
       </nav>
     </div>
 
-    
+    <div>
+      <div class="relative w-[1226px] mx-auto">
+        <div class="slider">
+          <input type="radio" name="s1" id="s1" checked>
+          <input type="radio" name="s1" id="s2">
+          <input type="radio" name="s1" id="s3">
+          <input type="radio" name="s1" id="s4">
+          <input type="radio" name="s1" id="s5">
+          <input type="radio" name="s1" id="s6">
+
+          <a href="#">
+            <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/397f2569b126d8fba446b6bbf57ef771.jpg?w=2452&h=920"
+              alt="">
+          </a>
+          <a href="#">
+            <img
+              src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4fc3e16fae19bca20536a4d1de9da943.jpg?thumb=1&w=1839&h=690&f=webp&q=90"
+              alt="">
+          </a>
+          <a href="#">
+            <img
+              src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/01a422c2d04a7668e6d1d4748aeadf61.jpg?thumb=1&w=1839&h=690&f=webp&q=90"
+              alt="">
+          </a>
+          <a href="#">
+            <img
+              src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/69d476acc0af86cce9521b97ea29214f.jpg?thumb=1&w=1839&h=690&f=webp&q=90"
+              alt="">
+          </a>
+          <a href="#">
+            <img
+              src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/7bbedb4f08daf9ace5592655f01b71d1.jpg?thumb=1&w=1839&h=690&f=webp&q=90"
+              alt="">
+          </a>
+          <a href="#">
+            <img
+              src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/0be0dcb14d834d562cba81e6b1b4580c.jpg?thumb=1&w=1839&h=690&f=webp&q=90"
+              alt="">
+          </a>
+
+          <div class="left-arrow arrow">
+            <label for="s6">&lt;</label>
+            <label for="s1">&lt;</label>
+            <label for="s2">&lt;</label>
+            <label for="s3">&lt;</label>
+            <label for="s4">&lt;</label>
+            <label for="s5">&lt;</label>
+          </div>
+
+          <div class="right-arrow arrow">
+            <label for="s2">&gt;</label>
+            <label for="s3">&gt;</label>
+            <label for="s4">&gt;</label>
+            <label for="s5">&gt;</label>
+            <label for="s6">&gt;</label>
+            <label for="s1">&gt;</label>
+          </div>
+
+          <div class="dot">
+            <label for="s1"></label>
+            <label for="s2"></label>
+            <label for="s3"></label>
+            <label for="s4"></label>
+            <label for="s5"></label>
+            <label for="s6"></label>
+          </div>
+        </div>
+        <ul class="左侧导航栏 w-[234px] h-[460px] absolute z-[70] left-0 top-0 py-[20px]"
+          style="background-color: rgba(105, 101, 101, .6);">
+          <li class="group">
+            <a href="#"
+              class="h-[42px] px-[30px] hover:bg-[#ff6700] text-white flex items-center after:content-['>'] after:ml-auto">手机</a>
+            <ul
+              class="absolute hidden group-hover:flex top-0 left-[234px] h-[460px] py-[2px] flex-wrap flex-col items-center bg-white w-max text-[14px]">
+              <li class="h-[76px] w-[265px] flex">
+                <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                  <img
+                    src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                    alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                  <span>Xiaomi MIX系列</span>
+                </a>
+              </li>
+              <li class="h-[76px] w-[265px] flex">
+                <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                  <img
+                    src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/d989ce63c679d0e9e8cf64397cef588a.png?thumb=1&w=60&h=60&f=webp&q=90"
+                    alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                  <span>Xiaomi MIX系列</span>
+                </a>
+              </li>
+              <li class="h-[76px] w-[265px] flex">
+                <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                  <img
+                    src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                    alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                  <span>Xiaomi MIX系列</span>
+                </a>
+              </li>
+              <li class="h-[76px] w-[265px] flex">
+                <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                  <img
+                    src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                    alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                  <span>Xiaomi MIX系列</span>
+                </a>
+              </li>
+              <li class="h-[76px] w-[265px] flex">
+                <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                  <img
+                    src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                    alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                  <span>Xiaomi MIX系列</span>
+                </a>
+              </li>
+              <li class="h-[76px] w-[265px] flex">
+                <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                  <img
+                    src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                    alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                  <span>Xiaomi MIX系列</span>
+                </a>
+              </li>
+              <li class="h-[76px] w-[265px] flex">
+                <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                  <img
+                    src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                    alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                  <span>Xiaomi MIX系列</span>
+                </a>
+              </li>
+
+
+            </ul>
+          </li>
+          <li class="group">
+            <a href="#"
+              class="h-[42px] px-[30px] hover:bg-[#ff6700] text-white flex items-center after:content-['>'] after:ml-auto">电视</a>
+            <ul
+              class="absolute hidden group-hover:flex top-0 left-[234px] h-[460px] py-[2px] flex-wrap flex-col items-center bg-white w-max text-[14px]">
+              <li class="h-[76px] w-[265px] flex">
+                <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                  <img
+                    src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                    alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                  <span>Xiaomi MIX系列</span>
+                </a>
+              </li>
+              <li class="h-[76px] w-[265px] flex">
+                <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                  <img
+                    src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/d989ce63c679d0e9e8cf64397cef588a.png?thumb=1&w=60&h=60&f=webp&q=90"
+                    alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                  <span>Xiaomi MIX系列</span>
+                </a>
+              </li>
+              <li class="h-[76px] w-[265px] flex">
+                <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                  <img
+                    src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                    alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                  <span>Xiaomi MIX系列</span>
+                </a>
+              </li>
+              <li class="h-[76px] w-[265px] flex">
+                <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                  <img
+                    src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                    alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                  <span>Xiaomi MIX系列</span>
+                </a>
+              </li>
+              <li class="h-[76px] w-[265px] flex">
+                <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                  <img
+                    src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                    alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                  <span>Xiaomi MIX系列</span>
+                </a>
+              </li>
+              <li class="h-[76px] w-[265px] flex">
+                <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                  <img
+                    src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                    alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                  <span>Xiaomi MIX系列</span>
+                </a>
+              </li>
+              <li class="h-[76px] w-[265px] flex">
+                <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                  <img
+                    src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                    alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                  <span>Xiaomi MIX系列</span>
+                </a>
+              </li>
+              <li class="h-[76px] w-[265px] flex">
+                <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                  <img
+                    src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                    alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                  <span>Xiaomi MIX系列</span>
+                </a>
+              </li>
+              <li class="h-[76px] w-[265px] flex">
+                <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                  <img
+                    src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                    alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                  <span>Xiaomi MIX系列</span>
+                </a>
+              </li>
+              <li class="h-[76px] w-[265px] flex">
+                <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                  <img
+                    src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                    alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                  <span>Xiaomi MIX系列</span>
+                </a>
+              </li>
+
+            </ul>
+          </li>
+          <li class="group">
+            <a href="#"
+              class="h-[42px] px-[30px] hover:bg-[#ff6700] text-white flex items-center after:content-['>'] after:ml-auto">家电</a>
+              <ul
+                class="absolute hidden group-hover:flex top-0 left-[234px] h-[460px] py-[2px] flex-wrap flex-col items-center bg-white w-max text-[14px]">
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/d989ce63c679d0e9e8cf64397cef588a.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+              
+              </ul>
+          </li>
+          <li class="group">
+            <a href="#"
+              class="h-[42px] px-[30px] hover:bg-[#ff6700] text-white flex items-center after:content-['>'] after:ml-auto">笔记本
+              平板</a>
+              <ul
+                class="absolute hidden group-hover:flex top-0 left-[234px] h-[460px] py-[2px] flex-wrap flex-col items-center bg-white w-max text-[14px]">
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/d989ce63c679d0e9e8cf64397cef588a.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+              
+              </ul>
+          </li>
+          <li class="group">
+            <a href="#"
+              class="h-[42px] px-[30px] hover:bg-[#ff6700] text-white flex items-center after:content-['>'] after:ml-auto">出行
+              穿戴</a>
+              <ul
+                class="absolute hidden group-hover:flex top-0 left-[234px] h-[460px] py-[2px] flex-wrap flex-col items-center bg-white w-max text-[14px]">
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/d989ce63c679d0e9e8cf64397cef588a.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+              
+              </ul>
+          </li>
+          <li class="group">
+            <a href="#"
+              class="h-[42px] px-[30px] hover:bg-[#ff6700] text-white flex items-center after:content-['>'] after:ml-auto">耳机
+              音箱</a>
+              <ul
+                class="absolute hidden group-hover:flex top-0 left-[234px] h-[460px] py-[2px] flex-wrap flex-col items-center bg-white w-max text-[14px]">
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/d989ce63c679d0e9e8cf64397cef588a.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+              
+              </ul>
+          </li>
+          <li class="group">
+            <a href="#"
+              class="h-[42px] px-[30px] hover:bg-[#ff6700] text-white flex items-center after:content-['>'] after:ml-auto">健康
+              儿童</a>
+              <ul
+                class="absolute hidden group-hover:flex top-0 left-[234px] h-[460px] py-[2px] flex-wrap flex-col items-center bg-white w-max text-[14px]">
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/d989ce63c679d0e9e8cf64397cef588a.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+              
+              </ul>
+          </li>
+          <li class="group">
+            <a href="#"
+              class="h-[42px] px-[30px] hover:bg-[#ff6700] text-white flex items-center after:content-['>'] after:ml-auto">生活
+              箱包</a>
+              <ul
+                class="absolute hidden group-hover:flex top-0 left-[234px] h-[460px] py-[2px] flex-wrap flex-col items-center bg-white w-max text-[14px]">
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/d989ce63c679d0e9e8cf64397cef588a.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+              
+              </ul>
+          </li>
+          <li class="group">
+            <a href="#"
+              class="h-[42px] px-[30px] hover:bg-[#ff6700] text-white flex items-center after:content-['>'] after:ml-auto">智能
+              路由器</a>
+              <ul
+                class="absolute hidden group-hover:flex top-0 left-[234px] h-[460px] py-[2px] flex-wrap flex-col items-center bg-white w-max text-[14px]">
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/d989ce63c679d0e9e8cf64397cef588a.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+              
+              </ul>
+          </li>
+          <li class="group">
+            <a href="#"
+              class="h-[42px] px-[30px] hover:bg-[#ff6700] text-white flex items-center after:content-['>'] after:ml-auto">电源
+              配件</a>
+              <ul
+                class="absolute hidden group-hover:flex top-0 left-[234px] h-[460px] py-[2px] flex-wrap flex-col items-center bg-white w-max text-[14px]">
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/d989ce63c679d0e9e8cf64397cef588a.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+                <li class="h-[76px] w-[265px] flex">
+                  <a href="#" class="flex items-center grow hover:text-[#ff6700]">
+                    <img
+                      src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/5c57d3a5e8a2fde79bcffce9d5344c80.png?thumb=1&w=60&h=60&f=webp&q=90"
+                      alt="" class="w-[40px] h-[40px] ml-[20px] mr-[12px]">
+                    <span>Xiaomi MIX系列</span>
+                  </a>
+                </li>
+              
+              </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </body>
+
 </html>
