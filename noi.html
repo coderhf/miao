@@ -1,0 +1,190 @@
+<!-- saved from url=(0048)https://damiao.tpddns.cn:44313/codes/js/noi.html -->
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script type="ok" id="ch0103/01">
+  var a = Number(prompt('请输入A'))
+  var b = Number(prompt('请输入B'))
+
+  var c = a + b
+
+  console.log(c)
+</script>
+</head>
+
+<body>一个题目写一个script标签
+  id为题目的编号形如ch0103/02,注意最后没有一个斜杠
+  <script type="ok" id="ch0103/02">
+  var a = Number(prompt('请输入A'))
+  var b = Number(prompt('请输入B'))
+  var c = Number(prompt('请输入C'))
+
+  var result = (a + b) * c
+
+  console.log(result)
+</script>
+
+  <script type="ok" id="ch0103/03">
+
+  var a = Number(prompt('a'))
+  var b = Number(prompt('b'))
+  var c = Number(prompt('c'))
+
+  var result = parseInt((a + b) / c)
+  console.log(result)
+	
+</script>
+
+  <script type="ok" id="ch0103/04">
+  var a = Number(prompt('a'))
+  var b = Number(prompt('b'))
+  var result = parseInt(a / b)
+  var mod = a % b
+  console.log(result + ' ' + mod)
+</script>
+
+  <script type="ok" id="ch0103/05">
+  var a = Number(prompt('a'))
+  var b = Number(prompt('b'))
+
+  var res = a / b
+  var result = res.toFixed(9)
+  console.log(result)
+</script>
+
+  <script type="ok" id="ch0103/06">
+    var a = Number(prompt('a'))
+    var b = Number(prompt('b'))
+    var res = (b / a * 100).toFixed(3)
+    console.log(res + '%')
+  </script>
+
+  <script type="ok" id="ch0103/07">
+    var x = Number(prompt('x'))
+    var a = Number(prompt('a'))
+    var b = Number(prompt('b'))
+    var c = Number(prompt('c'))
+    var d = Number(prompt('d'))
+    var res = a * x * x * x + b * x * x + c * x + d
+    var res = res.toFixed(7)
+    console.log(res)
+  </script>
+
+  <script type="ok" id="ch0103/08">
+    var f = Number(prompt('f'))
+    var c = 5 * (f - 32) / 9
+    var c = c.toFixed(5)
+    console.log(c)
+  </script>
+
+  <script type="ok" id="ch0103/09">
+    var r = Number(prompt('r'))
+    var pi = 3.14159
+    var d = (2 * r).toFixed(4)
+    var c = (2 * pi * r).toFixed(4)
+    var s = (pi * r * r).toFixed(4)
+    console.log(d, c, s)
+  </script>
+
+  <script type="ok" id="ch0103/10">
+    var r1 = Number(prompt('r1'))
+    var r2 = Number(prompt('r2'))
+    var R = 1 / (1 / r1 + 1 / r2)
+    var R = R.toFixed(2)
+    console.log(R)
+  </script>
+
+  <script type="ok" id="ch0103/11">
+    var a = Number(prompt('a'))
+    var b = Number(prompt('b'))
+    var k = parseInt(a / b)
+    var r = (a - b * k).toFixed(4)
+    console.log(r)
+  </script>
+
+  <script type="ok" id="ch0103/12">
+    var r = Number(prompt('r'))
+    var pi = 3.14
+    var v = 4 / 3 * pi * r * r * r
+    var v = v.toFixed(2)
+    console.log(v)
+  </script>
+
+  <script type="ok" id="ch0103/13">
+    var n = Number(prompt('n'))
+    var a = n % 10
+    var b = (n - n % 10) % 100 / 10
+    var c = (n - n % 100) / 100
+    console.log(a + '' + b + '' + c)
+  </script>
+
+  <script type="ok" id="ch0103/14">
+    var h = Number(prompt('h'))
+    var r = Number(prompt('r'))
+    var pi = 3.14159
+    var v = pi * r * r * h
+    var num = Math.ceil(20 * 1000 / v)
+    console.log(num)
+  </script>
+
+  <script type="ok" id="ch0103/15">
+    var n = Number(prompt('n'))
+    var x = Number(prompt('x'))
+    var y = Number(prompt('y'))
+
+    var res = n - Math.ceil(y / x)
+    console.log(res)
+  </script>
+
+  <script type="ok" id="ch0103/16">
+    var xa = Number(prompt('xa'))
+    var ya = Number(prompt('ya'))
+    var xb = Number(prompt('xb'))
+    var yb = Number(prompt('yb'))
+    var res = ((xa - xb) * (xa - xb) + (ya - yb) * (ya - yb)) ** (1 / 2)
+    var res = res.toFixed(3)
+    console.log(res)
+  </script>
+
+  <script id="ch0103/17">
+    var x1 = Number(prompt('x1'))
+    var y1 = Number(prompt('y1'))
+    var x2 = Number(prompt('x2'))
+    var y2 = Number(prompt('y2'))
+    var x3 = Number(prompt('x3'))
+    var y3 = Number(prompt('y3'))
+
+    var a = ((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) ** (1 / 2)
+    var b = ((x1 - x3) * (x1 - x3) + (y1 - y3) * (y1 - y3)) ** (1 / 2)
+    var c = ((x2 - x3) * (x2 - x3) + (y2 - y3) * (y2 - y3)) ** (1 / 2)
+    var p = (a + b + c) / 2
+    var s = (p * (p - a) * (p - b) - (p - c)) ** (1 / 2)
+    var s = s.toFixed(2)
+    console.log(s)
+  </script>
+
+  <script type="ok" id="ch0103/18">
+    var a1 = Number(prompt('a1'))
+    var a2 = Number(prompt('a2'))
+    var n = Number(prompt('n'))
+    var an = a1 + (n-1) * (a2 - a1)
+    console.log(an)
+
+  </script>
+
+  <script type="ok" id="ch0103/19">
+    var a = Number(prompt('a'))
+    var b = Number(prompt('b'))
+    var res = a * b
+    console.log(res)
+  </script>
+
+  <script type="ok" id="ch0103/20">
+    var n = Number(prompt('n'))
+    var res = 2 ** n
+    console.log(res)
+  </script>
+</body>
+
+</html>
