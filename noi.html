@@ -328,6 +328,121 @@
     console.log('Walk')
   }
 </script>
+<script type="ok" id="ch0104/13">
+  var n = Number(prompt('n'))
+  var y
+  if (x >= 0 && x < 5) {
+    y = -x + 2.5
+  } else if (x < 10) {
+    y = 2 - 1.5 * (x - 3) * (x - 3)
+  } else if (x < 20) {
+    y = x / 2 - 1.5
+  }
+  console.log(y.toFixed(3))
+</script>
+
+<script type="ok" id="ch0104/14">
+  var n = Number(prompt('n'))
+  var char = prompt('char')
+  var money = 8
+  var jiaji = 0
+  if (char === 'y') {
+    jiaji = 5
+  }
+  if (n > 1000) {
+    money = Math.ceil((n - 1000) / 500) * 4 + money + jiaji
+  } else {
+    money = money + jiaji
+  }
+
+  console.log(money)
+</script>
+
+<script type="ok" id="ch0104/15">
+  var a = Number(prompt('a'))
+  var b = Number(prompt('b'))
+  var c = Number(prompt('c'))
+  var max = a
+  if (max < b) {
+    max = b
+  }
+  if (max < c) {
+    max = c
+  }
+  console.log(max)
+</script>
+
+<script type="ok" id="ch0104/16">
+  var a = Number(prompt('a'))
+  var b = Number(prompt('b'))
+  var c = Number(prompt('c'))
+
+  if (a + b > c && a - b < c) {
+    console.log('yes')
+  } else {
+    console.log('no')
+  }
+</script>
+
+<script type="ok" id="ch0104/17">
+  var n = Number(prompt('n'))
+  if ((n % 4 === 0 && n % 100 !== 0) || n % 400 === 0) {
+    console.log('Y')
+  } else {
+    console.log('N')
+  }
+</script>
+
+<script type="ok" id="ch0104/18">
+  var x = Number(prompt('x'))
+  var y = Number(prompt('y'))
+  if (x >= -1 && x <= 1 && y >= -1 && y <= 1) {
+    console.log('yes')
+  } else {
+    console.log('no')
+  }
+</script>
+
+<script type="ok" id="ch0104/19">
+  var a = Number(prompt('a'))
+  var b = Number(prompt('b'))
+  var char = Number(prompt('char'))
+
+  if (b === 0) {
+    console.log('Divided by zero!')
+  } else if (char === '+') {
+    var result = a + b
+  } else if (char === '-') {
+    var result = a - b
+  } else if (char === '*') {
+    var result = a * b
+  } else if (char === '/') {
+    var result = a / b
+  } else {
+    console.log('Invalid operator!')
+  }
+</script>
+
+<script type="ok" id="ch0104/20">
+  var a = Number(prompt('a'))
+  var b = Number(prompt('b'))
+  var c = Number(prompt('c'))
+  var dealt = b * b - 4 * a * c
+  var shi = (-b / (2 * a)).toFixed(5)
+  var xu = (Math.sqrt(dealt) / (2 * a)).toFixed(5)
+  if (dealt ===0) {
+    x1 = shi + xu
+    console.log('x1=x2=' + x1)
+  } else if (dealt > 0) {
+    x1 = shi + xu
+    x2 = shi - xu
+    console.log('x1=' + x1 + ';x2=' + x2)
+  } else {
+    console.log('x1=' + shi + '+' + xu + 'i;' + 'x2=' + shi + '-' + xu + 'i')
+  }
+</script>
+
+<script id="ch0104/20"></script>
 </body>
 
 </html>
