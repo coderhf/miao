@@ -426,22 +426,21 @@
   console.log(result)
 </script>
 
-<script type="ok" id="ch0104/20">
+<script id="ch0104/20">
   var a = Number(prompt('a'))
   var b = Number(prompt('b'))
   var c = Number(prompt('c'))
   var dealt = b * b - 4 * a * c
-  var shi = (-b / (2 * a)).toFixed(5) * 1
-  var xu = (Math.sqrt(dealt) / (2 * a)).toFixed(5) * 1
   if (dealt ===0) {
-    x1 = shi + xu
+    x1 = (-b + Math.sqrt(dealt)) / (2 * a)
     console.log('x1=x2=' + x1)
   } else if (dealt > 0) {
-    x1 = shi + xu
-    x2 = shi - xu
+    x1 = (-b + Math.sqrt(dshi - xuealt)) / (2 * a)
+    x2 = (-b - Math.sqrt(dealt)) / (2 * a)
     console.log('x1=' + x1 + ';x2=' + x2)
   } else {
-    xu = (Math.sqrt(-dealt) / (2 * a)).toFixed(5) * 1
+    var shi = (-b / (2 * a)).toFixed(5)
+    var xu = (-Math.sqrt(dealt) / (2 * a)).toFixed(5)
     console.log('x1=' + shi + '+' + xu + 'i;' + 'x2=' + shi + '-' + xu + 'i')
   }
 </script>
