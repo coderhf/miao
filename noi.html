@@ -409,7 +409,7 @@
   var char = prompt('char')
 
   if (b === 0) {
-    console.log('Divided by zero!')
+    result = 'Divided by zero!'
   } else if (char === '+') {
     var result = a + b
   } else if (char === '-') {
@@ -419,8 +419,9 @@
   } else if (char === '/') {
     var result = a / b
   } else {
-    console.log('Invalid operator!')
+    result = 'Invalid operator!'
   }
+  console.log(result)
 </script>
 
 <script type="ok" id="ch0104/20">
