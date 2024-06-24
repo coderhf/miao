@@ -427,6 +427,7 @@
 </script>
 
 <script id="ch0104/20">
+  debugger
   var a = Number(prompt('a'))
   var b = Number(prompt('b'))
   var c = Number(prompt('c'))
@@ -440,7 +441,7 @@
     console.log('x1=' + x1 + ';x2=' + x2)
   } else {
     var shi = (-b / (2 * a)).toFixed(5)
-    var xu = (-Math.sqrt(dealt) / (2 * a)).toFixed(5)
+    var xu = (Math.sqrt(-dealt) / (2 * a)).toFixed(5)
     console.log('x1=' + shi + '+' + xu + 'i;' + 'x2=' + shi + '-' + xu + 'i')
   }
 </script>
