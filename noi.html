@@ -347,14 +347,11 @@
   var n = Number(prompt('n'))
   var char = prompt('char')
   var money = 8
-  var jiaji = 0
   if (char === 'y') {
-    jiaji = 5
+    money = money + 5
   }
   if (n > 1000) {
     money = Math.ceil((n - 1000) / 500) * 4 + money + jiaji
-  } else {
-    money = money + jiaji
   }
 
   console.log(money)
@@ -426,7 +423,7 @@
   console.log(result)
 </script>
 
-<script id="ch0104/20">
+<script type="ok" id="ch0104/20">
   debugger
   var a = Number(prompt('a'))
   var b = Number(prompt('b'))
