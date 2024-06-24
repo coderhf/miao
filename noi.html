@@ -333,11 +333,11 @@
 <script type="ok" id="ch0104/13">
   var x = Number(prompt('x'))
   var y
-  if (x >= 0 && x < 5) {
+  if (x < 5) {
     y = -x + 2.5
   } else if (x < 10) {
     y = 2 - 1.5 * (x - 3) * (x - 3)
-  } else if (x < 20) {
+  } else {
     y = x / 2 - 1.5
   }
   console.log(y.toFixed(3))
