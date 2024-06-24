@@ -324,8 +324,10 @@
   var time2 = distance / 1.2
   if (time1 < time2) {
     console.log('Bike')
-  } else {
+  } else if (time1 > time2) {
     console.log('Walk')
+  } else {
+    console.log('All')
   }
 </script>
 <script type="ok" id="ch0104/13">
