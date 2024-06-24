@@ -277,17 +277,26 @@
 
 <script id="ch0104/09">
   var n = Number(prompt('n'))
+  var flag = false
   if (n % 3 === 0) {
+    flag = true
     console.log(3)
   }
 
   if (n % 5 === 0) {
+    flag = true
     console.log(5)
   }
 
   if (n % 7 === 0) {
+    flag = true
     console.log(7)
   }
+
+  if (!flag) {
+    console.log('n')
+  }
+
 </script>
 </body>
 
