@@ -351,7 +351,7 @@
     money = money + 5
   }
   if (n > 1000) {
-    money = Math.ceil((n - 1000) / 500) * 4 + money + jiaji
+    money = Math.ceil((n - 1000) / 500) * 4 + money
   }
 
   console.log(money)
@@ -441,6 +441,251 @@
     var xu = (Math.sqrt(-dealt) / (2 * a)).toFixed(5)
     console.log('x1=' + shi + '+' + xu + 'i;' + 'x2=' + shi + '-' + xu + 'i')
   }
+</script>
+
+<script type="ok" id="ch0105/01">
+  var n = Number(prompt('人数'))
+  var count = 0
+  var sum = 0
+  var average = 0
+  while(count < n) {
+    var age = Number(prompt('age'))
+    sum += age
+    count++
+  }
+  average = (sum / n).toFixed(2)
+  console.log(average)
+</script>
+
+<script type="ok" id="ch0105/02">
+  var sum = 0
+  var average = 0
+  for (var i = 0; i < 12; i++) {
+    var money = Number(prompt('每月结余'))
+    sum += money
+  }
+  average = sum / 12
+  console.log('$' + average.toFixed(2))
+</script>
+
+<script type="ok" id="ch0105/03">
+  var n = Number(prompt('n'))
+  var sum = 0
+  var average = 0
+  for (var i = 0; i < n; i++) {
+    var f = Number(prompt('float'))
+    sum += f
+  }
+  average = (sum / n).toFixed(4)
+  console.log(average)
+</script>
+
+<script type="ok" id="ch0105/04">
+  var n = Number(prompt('n'))
+  var count = 0
+  var sum = 0
+  var average = 0
+  while(count < n) {
+    var num = Number(prompt('num'))
+    sum += num
+    count++
+  }
+  average = (sum / n).toFixed(5)
+  console.log(sum + ' ' + average)
+</script>
+
+<script type="ok" id="ch0105/05">
+  var n = Number(prompt('参考人数'))
+  var count = 0
+  var max = -1
+  while(count < n) {
+    var score = Number(prompt('每个学生的分数'))
+    if (max < score) {
+      max = score
+    }
+    count++
+  }
+  console.log(max)
+</script>
+
+<script type="ok" id="ch0105/06">
+  var n = Number(prompt('n'))
+  var count = 0
+  var max = -1
+  var min = 1001
+  var maxSpan
+  while(count < n) {
+    var num = Number(prompt('num'))
+    if (max < num) {
+      max = num
+    }
+    if (min > num) {
+      min = num
+    }
+    count++
+  }
+  maxSpan = max - min
+  console.log(maxSpan)
+</script>
+
+<script type="ok" id="ch0105/07">
+  var n = Number(prompt('比赛天数'))
+  var count = 0
+  var total
+  var totalGold = 0
+  var totalSilver = 0
+  var totalCopper = 0
+  while (count < n) {
+    var gold = Number(prompt('gold'))
+    var silver = Number(prompt('silver'))
+    var copper = Number(prompt('copper'))
+    totalGold += gold
+    totalSilver += silver
+    totalCopper += copper
+    count++
+  }
+  total = totalGold + totalSilver + totalCopper
+  console.log(totalGold + ' ' + totalSilver + ' ' + totalCopper + ' ' + total)
+</script>
+
+<script type="ok" id="ch0105/08">
+  var n = Number(prompt('多边形有多少边'))
+  var sumAngles = (n - 2) * 180
+  count = 0
+  while (count < n - 1) {
+    var angle = Number(prompt('多边形的每条边的角度'))
+    sumAngles -= angle
+    count++
+  }
+  console.log(sumAngles)
+</script>
+
+<script type="ok" id="ch0105/09">
+  var m = Number(prompt('m'))
+  var n = Number(prompt('n'))
+  var count = 0
+  var sum = 0
+  while(m <= n) {
+    if(m % 2 === 1) {
+      // 是奇数
+      sum += m
+    }
+    m++
+  }
+  console.log(sum)
+</script>
+
+<script type="ok" id="ch0105/10">
+  var m = Number(prompt('m'))
+  var n = Number(prompt('n'))
+  var count = 0
+  var sum = 0
+  while (m <= n) {
+    if (m % 17 === 0) {
+      sum += m
+    }
+    m++
+  }
+  console.log(sum)
+</script>
+
+<script type="ok" id="ch0105/11">
+  var k = Number(prompt('k'))
+  var i = 0
+  var counter1 = 0
+  var counter5 = 0
+  var counter10 = 0
+  while (i < k) {
+    var num = Number(prompt('num'))
+    if (num === 1) {
+      counter1++
+    }
+    if (num === 5) {
+      counter5++
+    }
+    if (num === 10) {
+      counter10++
+    }
+    i++
+  }
+  console.log(counter1, counter5, counter10)
+</script>
+
+<script type="ok" id="ch0105/12">
+  var n = Number(prompt('整数个数'))
+  var m = Number(prompt('数字'))
+  var counter = 0
+  var i = 0
+  while(i < n) {
+    var num = Number(prompt('num'))
+    if(num === m) {
+      // 判断这个数是不是和m这个数相同
+      counter++
+    }
+    i++
+  }
+  console.log(counter)
+</script>
+
+<script type="ok" id="ch0105/13">
+  var a = Number(prompt('a'))
+  var n = Number(prompt('n'))
+  var product = 1
+  var i = 1
+  while(i <= n) {
+    product *= a
+    i++
+  }
+  console.log(product)
+</script>
+
+<script type="ok" id="ch0105/14">
+  var x = Number(prompt('人口基数'))
+  var n = Number(prompt('年数'))
+  var i = 1
+  var population = x
+  while(i <= n) {
+    population *= 1.001
+    i++
+  }
+  console.log(population.toFixed(4))
+
+</script>
+
+<script type="ok" id="ch0105/15">
+  var r = Number(prompt('复合利率'))
+  var m = Number(prompt('本钱'))
+  var y = Number(prompt('存期'))
+  var i = 1
+  var sumMoney = m
+  var l = 1 + r / 100 // 利率 + 1
+  while(i <= y) {
+    sumMoney *= l
+    i++
+  }
+  sumMoney = Math.floor(sumMoney)
+  console.log(sumMoney)
+</script>
+
+<script type="ok" id="ch0105/16">
+  var n = Number(prompt('年薪'))
+  var k = Number(prompt('每年增长'))
+  var buy = false // 记录是否买得起
+  var year = 0 // 记录年数
+  var l = 1 + k / 100
+  var sumMoney = n
+  var housePrice = 200
+  while(!buy) {
+    year++
+    if(sumMoney >= housePrice) {
+      buy = true // 可以买的起了
+    }
+    sumMoney += n
+    housePrice *= l
+    
+    
+  }
+  console.log(year)
 </script>
 
 </body>
