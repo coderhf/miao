@@ -688,6 +688,131 @@
   console.log(year)
 </script>
 
+<script type="ok" id="ch0105/17">
+  var k = Number(prompt('k'))
+  var i = 0
+  var a1 = 1
+  var a2 = 1
+  var a
+  while(i < k - 2) {
+    a = a1 + a2 // 后一个数等于前两个数之和
+    // 再将后两个数调换成前两个数
+    a1 = a2
+    a2 = a
+    i++
+  }
+  console.log(a)
+</script>
+
+<script type="ok" id="ch0105/18">
+  var n = Number(prompt('n'))
+  var x1 = Number(prompt('鸡尾酒总病例数'))
+  var x2 = Number(prompt('鸡尾酒有效病例数'))
+  var x = (x2 / x1) * 100
+  var i = 0
+  while(i < n - 1) {
+    var y1 = Number(prompt('新疗法总病例数'))
+    var y2 = Number(prompt('新疗法病例有效数'))
+    var y = (y2 / y1) * 100
+    if(y - x > 5) {
+      console.log('better')
+    } else if(x - y > 5) {
+      console.log('worse')
+    } else {
+      console.log('same')
+    }
+    i++
+  }
+</script>
+
+<script type="ok" id="ch0105/19">
+  var n = Number(prompt('屋顶数'))
+  var i = 0
+  var minutes = 0
+  while(i < n) {
+    var x = Number(prompt('坐标x'))  
+    var y = Number(prompt('坐标y'))
+    var population = Number(prompt('人数'))
+    // 船与屋顶的距离
+    var distance = Math.sqrt(x ** 2 + y ** 2)
+    minutes += distance / 50 * 2 + population + population / 2
+    i++
+  }
+  console.log(Math.ceil(minutes))
+</script>
+
+<script type="ok" id="ch0105/20">
+  var h = Number(prompt('初始高度'))
+  var meters = 0
+  var i = 0
+  while(i < 10) {
+    if(i === 0) {
+      // 第一次落地
+      meters += h
+    } else {
+      // 后面每一次落地距离都要乘以2,落地高度变为原来高度的一半
+      h = h / 2
+      meters += h * 2
+    }
+    i++
+  }
+  console.log(meters.toFixed(4), (h / 2).toFixed(7))
+</script>
+
+<script type="ok" id="ch0105/21">
+  var n = Number(prompt('n'))
+  while(true) {
+    if(n === 1) {
+      console.log('End')
+      break
+    }
+    if(n % 2 === 1) {
+      var k = n
+      n = n * 3 + 1
+      console.log(k + '*' + 3 + '+' + 1 + '=' + n)
+    } else {
+      var k = n
+      n = n / 2
+      console.log(k + '/' + 2 + '=' + n)
+    }
+  }
+</script>
+
+<script type="ok" id="ch0105/22">
+  var i = 1
+  var totalMoney = 0 // 手里总共有的前
+  var storageMoney = 0 // 能够存起来的钱
+  var flag = true
+  while(i <= 12) {
+    var budget = Number(prompt('每月预算'))
+    totalMoney += 300 // 每个月有300的零钱
+    totalMoney = totalMoney - budget // 这个月扣除预算剩下的钱
+    if(totalMoney >= 0) {
+      if(totalMoney >= 100) {
+        // 需要存起来
+        storageMoney += totalMoney - totalMoney % 100
+        // 剩余的零钱拿到手里
+        totalMoney = totalMoney % 100
+      }
+    } else { // 预算超过为负
+      console.log(-i)
+      flag = false
+      break
+    }
+    i++
+  }
+  // 年末将存的钱取出
+  if(flag) {
+    // 要将存储起来的钱*1.2加上最后一个月的零钱得到手中的钱
+    var total = storageMoney * 1.2 + totalMoney
+    console.log(total)
+  }
+</script>
+
+<script id="ch0105/23">
+  
+</script>
+
 </body>
 
 </html>
