@@ -1008,8 +1008,228 @@
   console.log(res)
 </script>
 
-<script id="ch0105/32">
-  
+<script type="ok" id="ch0105/32">
+  var n = +prompt('输入一个正整数')
+  var p = 1
+  var q = 2
+  var sum = 0
+  for (var i = 1; i <= n; i++) {
+    sum += q / p
+    // p和q赋值为新的值
+    q = p + q
+    p = q - p
+  }
+  console.log(sum.toFixed(4))
+</script>
+
+<script type="ok" id="ch0105/33">
+  var n = +prompt('输入一个正整数n')
+  var sum = 0
+  for (var i = 1; i <= n; i++) {
+    sum = sum + (-1) ** (i-1) * 1 / i
+  }
+  console.log(sum.toFixed(4))
+</script>
+
+<script type="ok" id="ch0105/34">
+  var n = +prompt('输入一个正整数n')
+  var product = 1 // 乘积
+  var sum = 0 // 和
+  for (var i = 1; i <= n; i++) {
+    // 重置
+    product = 1
+    for (var j = 1; j <= i; j++) {
+      product *= j
+    }
+    sum += product
+  }
+  console.log(sum)
+</script>
+
+<script type="ok" id="ch0105/35">
+  var n = +prompt('输入一个正整数[2,15]')
+  var e = 1 // 从1/n!第1项开始累加
+  var product = 1 // 乘积
+  for (var i = 1; i <= n; i++) {
+    product = 1 // 重置
+    for (var j = 1; j <= i; j++) {
+      product *= j
+    }
+    e += 1 / product
+  }
+  console.log(e.toFixed(10))
+</script>
+
+<script type="ok" id="ch0105/36">
+  var x = +prompt('浮点数x')
+  var n = +prompt('正整数n')
+  var sum = 1
+  var product = 1 // 幂值
+  for (var i = 1; i <= n; i++) {
+    product = 1
+    for(var j = 1; j <= i; j++) {
+      product *= x
+    }
+    sum += product 
+  }
+  console.log(sum.toFixed(2))
+</script>
+
+<script type="ok" id="ch0105/37">
+  var m = +prompt('体力最大值') // 体力最大值
+  var n = +prompt('战斗力') // 初始战斗力
+  var x = +prompt('能力元素') // 初始元素瓶
+  var hp = 0 // hp：体力值，初始为0
+  var x = x - Math.ceil(m / n) // 下一次战斗期用完后剩下的元素瓶
+
+  while (x >= 0) {
+    if (hp === 0) {
+      // 体力值为0，需要使用元素瓶恢复其体力为m
+      hp = m
+    }
+    // 进行下一次m天的战斗期
+    n += Math.trunc(m / n) // 得到这个战斗期士兵的战斗力
+    // 战斗期结束，体力为0
+    hp = 0
+    // 计算下一个战斗期用完后剩下的元素瓶数量
+    x = x - Math.ceil(m / n) 
+  }
+  console.log(n)
+</script>
+
+<script type="ok" id="ch0105/38">
+  var k = +prompt('k')
+  for (var i = 0; i < k; i++) {
+    var n = +prompt('一个正整数n')
+    for (j = n; j >= 0; j--) {
+      var num = +prompt('输入这个项的值')
+      // 如果n为0，g(x)是常数，输出0
+      if (n === 0) {
+        console.log(0)
+        break
+      }
+      // 如果这个g(x)不是一个常数，不用输出0
+      if (j !== 0) {
+        console.log(j * num)
+      }
+
+    }
+  }
+</script>
+
+<script type="ok" id="ch0105/39">
+  var n = +prompt('输入一个正整数')
+  var sum = 0
+  var digit = 0
+  var num
+
+  for (var i = 1; i <= n; i++) {
+    // 能被7整除或含有7称为与7相关的数
+    if (i % 7 === 0) {
+      continue
+    }
+    // 拿出每一位看是否含有七
+    var isContain7 = false
+    num = i
+    do {
+      digit = num % 10
+      if (digit === 7) {
+        isContain7 = true
+        break
+      }
+      num = (num - digit) / 10
+    } while (num !== 0);
+
+    // 如果不包含7，则与7无关
+    if (!isContain7) {
+      sum = sum + i * i
+    }
+  }
+  console.log(sum)
+</script>
+
+<script type="ok" id="ch0105/40">
+  var n = +prompt('输入一个正整数n')
+  var counter1 = 0 // 记录出现1的个数
+  var digit
+  for (var i = 1; i <= n; i++) {
+    var num = i
+    do {
+      digit = num % 10
+      // 如果含有1，那么计数加1
+      if (digit === 1) {
+        counter1++
+      }
+      num = (num - digit) / 10
+    } while (num !== 0);
+  }
+  console.log(counter1)
+</script>
+
+<script type="ok" id="ch0105/41">
+  var l = +prompt('输入一个正整数l')
+  var r = +prompt('输入一个正整数r')
+  var counter2 = 0 // 记录出现1的个数
+  var digit
+  for (var i = l; i <= r; i++) {
+    var num = i
+    do {
+      digit = num % 10
+      // 如果含有1，那么计数加1
+      if (digit === 2) {
+        counter2++
+      }
+      num = (num - digit) / 10
+    } while (num !== 0);
+  }
+  console.log(counter2)
+</script>
+
+<script type="ok" id="ch0105/42">
+  var h = +prompt('输入多好行')
+  var w = +prompt('输入多好列')
+  var char = prompt('输入矩形符号')
+  var num = +prompt('输入数字1/0')
+  var row = '' // 表示第一行和最后一行
+  var middleRow = '' // 表示中间一行
+  var res = '' // 最后输出的结果
+
+  for (var i = 0; i < w; i++) {
+    row += char
+    // 中间这一行
+    if (i === 0 || i === w - 1) {
+      middleRow += char
+    } else if (num === 1) {
+      // 实体字符
+      middleRow += char
+    } else {
+      // 空字符
+      middleRow += ' '
+    }
+  }
+
+
+  res = res + row + '\n'
+  for (var j = 0; j < h - 2; j++) {
+    res = res + middleRow + '\n'
+  }
+  res = res + row
+  console.log(res)
+
+</script>
+
+<script id="ch0105/43">
+  var n = +prompt('正整数n')
+  var max // 存储较大的那个质数
+
+  // 因为既然是两个质数的乘积，那么这个数除了1和它本身，就只有质数能整除它
+  for (var i = 2; i < n; i++) {
+    if (n % i === 0) {
+      max = n / i
+      break
+    }
+  }
+  console.log(max)
 </script>
 
 </body>
