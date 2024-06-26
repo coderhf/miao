@@ -574,6 +574,34 @@
   }
   console.log(sum)
 </script>
+<script type="ok" id="ch0105/09">
+  var m = Number(prompt('m'))
+  var n = Number(prompt('n'))
+  var sum = 0
+  // 如果m是偶数，就把它变成奇数
+  if (m % 2 === 0) {
+    m = m + 1
+  }
+  var i = m
+  while (i < n) {
+    sum += i
+    i = i + 2
+  }
+  console.log(sum)
+</script>
+<script type="ok" id="ch0105/09">
+  var m = Number(prompt('m'))
+  var n = Number(prompt('n'))
+  if (m % 2 === 1) {
+    m = m + 1
+  }
+  if (n % 2 === 1) {
+    n = n + 1
+  }
+  var count = n - m + 1 // m-n之间的所有奇数的个数
+  var sum = (m + n) * count / 2
+  console.log(sum)
+</script>
 
 <script type="ok" id="ch0105/10">
   var m = Number(prompt('m'))
@@ -809,8 +837,175 @@
   }
 </script>
 
-<script id="ch0105/23">
+<script type="ok" id="ch0105/23">
+  var m = Number(prompt('药品总量'))
+  var n = Number(prompt('取药品的人数'))
+  var counter = 0 // 记录没有取到药的人数
+  for(var i = 0; i < n; i++) {
+    var num = Number(prompt('取走药的数量'))
+    if(num <= m) {
+      // 能够取走药品
+      m -= num // 得到新的库存
+    }else {
+      counter++ // 拿不到药的人加1
+    }
+  }
+  console.log(counter)
+</script>
+
+<script type="ok" id="ch0105/24">
+  var n = Number(prompt('n'))
+  var counter = 0 // 记录连续正常的小时
+  var maxCounter = 0 // 最长连续正常小时
+  for(var i = 0; i < n; i++) {
+    var a = Number(prompt('收缩压'))
+    var b = Number(prompt('舒张压'))
+    if(a >= 90 && a <= 140 && b >= 60 && b <= 90) {
+      counter++
+    } else {
+      // 如果不正常，则比较前一个连续小时数，谁大取谁；然后将counter变为0
+      if(maxCounter < counter) {
+        maxCounter = counter
+      }
+      counter = 0
+    }
+  }
+  // 最后一次比较
+  if(maxCounter < counter) {
+    maxCounter = counter
+  }
+  console.log(maxCounter)
+</script>
+
+<script type="ok" id="ch0105/25">
+  // 能表示七/九进制的三位数的最小自然数和最大自然数
+  for (var i = 49; i <= 727; i++) {
+    var a7 = i % 7 // 七进制的个位数
+    var b7 = (i - a7) / 7 % 7 // 七进制的十位数
+    var c7 = ((i - a7) / 7 - b7) / 7 // 七进制的百位数
+
+    var a9 = i % 9 // 九进制的个位数
+    var b9 =  (i - a9) / 9 % 9 // 九进制的十位数
+    var c9 = ((i - a9) / 9 - b9) / 9 // 九进制的百位数
+
+    if (a7 === c9 && b7 === b9 && c7 === a9) {
+      console.log(i, a7 + b7 * 10 + c7 * 100, a9 + b9 * 10 + c9 * 100)
+    }
+  }
+</script>
+
+<script type="ok" id="ch0105/26">
+  var n = +prompt('输入四位数的个数')
+  var counter = 0 // 记录符合条件的四位数的个数
+  for(var i = 0; i < n; i++) {
+    var num = +prompt('输入四位数')
+    var singelDigit = num % 10 // 个位数
+    var tenDigit = (num - num % 10) / 10 % 10 // 十位数
+    var hundresDigit = (num - num % 100) / 100 % 10 // 百位数
+    var thousandsDigit = (num - num % 1000) / 1000 // 千位数
+    if (singelDigit - thousandsDigit - hundresDigit - tenDigit > 0) {
+      counter++
+    }
+  }
+  console.log(counter)
+</script>
+
+<script type="ok" id="ch0105/27">
+  var k = +prompt('输入一个整数k')
+  var sn = 1
+  var n = 1
+  do {
+    // 如果sn大于k了，就直接break了
+    if (sn > k) {
+      console.log(n)
+      break
+    }
+    n++
+    sn = sn + 1 / n
+  } while (true);
+</script>
+
+<script type="ok" id="ch0105/28">
+  var n = +prompt('输入一个数字')
+  var num = n
+  var digit = 0
+  while (num !== 0) {
+    digit = num % 10 // 得到个位数
+    console.log(digit)
+    num = (num - digit) / 10 // 得到去掉最后面一位数的最新值
+  }
+</script>
+
+<script type="ok" id="ch0105/29">
+  var n = +prompt('输入一个整数n')
+  var num = n
+  var digit = 0 // 存储每次得到的个位数
+  var newNum = 0 // 最后反转后的值
+  // 负数也可以得到正确的值
+  do {
+    digit = num % 10 // 得到个位数
+    newNum = newNum * 10 + digit // 以此循环可以得到这个新的值
+    num = (num - digit) / 10 // 得到去掉最后面一位数的最新值
+  } while (num !== 0);
+
+  console.log(newNum)
+
+</script>
+
+<script type="ok" id="ch0105/30">
+  var m = +prompt('输入一个正整数')
+  var k = +prompt('输入一个1-5的整数')
+  var counter = 0 // 用来记录含有3的个数
+  var digit = 0 // 用来记录获取的这个数的个位数
+  var num = m
+  if (num % 19 === 0) {
+    do {
+      digit = num % 10
+      if (digit === 3) {
+        // 如果这个数是3，则加1
+        counter++
+      }
+      num = (num - digit) / 10
+    } while (num !== 0);
+
+    if (counter === k) {
+      console.log('YES')
+    } else {
+      console.log('NO')
+    }
+  } else {
+    console.log('NO')
+  }
   
+  
+</script>
+
+<script type="ok" id="ch0105/31">
+  var n = +prompt('输入n盏灯')
+  var m = +prompt('输入m个人')
+  var isopen = true // 所有的灯都是开启的
+  var counter = 1
+  var res = ''
+  for (var i = 1; i <= n; i++) { // 所有的灯
+    // 重新让灯都开启
+    isopen = true
+    for (var j = 1; j <= m; j++) { // 所有的人
+      // 每盏灯所有人都操作一遍，所有人编号的倍数的灯都做反向操作.
+      // 所有灯第一个人全部关闭,让所有灯默认都是开启的
+      if (i % j === 0) {
+        // 反向操作
+        isopen = !isopen
+      }
+    }
+    // 第一盏灯循环操作结束，判断isopen为false为关闭的灯
+    if (!isopen && counter === 1) {
+      counter++
+      res += i
+    } else if (!isopen) {
+      res = res + ',' + i
+    }
+  }
+  console.log(res)
 </script>
 
 </body>
