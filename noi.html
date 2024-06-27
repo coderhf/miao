@@ -443,6 +443,15 @@
   }
 </script>
 
+<script type="ok" id="ch0104/21">
+  var n = Number(prompt('n'))
+  var x = Number(prompt('x'))
+  var y = Number(prompt('y'))
+
+  var res = n - Math.ceil(y / x)
+  console.log(res)
+</script>
+
 <script type="ok" id="ch0105/01">
   var n = Number(prompt('人数'))
   var count = 0
@@ -707,13 +716,15 @@
     year++
     if(sumMoney >= housePrice) {
       buy = true // 可以买的起了
+      console.log(year)
     }
     sumMoney += n
     housePrice *= l
-    
-    
   }
-  console.log(year)
+  if (!buy) {
+    console.log('Impossible')
+  }
+  
 </script>
 
 <script type="ok" id="ch0105/17">
@@ -1457,7 +1468,28 @@
 
 </script>
 
-<script id="sqrt"></script>
+<script id="sqrt">
+  // 用二分法查找
+  var n = +prompt('输入一个正整数')
+  var res // 查找的值
+  var prev = 0 // 前一个值
+  var next = n // 后一个值
+  var flag = false
+  while (!flag) {
+    res = (prev + next) / 2
+    var sqr = (res * res).toFixed(3)
+    if (res === n || n * 1000 - sqr * 1000 === 1) { // 精度问题，要保留位数
+      // 说明这个算术平方根
+      flag = true
+      console.log(res.toFixed(3))
+      break
+    } else if (sqr < n) {
+      prev = res
+    } else {
+      next = res
+    }
+  }
+</script>
 
 </body>
 
