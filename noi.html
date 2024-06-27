@@ -1218,7 +1218,7 @@
 
 </script>
 
-<script id="ch0105/43">
+<script type="ok" id="ch0105/43">
   var n = +prompt('正整数n')
   var max // 存储较大的那个质数
 
@@ -1230,6 +1230,53 @@
     }
   }
   console.log(max)
+</script>
+
+<script type="ok" id="ch0105/44">
+  var n = +prompt('n')
+  var counter = 0
+  var isFinish = false
+  var i = 2
+  while (!isFinish) {
+    var isPrime = true // 标记为质数
+    // 判断这个数是否是质数
+    for (var j = 2; j < i; j++) {
+      if (i % j === 0) {
+        // 不是质数
+        isPrime = false
+      }
+    }
+    if (isPrime) {
+      counter++
+    }
+    if (counter === n) {
+      isFinish = true
+      console.log(i)
+    }
+    i++
+  }
+</script>
+
+<script type="ok" id="ch0105/45">
+  var totalDay = +prompt('天数')
+  var sn = 1 // 记录总累加天数
+  var n = 1 // 记录每项天数
+  var money = 1
+  do {
+    n = n + 1
+    sn = sn + n
+    var day = sn - totalDay
+    if (day === 0) {
+      money = money + n ** 2
+      break
+    } else if (day > 0) {
+      money = money + (day) * n
+      break
+    }
+    money = money + n ** 2
+    
+  } while (true);
+  console.log(money)
 </script>
 
 </body>
