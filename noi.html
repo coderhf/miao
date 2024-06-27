@@ -1279,6 +1279,112 @@
   console.log(money)
 </script>
 
+<script type="ok" id="narcissistic">
+  var n = +prompt('输入一个数')
+  var digit = 0
+  var num = n
+  var sum = 0
+  while (num !== 0) {
+    digit = num % 10
+    sum += digit ** 3
+    num = (num - digit) / 10
+  }
+  if (sum === n) {
+    console.log('YES')
+  } else {
+    console.log('NO')
+  }
+</script>
+
+<script type="ok" id="narcissistics">
+  for (var i = 2; i <= 10000; i++) {
+    var sum = 0
+    var num = i
+    var digit = 0
+    while (num !== 0) {
+      digit = num % 10
+      sum += digit ** 3
+      num = (num - digit) / 10
+    }
+    if (sum === i) {
+      console.log(i)
+    }
+  }
+</script>
+
+<script type="ok" id="palindrom">
+  var n = +prompt('输入一个数')
+  var digit = 0
+  var num = n
+  var res = 0
+  while (num !== 0) {
+    digit = num % 10
+    res = res * 10 + digit // 拼接
+    num = (num - digit) / 10
+  }
+  if (res === n) {
+    console.log('YES')
+  } else {
+    console.log('NO')
+  }
+</script>
+
+<script id="weekday">
+  // 已知公元一年一月一日是星期一，所以要知道这一年这一月与那天的总天数，然后除以7
+  // 闰年一年366天，非闰年365天。闰年2月是29天，其它28天
+  var y = +prompt('输入年份')
+  var m = +prompt('输入月份')
+  var day = 0 // 记录总天数
+  var counter = 0 // 记录有几个闰年
+  var m2Day = 28 // 记录这一年是是否是闰年时2月份的天数变化
+  var weekday // 记录某一年某一月一月份是星期几
+
+  // 找到有几个闰年
+  for (var i = 1; i <= y; i++) {
+    // 闰年的条件
+    if (i % 4 === 0 && i % 100 !== 0 || i % 400 === 0) {
+      counter++
+    }
+  }
+  day = (y - 1) * 365 + counter // 年之间的天数
+
+  // 判断这一年是否是闰年
+  if (i % 4 === 0 && i % 100 !== 0 || i % 400 === 0) {
+    m2Day = 29
+  }
+
+  // 计算月份的天数
+  for (var j = 1; j < m; j++) {
+    switch (j) {
+      case 1:
+      case 3:
+      case 5:
+      case 7:
+      case 8:
+      case 10:
+      case 12:
+        day += 31
+        break
+      case 4: 
+      case 6: 
+      case 9: 
+      case 11: 
+        day += 30
+        break
+      case 2:
+        day += m2Day
+        break
+    }
+  }
+
+  weekday = day % 7
+  console.log(weekday)
+
+
+</script>
+
+<script></script>
+
 </body>
 
 </html>
