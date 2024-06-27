@@ -1340,7 +1340,7 @@
   var weekday // 记录某一年某一月一月份是星期几
 
   // 找到有几个闰年
-  for (var i = 1; i <= y; i++) {
+  for (var i = 1; i < y; i++) {
     // 闰年的条件
     if (i % 4 === 0 && i % 100 !== 0 || i % 400 === 0) {
       counter++
@@ -1377,7 +1377,7 @@
     }
   }
 
-  weekday = day % 7
+  weekday = (day + 1) % 7 // 这些天要加上这一月的第一天
   console.log(weekday)
 
 
