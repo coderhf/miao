@@ -826,18 +826,17 @@
     var budget = Number(prompt('每月预算'))
     totalMoney += 300 // 每个月有300的零钱
     totalMoney = totalMoney - budget // 这个月扣除预算剩下的钱
-    if(totalMoney >= 0) {
       if(totalMoney >= 100) {
         // 需要存起来
         storageMoney += totalMoney - totalMoney % 100
         // 剩余的零钱拿到手里
         totalMoney = totalMoney % 100
       }
-    } else { // 预算超过为负
-      console.log(-i)
-      flag = false
-      break
-    }
+      if (totalMoney < 0) {
+        console.log(-i)
+        flag = false
+        break
+      }
     i++
   }
   // 年末将存的钱取出
@@ -1460,7 +1459,22 @@
 
 <script type="ok" id="itob">
   var n = +prompt('输入一个整数')
-  var str = n.toFixed(0)
+  var digit = 0
+  var num = n
+  var str = ''
+  var isNegative = false
+  if (n < 0) {
+    num = -n
+    isNegative = true
+  }
+  while (num !== 0) {
+    digit = num % 10
+    str = digit + str
+    num = (num - digit) / 10
+  }
+  if (isNegative) {
+    str = '-' + str
+  }
   console.log(str)
 </script>
 
@@ -1468,7 +1482,7 @@
 
 </script>
 
-<script id="sqrt">
+<script type="ok" id="sqrt">
   // 用二分法查找
   var n = +prompt('输入一个正整数')
   var res // 查找的值
