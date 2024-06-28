@@ -1478,7 +1478,33 @@
   console.log(str)
 </script>
 
-<script id="cf&lcm">
+<script type="ok" id="lcf&lcm">
+  var a = +prompt('输入一个正整数a')
+  var b = +prompt('输入一个正整数b')
+  var x // 存储被除数
+  var y // 存储除数
+  var temp // 临时存储余数
+  var maxFactor // 最大公约数
+  var minFactor // 最小公倍数
+  
+  // 辗转相除法
+  // 用最大数 / 最小数 = 余数，再用 最小数 / 第一余数 = 余数，
+  // 第一余数 / 余数 = 余数，以此往复直到商为0，除数就是最大公约数
+  if (a < b) {
+    x = b
+    y = a
+  } else {
+    x = a
+    y = b
+  }
+  do {
+    temp = x % y // 得到余数
+    x = y
+    y = temp
+  } while (temp !== 0)
+  maxFactor = x
+  minFactor = a * b / maxFactor
+  console.log(maxFactor, minFactor)
 
 </script>
 
