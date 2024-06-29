@@ -888,8 +888,8 @@
 </script>
 
 <script type="ok" id="ch0105/25">
-  // 能表示七/九进制的三位数的最小自然数和最大自然数
-  for (var i = 49; i <= 727; i++) {
+  // 能表示七/九进制的三位数的最小自然数和最大自然数 九进制100 和 七进制666
+  for (var i = 81; i <= 342; i++) {
     var a7 = i % 7 // 七进制的个位数
     var b7 = (i - a7) / 7 % 7 // 七进制的十位数
     var c7 = ((i - a7) / 7 - b7) / 7 // 七进制的百位数
@@ -910,7 +910,7 @@
   for(var i = 0; i < n; i++) {
     var num = +prompt('输入四位数')
     var singelDigit = num % 10 // 个位数
-    var tenDigit = (num - num % 10) / 10 % 10 // 十位数
+    var tenDigit = (num - singelDigit) / 10 % 10 // 十位数
     var hundresDigit = (num - num % 100) / 100 % 10 // 百位数
     var thousandsDigit = (num - num % 1000) / 1000 // 千位数
     if (singelDigit - thousandsDigit - hundresDigit - tenDigit > 0) {
@@ -939,11 +939,13 @@
   var n = +prompt('输入一个数字')
   var num = n
   var digit = 0
-  while (num !== 0) {
+  // 用do-while可以解决num第一次输入为0的情况
+  do {
     digit = num % 10 // 得到个位数
     console.log(digit)
     num = (num - digit) / 10 // 得到去掉最后面一位数的最新值
-  }
+  } while (num !== 0);
+
 </script>
 
 <script type="ok" id="ch0105/29">
@@ -951,14 +953,18 @@
   var num = n
   var digit = 0 // 存储每次得到的个位数
   var newNum = 0 // 最后反转后的值
-  // 负数也可以得到正确的值
+  var isNegative = 1 // 存储正负数
+  if (n < 0) {
+    isNegative = -1
+    num = -num
+  }
   do {
     digit = num % 10 // 得到个位数
     newNum = newNum * 10 + digit // 以此循环可以得到这个新的值
     num = (num - digit) / 10 // 得到去掉最后面一位数的最新值
   } while (num !== 0);
 
-  console.log(newNum)
+  console.log(newNum * isNegative)
 
 </script>
 
@@ -1043,15 +1049,11 @@
 
 <script type="ok" id="ch0105/34">
   var n = +prompt('输入一个正整数n')
-  var product = 1 // 乘积
-  var sum = 0 // 和
+  var factorial = 1 // 阶乘
+  var sum = 0 // 所有阶乘的和
   for (var i = 1; i <= n; i++) {
-    // 重置
-    product = 1
-    for (var j = 1; j <= i; j++) {
-      product *= j
-    }
-    sum += product
+    factorial *= i
+    sum += factorial
   }
   console.log(sum)
 </script>
@@ -1059,13 +1061,10 @@
 <script type="ok" id="ch0105/35">
   var n = +prompt('输入一个正整数[2,15]')
   var e = 1 // 从1/n!第1项开始累加
-  var product = 1 // 乘积
+  var factorial = 1 // 阶乘
   for (var i = 1; i <= n; i++) {
-    product = 1 // 重置
-    for (var j = 1; j <= i; j++) {
-      product *= j
-    }
-    e += 1 / product
+    factorial *= i
+    e += 1 / factorial
   }
   console.log(e.toFixed(10))
 </script>
@@ -1529,6 +1528,63 @@
       next = res
     }
   }
+</script>
+
+<script type="ok" id="2.20.1">
+  var str = ''
+  for (var i = 0; i < str.length + 1; i++) {
+    if (str.length === 7) {
+      break
+    }
+    str += '#'
+    // 每一次循环都用str的长度作为条件动态增加一次
+    console.log(str + '\n')
+  }
+
+</script>
+
+<script type="ok" id="2.20.2">
+  for (var i = 1; i <= 100; i++) {
+    var str = ''
+    var flag = false
+    if (i % 3 === 0) {
+      flag = true
+      str = 'Fizz'
+    }
+    if (i % 5 === 0) {
+      flag = true
+      str += 'Buzz'
+    }
+    if (!flag) {
+      console.log(i)
+    } else {
+      console.log(str)
+    }
+  }
+</script>
+
+<script type="ok" id="2.20.3">
+  var a = ''
+  var b = ''
+  var res = ''
+  var size = 8
+  for (var i = 0; i < size; i++) {
+    if (i % 2 === 0) {
+      a += '#'
+      b += ' '
+    } else {
+      a += ' '
+      b += '#'
+    }
+  }
+  for (var j = 0; j < size; j++) {
+    if (j % 2 === 0) {
+      res += a + '\n'
+    } else {
+      res += b + '\n'
+    }
+  }
+  console.log(res)
 </script>
 
 </body>
