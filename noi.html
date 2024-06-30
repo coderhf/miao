@@ -1226,6 +1226,27 @@
   console.log(res)
 
 </script>
+<script type="ok" id="ch0105/42.1">
+  var h = +prompt('输入多好行')
+  var w = +prompt('输入多好列')
+  var char = prompt('输入矩形符号')
+  var fill = +prompt('输入数字1/0') // 0表示空心，1表示实心
+  var res = ''
+  for (var i = 0; i < h; i++) {
+    for (var j = 0; j < w; j++) {
+      if (fill) {
+        res += char
+      } else if (!fill && i === 0 || i === h - 1 || j === 0 || j === w - 1) {
+        res += char
+      } else {
+        res += ' '
+      }
+    }
+    res += '\n'
+  }
+  console.log(res)
+
+</script>
 
 <script type="ok" id="ch0105/43">
   var n = +prompt('正整数n')
@@ -1249,7 +1270,7 @@
   while (!isFinish) {
     var isPrime = true // 标记为质数
     // 判断这个数是否是质数
-    for (var j = 2; j < i; j++) {
+    for (var j = 2; j <= i / 2; j++) {
       if (i % j === 0) {
         // 不是质数
         isPrime = false
@@ -1268,24 +1289,18 @@
 
 <script type="ok" id="ch0105/45">
   var totalDay = +prompt('天数')
-  var sn = 1 // 记录总累加天数
-  var n = 1 // 记录每项天数
-  var money = 1
-  do {
-    n = n + 1
-    sn = sn + n
-    var day = sn - totalDay
-    if (day === 0) {
-      money = money + n ** 2
-      break
-    } else if (day > 0) {
-      money = money + (day) * n
-      break
+  var 面币 = 1
+  var sum = 0
+  var 累计天数 = 0
+  for (var i = 0; i < totalDay; i++) {
+    累计天数++
+    sum += 面币
+    if (面币 === 累计天数) {
+      累计天数 = 0
+      面币++
     }
-    money = money + n ** 2
-    
-  } while (true);
-  console.log(money)
+  }
+  console.log(sum)
 </script>
 
 <script type="ok" id="narcissistic">
@@ -1545,21 +1560,16 @@
 
 <script type="ok" id="2.20.2">
   for (var i = 1; i <= 100; i++) {
-    var str = ''
-    var flag = false
-    if (i % 3 === 0) {
-      flag = true
-      str = 'Fizz'
-    }
-    if (i % 5 === 0) {
-      flag = true
-      str += 'Buzz'
-    }
-    if (!flag) {
-      console.log(i)
+    if (i % 3 === 0 && i % 5 === 0) {
+      console.log('FizzBuzz')
+    } else if (i % 3 === 0) {
+      console.log('Fizz')
+    } else if (i % 5 === 0) {
+      console.log('Buzz')
     } else {
-      console.log(str)
+      console.log(i)
     }
+    
   }
 </script>
 
@@ -1583,6 +1593,22 @@
     } else {
       res += b + '\n'
     }
+  }
+  console.log(res)
+</script>
+
+<script id="2.20.3.1">
+  var res = ''
+  var size = 8
+  for (var i = 0; i < size; i++) {
+    for (var j = 0; j < size; j++) {
+      if ((i + j) % 2 === 0) {
+        res += '#'
+      } else {
+        res += ' '
+      }
+    }
+    res += '\n'
   }
   console.log(res)
 </script>
