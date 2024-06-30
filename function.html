@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script type="ok">
+    var isPrime = function (num) {
+      for (var i = 2; i <= num / 2; i++) {
+        if (num % i === 0) {
+          return false
+        }
+      }
+      return true
+    }
+  </script>
+
+  <script type="ok">
+    var noRelationWith7 = function (num) {
+      var n = num
+      if (n === 0) {
+        return true
+      }
+      if (num % 7 === 0) {
+        // 与7有关
+        return false
+      }
+      while (n != 0) {
+        var digit = n % 10
+        if (digit === 7) {
+          return false
+        }
+        n = (n - digit) / 10
+      }
+      return true
+    }
+  </script>
+</body>
+
+</html>
