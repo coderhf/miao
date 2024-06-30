@@ -51,6 +51,121 @@
       return false
     }
   </script>
+  <script type="ok" id="narcissistic">
+            var isNarcssistic = function (n) {
+              var digit = 0
+              var num = n
+              var sum = 0
+              while (num !== 0) {
+                digit = num % 10
+                sum += digit ** 3
+                num = (num - digit) / 10
+              }
+              return sum === n
+            }
+          
+          </script>
+
+  <script type="ok" id="narcissistics">
+          // 判断某个数是否是水仙花数的函数
+          var isNarcssistic = function (n) {
+            var digit = 0
+            var num = n
+            var sum = 0
+            while (num !== 0) {
+              digit = num % 10
+              sum += digit ** 3
+              num = (num - digit) / 10
+            }
+            return sum === n
+          }
+          for (var i = 2; i <= 10000; i++) {
+            if (isNarcssistic(i)) {
+              console.log(i)
+            }
+          }
+        </script>
+
+  <script type="ok" id="palindrom">
+        var isPalindrom = function (n) {
+          var digit = 0
+          var num = n
+          var res = 0
+          if (n === 0) {
+            return false
+          }
+          while (num !== 0) {
+            digit = num % 10
+            res = res * 10 + digit // 拼接
+            num = (num - digit) / 10
+          }
+          return res === n
+        }
+      
+      </script>
+
+  <script type="ok" id="complete-number">
+      function isCompleteNumber(n) {
+        var totalFactor = 0 // 因子总和,因为任何不为1的整数1是其一个因子
+          for (var i = 1; i < n; i++) {
+            if (n % i === 0) {
+              totalFactor += i
+            }
+        }
+        return totalFactor === n
+      }
+    </script>
+
+  <script type="ok" id="complete-numbers">
+    function isCompleteNumber(n) {
+        var totalFactor = 0 // 因子总和,因为任何不为1的整数1是其一个因子
+        for (var i = 1; i < n; i++) {
+          if (n % i === 0) {
+            totalFactor += i
+          }
+        }
+        return totalFactor === n
+      }
+    for (var i = 1; i <= 1000; i++) {
+      if (isCompleteNumber(i)) {
+        console.log(i)
+      }
+    }
+  </script>
+
+  <script type="ok" id="prime">
+    var isPrime = function (n) {
+      if (n === 1) {
+        return false
+      }
+      for (var i = 2; i <= n / 2; i++) {
+        if (n % i === 0) {
+          return false
+        }
+      }
+      return true
+    }
+
+  </script>
+
+  <script type="ok" id="primes">
+    var isPrime = function (n) {
+      if (n === 1) {
+        return false
+      }
+      for (var i = 2; i <= n / 2; i++) {
+        if (n % i === 0) {
+          return false
+        }
+      }
+      return true
+    }
+    for (var i = 2; i <= 100; i++) {
+      if (isPrime(i)) {
+        console.log(i)
+      }
+    }
+  </script>
 </body>
 
 </html>
