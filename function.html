@@ -8,8 +8,20 @@
 </head>
 
 <body>
-  <script type="ok">
+  <script type="ok">\
+    // 判断是否是整数的函数
+    var isInterge = function (n) {
+      if (n === n - n % 1) {
+        return true
+      }
+      return false
+    }
     var isPrime = function (num) {
+      // 如果n是负数或者是浮点数的时候返回false
+      if (num < 0 || !isInterge(num)) {
+        return false
+      }
+
       for (var i = 2; i <= num / 2; i++) {
         if (num % i === 0) {
           return false
@@ -20,23 +32,23 @@
   </script>
 
   <script type="ok">
-    var noRelationWith7 = function (num) {
+    var isAbout7 = function (num) {
       var n = num
       if (n === 0) {
-        return true
-      }
-      if (num % 7 === 0) {
-        // 与7有关
         return false
+      }
+      if (n % 7 === 0) {
+        // 与7有关
+        return true
       }
       while (n != 0) {
         var digit = n % 10
         if (digit === 7) {
-          return false
+          return true
         }
         n = (n - digit) / 10
       }
-      return true
+      return false
     }
   </script>
 </body>
