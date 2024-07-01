@@ -5,100 +5,232 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    * {
-      xbackground-color: rgba(0, 0, 0, 0.08);
-      xbox-shadow: inset 0 0 1px red;
+    .slider {
+      position: relative;
+      height: 460px;
     }
 
-    body {
-      margin: 0;
-    }
-
-    input {
+    .slider input {
       display: none;
     }
 
-    img {
+    .slider a {
       position: absolute;
       width: 100%;
       height: 100%;
       opacity: 0;
-      transition: opacity 1s;
+      transition: 1000ms;
     }
 
-    div.container {
-      position: relative;
-      width: 40%;
-      height: 300px;
-      margin: auto;
-      xbackground-color: red;
-    }
-
-    div.dots {
+    .slider .arrow {
       position: absolute;
-      bottom: 20px;
-      right: 20px;
-      xbackground-color: white;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      z-index: 50;
+      width: 41px;
+      height: 69px;
+      line-height: 69px;
+      font-size: 56px;
+      text-align: center;
+      color: #a09d9d;
     }
 
-    div.dots label {
-      float: left;
-      width: 10px;
-      height: 10px;
-      background-color: #999;
-      border-radius: 9999px;
-      margin: 5px;
-      border: 2px solid #666;
+    .slider .arrow.left-arrow {
+      left: 234px;
+    }
+
+    .slider .arrow.right-arrow {
+      right: 0;
+    }
+
+    .slider .arrow:hover {
+      color: white;
+      background-color: #3338;
+    }
+
+    .slider .arrow label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: none;
       cursor: pointer;
     }
 
-    input:first-child:checked~div.container img:first-child {
+    .slider .dot {
+      display: flex;
+      position: absolute;
+      bottom: 20px;
+      right: 30px;
+      gap: 8px;
+    }
+
+    .slider .dot label {
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+      box-sizing: content-box;
+      border: 2px solid #fff;
+      border-color: hsla(0, 0%, 100%, .3);
+      background-color: rgba(0, 0, 0, .4);
+      cursor: pointer;
+    }
+
+    .slider .dot label:hover {
+      background-color: hsla(0, 0%, 100%, .4);
+      border-color: rgba(0, 0, 0, .4);
+    }
+
+    input:nth-child(1):checked~a:nth-of-type(1) {
       opacity: 1;
     }
 
-    input:nth-child(2):checked~div.container img:nth-child(2) {
+    input:nth-child(2):checked~a:nth-of-type(2) {
       opacity: 1;
     }
 
-    input:nth-child(3):checked~div.container img:nth-child(3) {
+    input:nth-child(3):checked~a:nth-of-type(3) {
       opacity: 1;
     }
 
-    input:nth-child(1):checked~div.container div.dots label:nth-child(1) {
-      background-color: #fff;
+    input:nth-child(4):checked~a:nth-of-type(4) {
+      opacity: 1;
     }
 
-    input:nth-child(2):checked~div.container div.dots label:nth-child(2) {
-      background-color: #fff;
+    input:nth-child(5):checked~a:nth-of-type(5) {
+      opacity: 1;
     }
 
-    input:nth-child(3):checked~div.container div.dots label:nth-child(3) {
-      background-color: #fff;
+    input:nth-child(6):checked~a:nth-of-type(6) {
+      opacity: 1;
+    }
+
+    input:nth-child(1):checked~.arrow label:nth-child(1) {
+      display: block;
+    }
+
+    input:nth-child(2):checked~.arrow label:nth-child(2) {
+      display: block;
+    }
+
+    input:nth-child(3):checked~.arrow label:nth-child(3) {
+      display: block;
+    }
+
+    input:nth-child(4):checked~.arrow label:nth-child(4) {
+      display: block;
+    }
+
+    input:nth-child(5):checked~.arrow label:nth-child(5) {
+      display: block;
+    }
+
+    input:nth-child(6):checked~.arrow label:nth-child(6) {
+      display: block;
+    }
+
+    input:nth-child(1):checked~.dot label:nth-child(1) {
+      background-color: hsla(0, 0%, 100%, .4);
+      border-color: rgba(0, 0, 0, .4);
+    }
+
+    input:nth-child(2):checked~.dot label:nth-child(2) {
+      background-color: hsla(0, 0%, 100%, .4);
+      border-color: rgba(0, 0, 0, .4);
+    }
+
+    input:nth-child(3):checked~.dot label:nth-child(3) {
+      background-color: hsla(0, 0%, 100%, .4);
+      border-color: rgba(0, 0, 0, .4);
+    }
+
+    input:nth-child(4):checked~.dot label:nth-child(4) {
+      background-color: hsla(0, 0%, 100%, .4);
+      border-color: rgba(0, 0, 0, .4);
+    }
+
+    input:nth-child(5):checked~.dot label:nth-child(5) {
+      background-color: hsla(0, 0%, 100%, .4);
+      border-color: rgba(0, 0, 0, .4);
+    }
+
+    input:nth-child(6):checked~.dot label:nth-child(6) {
+      background-color: hsla(0, 0%, 100%, .4);
+      border-color: rgba(0, 0, 0, .4);
     }
   </style>
 </head>
 
 <body>
-  <input checked type="radio" name="a" id="s1">
-  <input type="radio" name="a" id="s2">
-  <input type="radio" name="a" id="s3">
+  <div>
+    <div class="relative w-[1226px] mx-auto">
+      <div class="slider">
+        <input type="radio" name="s1" id="s1" checked>
+        <input type="radio" name="s1" id="s2">
+        <input type="radio" name="s1" id="s3">
+        <input type="radio" name="s1" id="s4">
+        <input type="radio" name="s1" id="s5">
+        <input type="radio" name="s1" id="s6">
 
-  <div class="container">
-    <img
-      src="https://travel.12306.cn/imgs/resources/uploadfiles/images/243945e6-c45d-4870-9cf5-77e488068646_product_W572_H370.jpg"
-      alt="">
-    <img
-      src="https://travel.12306.cn/imgs/resources/uploadfiles/images/fcd7173f-7651-46e7-a126-bdc199e1f6f7_product_W572_H370.jpg"
-      alt="">
-    <img
-      src="https://travel.12306.cn/imgs/resources/uploadfiles/images/b0c76b21-531b-4af4-a607-cf5672c72ded_product_W572_H370.jpg"
-      alt="">
+        <a href="#">
+          <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/397f2569b126d8fba446b6bbf57ef771.jpg?w=2452&h=920"
+            alt="">
+        </a>
+        <a href="#">
+          <img
+            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4fc3e16fae19bca20536a4d1de9da943.jpg?thumb=1&w=1839&h=690&f=webp&q=90"
+            alt="">
+        </a>
+        <a href="#">
+          <img
+            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/01a422c2d04a7668e6d1d4748aeadf61.jpg?thumb=1&w=1839&h=690&f=webp&q=90"
+            alt="">
+        </a>
+        <a href="#">
+          <img
+            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/69d476acc0af86cce9521b97ea29214f.jpg?thumb=1&w=1839&h=690&f=webp&q=90"
+            alt="">
+        </a>
+        <a href="#">
+          <img
+            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/7bbedb4f08daf9ace5592655f01b71d1.jpg?thumb=1&w=1839&h=690&f=webp&q=90"
+            alt="">
+        </a>
+        <a href="#">
+          <img
+            src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/0be0dcb14d834d562cba81e6b1b4580c.jpg?thumb=1&w=1839&h=690&f=webp&q=90"
+            alt="">
+        </a>
 
-    <div class="dots">
-      <label for="s1"></label>
-      <label for="s2"></label>
-      <label for="s3"></label>
+        <div class="left-arrow arrow">
+          <label for="s6">&lt;</label>
+          <label for="s1">&lt;</label>
+          <label for="s2">&lt;</label>
+          <label for="s3">&lt;</label>
+          <label for="s4">&lt;</label>
+          <label for="s5">&lt;</label>
+        </div>
+
+        <div class="right-arrow arrow">
+          <label for="s2">&gt;</label>
+          <label for="s3">&gt;</label>
+          <label for="s4">&gt;</label>
+          <label for="s5">&gt;</label>
+          <label for="s6">&gt;</label>
+          <label for="s1">&gt;</label>
+        </div>
+
+        <div class="dot">
+          <label for="s1"></label>
+          <label for="s2"></label>
+          <label for="s3"></label>
+          <label for="s4"></label>
+          <label for="s5"></label>
+          <label for="s6"></label>
+        </div>
+      </div>
     </div>
   </div>
 </body>
