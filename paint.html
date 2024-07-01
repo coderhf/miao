@@ -133,6 +133,44 @@
     emptyCircle(50)
     emptyCircle(100)
 
+    var emptyCircle1 = function (r, ax, ay) {
+      var x = 0
+      var y = r
+      var rs = r * r
+      dot(x + ax, y + ay, 'black')
+      dot(-x + ax, y + ay, 'black')
+      dot(-x + ax, -y + ay, 'black')
+      dot(x + ax, -y + ay, 'black')
+      dot(y + ax, x + ay, 'black')
+      dot(-y + ax, x + ay, 'black')
+      dot(-y + ax, -x + ay, 'black')
+      dot(y + ax, -x + ay, 'black')
+      while (x < y) {
+        var x1 = x + 1
+        var y1 = y
+        var x2 = x + 1
+        var y2 = y - 1
+        var d1 = x1 * x1 + y1 * y1
+        var d2 = x2 * x2 + y2 * y2
+        if (Math.abs(d1 - rs) < Math.abs(d2 - rs)) {
+          x = x1
+          y = y1
+        } else {
+          x = x2
+          y = y2
+        }
+        dot(x + ax, y + ay, 'black')
+        dot(-x + ax, y + ay, 'black')
+        dot(-x + ax, -y + ay, 'black')
+        dot(x + ax, -y + ay, 'black')
+        dot(y + ax, x + ay, 'black')
+        dot(-y + ax, x + ay, 'black')
+        dot(-y + ax, -x + ay, 'black')
+        dot(y + ax, -x + ay, 'black')
+      }
+    }
+    emptyCircle1(50, 300, 300)
+
 
     // 画一个实心的圆，半径至少为100像素,hx-hy表示圆心坐标
     var fillCircle = function (r, hx, hy) {
@@ -174,14 +212,14 @@
 
     //  2 0
     //  0 2
-    for (var i = 0; i <= 255; i++) {
-      for (var j = 0; j <= 255; j++) {
-        var x1 = 2 * i
-        var y1 = 2 * j
-        color = 'rgb(' + i + ',' + j + ',' + 255 + ')'
-        dot(x1, y1, color)
-      }
-    }
+    // for (var i = 0; i <= 255; i++) {
+    //   for (var j = 0; j <= 255; j++) {
+    //     var x1 = 2 * i
+    //     var y1 = 2 * j
+    //     color = 'rgb(' + i + ',' + j + ',' + 255 + ')'
+    //     dot(x1, y1, color)
+    //   }
+    // }
 
     // 1  0.27
     // 0  1
