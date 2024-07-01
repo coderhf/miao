@@ -29,7 +29,17 @@
       ctx.fillStyle = color
       ctx.fillRect(x, y, 1, 1)
     }
+    /**
+     * 你的任务：通过调用dot函数，实现：
+     * 需要注意，dot函数不能接收浮点数，如果参数为浮点数，会被转换为整数后绘制
 
+        * 
+  
+     */
+  </script>
+  <script>
+    // 不可更改上面的代码
+    // 你的代码写在这里
     // 在 坐标(42, 42) 画出一个点
     dot(42, 42, 'red')
 
@@ -106,45 +116,114 @@
         * 一个半径为50像素
         * 一个半径为200像素
     */
-   
-  
-  
+    // 圆是对称的，只需要计算出1/4的弧度的坐标，就可以求出整个圆的坐标
+    // 定义一个可以画空心圆的函数,参数是其半径
+    var emptyCircle = function (r) {
+      var pi = Math.PI
+      for (var i = 0; i <= pi / 2; i = i + 0.01) {
+        var x = r * Math.cos(i)
+        var y = r * Math.sin(i)
+        dot(x + 500, y + 500, 'black')
+        dot(-x + 500, y + 500, 'black')
+        dot(x + 500, -y + 500, 'black')
+        dot(-x + 500, -y + 500, 'black')
+      }
+    }
+
+    emptyCircle(50)
+    emptyCircle(100)
+
+
+    // 画一个实心的圆，半径至少为100像素,hx-hy表示圆心坐标
+    var fillCircle = function (r, hx, hy) {
+      var pi = Math.PI
+      for (var i = 0; i <= pi / 2; i = i + 0.01) {
+        var x = r * Math.cos(i)
+        var y = r * Math.sin(i)
+        var x1 = -x + hx
+        var x2 = x + hx
+        var y1 = y + hy
+        var y2 = -y + hy
+        for (var j = x1; j <= x2; j++) {
+          dot(j, y1, 'black')
+          dot(j, y2, 'black')
+        }
+      }
+    }
+    fillCircle(100, 300, 500)
+
+    // 画一个【大小位置都合适】的sin(x)的图像
+    for (var i = 0; i <= 800; i++) {
+      var y = Math.sin(i / 50) * 50
+      dot(i + 100, y + 100, 'green')
+    }
 
     /**
-     * 你的任务：通过调用dot函数，实现：
-     * 需要注意，dot函数不能接收浮点数，如果参数为浮点数，会被转换为整数后绘制
-        * 
-        * 
-        * 
-        * 画两个空心的圆，圆心在画布中心：
-          * 一个半径为50像素
-          * 一个半径为200像素
-        * 画一个实心的圆，半径至少为100像素
-        * 画一个【大小位置都合适】的sin(x)的图像
-  
-        * 画出rgb色彩空间的某一面（尺寸要大于100x100）
-        * 如果做出上一题后，尝试将其每个点的坐标乘以一个矩阵（如(2,0,0,2)或(1,0.27得到新的位置，即绘制出被线性变换后的色彩空间某一面
+     * 画出rgb色彩空间的某一面（尺寸要大于100x100）
+        * 如果做出上一题后，尝试将其每个点的坐标乘以一个矩阵（如(2, 0, 0, 2)或(1, 0.27得到新的位置，即绘制出被线性变换后的色彩空间某一面
           可以考虑如下几种矩阵：
-             2 0
-             0 2
-             ------
-             1  0.27
-             0  1
-             ------
-             0.5    0.87
-             -0.87  0.5
-        * 画一个二阶贝塞尔曲线（即控制点一共三个）
-  
-        var bezierCurve = function(x1,y1,x2,y2,x3,y3) {
-  
-  
-        }
-  
-     */
-  </script>
-  <script>
-    // 不可更改上面的代码
-    // 你的代码写在这里
+      
+    */
+    var color = ''
+    for (var i = 0; i <= 255; i++) {
+      for (var j = 0; j <= 255; j++) {
+        color = 'rgb(' + i + ',' + j + ',' + 255 + ')'
+        dot(i + 50, j + 600, color)
+      }
+    }
+
+    //  2 0
+    //  0 2
+    for (var i = 0; i <= 255; i++) {
+      for (var j = 0; j <= 255; j++) {
+        var x1 = 2 * i
+        var y1 = 2 * j
+        color = 'rgb(' + i + ',' + j + ',' + 255 + ')'
+        dot(x1, y1, color)
+      }
+    }
+
+    // 1  0.27
+    // 0  1
+    for (var i = 0; i <= 255; i++) {
+      for (var j = 0; j <= 255; j++) {
+        var x1 = i + j * 0.27
+        var y1 = j
+        color = 'rgb(' + i + ',' + j + ',' + 255 + ')'
+        dot(x1 + 300, y1 + 600, color)
+      }
+    }
+
+    // 0.5    0.87
+    // - 0.87  0.5
+    for (var i = 0; i <= 255; i++) {
+      for (var j = 0; j <= 255; j++) {
+        var x1 = i * 0.5 + j * 0.27
+        var y1 = i * -0.87 + j * 0.5
+        color = 'rgb(' + i + ',' + j + ',' + 255 + ')'
+        dot(x1 + 600, y1 + 800, color)
+      }
+    }
+
+
+
+
+    // 画一个二阶贝塞尔曲线（即控制点一共三个）
+
+    var bezierCurve = function (x1, y1, x2, y2, x3, y3) {
+      // 循环是从百分之0到百分之百
+      for (var i = 0; i <= 1; i = i + 0.001) {
+        var x4 = (1 - i) * x1 + i * x2
+        var y4 = (1 - i) * y1 + i * y2
+        var x5 = (1 - i) * x2 + i * x3
+        var y5 = (1 - i) * y2 + i * y3
+        var x6 = (1 - i) * x4 + i * x5
+        var y6 = (1 - i) * y4 + i * y5
+        dot(x6, y6, 'black')
+      }
+    }
+    bezierCurve(500, 100, 630, 350, 950, 50)
+
 
   </script>
 
