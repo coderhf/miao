@@ -224,6 +224,25 @@
     }
     bezierCurve(500, 100, 630, 350, 950, 50)
 
+    // 三阶贝塞尔曲线（即控制点4个）
+    var bezierCurve3 = function (ax, ay, bx, by, cx, cy, dx, dy) {
+      for (var i = 0; i <= 1; i += 0.001) {
+        var x1 = (1 - i) * ax + i * bx
+        var y1 = (1 - i) * ay + i * by
+        var x2 = (1 - i) * bx + i * cx
+        var y2 = (1 - i) * by + i * cy
+        var x3 = (1 - i) * cx + i * dx
+        var y3 = (1 - i) * cy + i * dy
+        var x4 = (1 - i) * x1 + i * x2
+        var y4 = (1 - i) * y1 + i * y2
+        var x5 = (1 - i) * x2 + i * x3
+        var y5 = (1 - i) * y2 + i * y3
+        var x6 = (1 - i) * x4 + i * x5
+        var y6 = (1 - i) * y4 + i * y5
+        dot(x6, y6, 'black')
+      }
+    }
+    bezierCurve3(500, 300, 630, 150, 800, 200, 900, 340)
 
   </script>
 
