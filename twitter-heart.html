@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .like {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      border: 1px solid #000;
+      background-image: url(./twitter-heart.png);
+    }
+
+    input:checked + label.like {
+      background-position: -2800px 0;
+      transition: 1s steps(28);
+    }
+
+    input {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <input type="checkbox" name="" id="heart">
+  <label class="like" for="heart"></label>
+</body>
+</html>
