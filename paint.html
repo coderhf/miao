@@ -198,15 +198,15 @@
       var x = 0
       var y = r
       var rs = r * r
-      dot(x + ax, y + ay, 'black')
-      dot(-x + ax, y + ay, 'black')
-      dot(-x + ax, -y + ay, 'black')
-      dot(x + ax, -y + ay, 'black')
-      dot(y + ax, x + ay, 'black')
-      dot(-y + ax, x + ay, 'black')
-      dot(-y + ax, -x + ay, 'black')
-      dot(y + ax, -x + ay, 'black')
       while (x < y) {
+        dot(x + ax, y + ay, 'black')
+        dot(-x + ax, y + ay, 'black')
+        dot(-x + ax, -y + ay, 'black')
+        dot(x + ax, -y + ay, 'black')
+        dot(y + ax, x + ay, 'black')
+        dot(-y + ax, x + ay, 'black')
+        dot(-y + ax, -x + ay, 'black')
+        dot(y + ax, -x + ay, 'black')
         var x1 = x + 1
         var y1 = y
         var x2 = x + 1
@@ -220,14 +220,6 @@
           x = x2
           y = y2
         }
-        dot(x + ax, y + ay, 'black')
-        dot(-x + ax, y + ay, 'black')
-        dot(-x + ax, -y + ay, 'black')
-        dot(x + ax, -y + ay, 'black')
-        dot(y + ax, x + ay, 'black')
-        dot(-y + ax, x + ay, 'black')
-        dot(-y + ax, -x + ay, 'black')
-        dot(y + ax, -x + ay, 'black')
       }
     }
     emptyCircle1(50, 300, 300)
