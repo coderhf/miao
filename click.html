@@ -591,12 +591,27 @@
       background-color: rgb(202 192 192 / 30%);
     }
 
+    .heart>span.hour {
+      animation: rotate 3600s steps(60) infinite;
+    }
+
     .heart>span.minute {
       width: 60px;
+      animation: rotate 3600s steps(60) infinite;
     }
 
     .heart>span.second {
       width: 90px;
+      animation: rotate 60s steps(60) infinite;
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
     }
   </style>
 </head>
