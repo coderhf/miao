@@ -278,8 +278,8 @@
     // 0  1
     for (var i = 0; i <= 255; i++) {
       for (var j = 0; j <= 255; j++) {
-        var x1 = i + j * 0.27
-        var y1 = j
+        var x1 = i
+        var y1 = i * 0.27 + j
         color = 'rgb(' + i + ',' + j + ',' + 255 + ')'
         dot(x1 + 300, y1 + 600, color)
       }
@@ -289,8 +289,8 @@
     // - 0.87  0.5
     for (var i = 0; i <= 255; i++) {
       for (var j = 0; j <= 255; j++) {
-        var x1 = i * 0.5 + j * 0.27
-        var y1 = i * -0.87 + j * 0.5
+        var x1 = i * 0.5 + j * -0.87
+        var y1 = i * 0.87 + j * 0.5
         color = 'rgb(' + i + ',' + j + ',' + 255 + ')'
         dot(x1 + 600, y1 + 800, color)
       }
