@@ -87,14 +87,75 @@
     }
 
     // 画一条60度的斜线（与x轴的夹角呈60度）
-    for (var i = 0; i <= 600; i++) {
-      dot(i, i * Math.tan(pi / 180 * 60), 'black')
+    for (var y = 0; y <= 600; y++) {
+      dot(y / Math.tan(pi / 180 * 60), y, 'black')
     }
 
-    // 画一条跨越画布左上角和右下角的对角线
-    for (var i = 0; i <= 1000; i++) {
-      dot(i, i, 'orange')
+
+    // 画一条跨越画布左上角和右下角的对角线(任意两点之间的线)
+    // 斜率大于0.5会靠近y，导致算出来的y会大于产生间隙
+    var line = function (x1, y1, x2, y2) {
+      var k = (y2 - y1) / (x2 - x1)
+      if (k > 0.5) {
+        for (var y = y1; y <= y2; y++) {
+          var x = y / k
+          dot(x + x1, y + y1)
+        }
+      } else {
+        for (var x = x1; x <= x2; x++) {
+          var y = k * x
+          dot(x + x1, y + y1)
+        }
+      }
+
     }
+    line(50, 40, 300, 400)
+
+    // 第二种解法
+    var line2 = function (x1, y1, x2, y2) {
+      var k = (y2 - y1) / (x2 - x1)
+      if (k <= 0.5) {
+        // x每次加1，y每次加k
+        for (var x = x1, y = y1; x <= x2; x++, y += k) {
+          dot(x, y)
+        }
+      } else {
+        // y每次加1，x每次加1/k
+        for (var y = y1, x = x1; y <= y2; y++, x += 1 / k) {
+          dot(x, y)
+        }
+      }
+    }
+    line2(80, 55, 300, 150)
+
+    // 第三种解法，y的跨度相加，当大于x的跨度后，y加一
+    var line3 = function (x1, y1, x2, y2) {
+      var k = (y2 - y1) / (x2 - x1)
+      var dx = x2 - x1 // x的跨度
+      var dy = y2 - y1 // y的跨度
+      var y0 = 0
+      var x0 = 0
+      if (k <= 0.5) {
+        for (var x = x1, y = y1; x <= x2; x++) {
+          dot(x, y)
+          y0 += dy
+          if (y0 >= dx) {
+            y++
+            y0 -= dx
+          }
+        }
+      } else {
+        for (var y = y1, x = x1; y <= y2; y++) {
+          dot(x, y)
+          x0 += dx
+          if (x0 >= dy) {
+            x++
+            x0 -= dy
+          }
+        }
+      }
+    }
+    line3(80, 30, 400, 350)
 
     // 画一个空心矩形
     for (var i = 30; i <= 100; i++) {
