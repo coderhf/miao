@@ -51,119 +51,60 @@
       return false
     }
   </script>
-  <script type="ok" id="narcissistic">
-            var isNarcssistic = function (n) {
-              var digit = 0
-              var num = n
-              var sum = 0
-              while (num !== 0) {
-                digit = num % 10
-                sum += digit ** 3
-                num = (num - digit) / 10
-              }
-              return sum === n
-            }
-          
-          </script>
 
-  <script type="ok" id="narcissistics">
-          // 判断某个数是否是水仙花数的函数
-          var isNarcssistic = function (n) {
-            var digit = 0
-            var num = n
-            var sum = 0
-            while (num !== 0) {
-              digit = num % 10
-              sum += digit ** 3
-              num = (num - digit) / 10
-            }
-            return sum === n
-          }
-          for (var i = 2; i <= 10000; i++) {
-            if (isNarcssistic(i)) {
-              console.log(i)
-            }
-          }
-        </script>
-
-  <script type="ok" id="palindrom">
-        var isPalindrom = function (n) {
-          var digit = 0
-          var num = n
-          var res = 0
-          if (n === 0) {
-            return false
-          }
-          while (num !== 0) {
-            digit = num % 10
-            res = res * 10 + digit // 拼接
-            num = (num - digit) / 10
-          }
-          return res === n
-        }
-      
-      </script>
-
-  <script type="ok" id="complete-number">
-      function isCompleteNumber(n) {
-        var totalFactor = 0 // 因子总和,因为任何不为1的整数1是其一个因子
-          for (var i = 1; i < n; i++) {
-            if (n % i === 0) {
-              totalFactor += i
-            }
-        }
-        return totalFactor === n
+  <script id="min">
+    // 定义一个返回最小值的函数
+    function min(a, b) {
+      var min = Infinity
+      if (a < b) {
+        min = a
       }
-    </script>
-
-  <script type="ok" id="complete-numbers">
-    function isCompleteNumber(n) {
-        var totalFactor = 0 // 因子总和,因为任何不为1的整数1是其一个因子
-        for (var i = 1; i < n; i++) {
-          if (n % i === 0) {
-            totalFactor += i
-          }
-        }
-        return totalFactor === n
+      if (b < a) {
+        min = b
       }
-    for (var i = 1; i <= 1000; i++) {
-      if (isCompleteNumber(i)) {
-        console.log(i)
-      }
+      return min
     }
   </script>
 
-  <script type="ok" id="prime">
-    var isPrime = function (n) {
+  <script id="isEven">
+    // 定义一个函数判断一个数字是否是偶数，是则返回true
+    function isEven(n) {
+      if (n === 0) {
+        return true
+      }
       if (n === 1) {
         return false
       }
-      for (var i = 2; i <= n / 2; i++) {
-        if (n % i === 0) {
-          return false
-        }
-      }
-      return true
+      n = n - 2
+      return isEven(n)
     }
-
   </script>
 
-  <script type="ok" id="primes">
-    var isPrime = function (n) {
-      if (n === 1) {
-        return false
-      }
-      for (var i = 2; i <= n / 2; i++) {
-        if (n % i === 0) {
-          return false
+  <script id="字符计数">
+    // 接收一个字符串，返回一个数字，表示该字符串中有多少单个“char"
+    function countBs(str) {
+      var len = str.length
+      var counter = 0
+      for (var i = 0; i < len; i++) {
+        // 获得字符串中的每一个字符
+        var char = str.charAt(i)
+        if (char === 'B') {
+          counter++
         }
       }
-      return true
+      return counter
     }
-    for (var i = 2; i <= 100; i++) {
-      if (isPrime(i)) {
-        console.log(i)
+    // countChar函数跟countBs函数一样，多了一个参数指定需要统计的字符
+    function countChar(str, c) {
+      var len = str.length
+      var counter = 0
+      for (var i = 0; i < len; i++) {
+        var char = str.charAt(i)
+        if (char === c) {
+          counter++
+        }
       }
+      return counter
     }
   </script>
 </body>
