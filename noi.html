@@ -1377,29 +1377,20 @@
   <script id="weekday">
     // 已知公元一年一月一日是星期一，所以要知道这一年这一月与那天的总天数，然后除以7
     // 闰年一年366天，非闰年365天。闰年2月是29天，其它28天
-    var exportWeekday = function (y, m) {
-      var day = 0 // 记录总天数
-      var counter = 0 // 记录有几个闰年
-      var m2Day = 28 // 记录这一年是是否是闰年时2月份的天数变化
-      var weekday // 记录某一年某一月一月份是星期几
-
-      // 找到有几个闰年
-      for (var i = 1; i < y; i++) {
-        // 闰年的条件
-        if (i % 4 === 0 && i % 100 !== 0 || i % 400 === 0) {
-          counter++
-        }
+    // 定义一个函数，判断是否是闰年
+    function isLeapYear(y) {
+      // 闰年的条件
+      if (y % 4 === 0 && y % 100 !== 0 || y % 400 === 0) {
+        return true
+      } else {
+        return false
       }
-      day = (y - 1) * 365 + counter // 年之间的天数
-
-      // 判断这一年是否是闰年
-      if (i % 4 === 0 && i % 100 !== 0 || i % 400 === 0) {
-        m2Day = 29
-      }
-
-      // 计算月份的天数
-      for (var j = 1; j < m; j++) {
-        switch (j) {
+    }
+    // 定义一个函数，返回当年到当月多少天
+    function exportDayToMonth(y, m) {
+      var day = 0
+      for (var i = 1; i < m; i++) {
+        switch (i) {
           case 1:
           case 3:
           case 5:
@@ -1409,21 +1400,40 @@
           case 12:
             day += 31
             break
-          case 4:
-          case 6:
-          case 9:
-          case 11:
-            day += 30
-            break
           case 2:
-            day += m2Day
+            if (isLeapYear(y)) {
+              day += 29
+            } else {
+              day += 28
+            }
+            break
+          default:
+            day += 30
             break
         }
       }
+      return day
+    }
+    var exportWeekday = function (y, m) {
+      var day = 0 // 记录总天数
+      var counter = 0 // 记录有几个闰年
+      var weekday // 记录某一年某一月一月份是星期几
+      // 找到有几个闰年
+      // for (var i = 1; i < y; i++) {
+      //   if (isLeapYear(i)) {
+      //     counter++
+      //   }
+      // }
+      // day = (y - 1) * 365 + counter // 年之间的天数
 
-      weekday = (day + 1) % 7 // 这些天要加上这一月的第一天
+      // 另一种计算所有年份的天数
+      day = (y - 1) * 365 + (y - 1) / 4 - (y - 1) / 100 + (y - 1) / 400
+      // 计算当年月份的天数并累加
+      day += exportDayToMonth(y, m)
+      weekday = (day + 1) % 7 // 这些天要加上这一月的第一天,表示第一天的周期
       return weekday
     }
+    
   </script>
 
   <script id="complete-number">
@@ -1522,26 +1532,65 @@
     }
   </script>
 
-  <script type="ok" id="itob">
-  var n = +prompt('输入一个整数')
-  var digit = 0
-  var num = n
-  var str = ''
-  var isNegative = false
-  if (n < 0) {
-    num = -n
-    isNegative = true
-  }
-  while (num !== 0) {
-    digit = num % 10
-    str = digit + str
-    num = (num - digit) / 10
-  }
-  if (isNegative) {
-    str = '-' + str
-  }
-  console.log(str)
-</script>
+  <script id="itob">
+    // 定义一个函数用来获取对应数字的字符
+    function digit2Str(digit) {
+      switch (digit) {
+        case 0:
+          return '0'
+          break;
+        case 1:
+          return '1'
+          break
+        case 2:
+          return '2'
+          break
+        case 3:
+          return '3'
+          break;
+        case 4:
+          return '4'
+          break
+        case 5:
+          return '5'
+          break;
+        case 6:
+          return '6'
+          break
+        case 7:
+          return '7'
+          break
+        case 8:
+          return '8'
+          break
+        case 9:
+          return '9'
+          break
+      }
+    }
+    // 定义一个函数，如果是负数，返回一个-
+    function exportNegative(n) {
+      if (n < 0) {
+        return '-'
+      } else {
+        return ''
+      }
+    }
+    function itob(n) {
+      var num = n
+      var result = ''
+      if (n < 0) {
+        num = -n
+      }
+      do {
+        var digit = num % 10
+        result = digit2Str(digit) + result
+        num = (num - digit) / 10
+      } while (num !== 0)
+      return exportNegative(n) + result
+    }
+
+  </script>
 
   <script type="ok" id="lcf&lcm">
   var a = +prompt('输入一个正整数a')
