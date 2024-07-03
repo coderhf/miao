@@ -265,17 +265,24 @@
 
     //  2 0
     //  0 2
-    // for (var i = 0; i <= 255; i++) {
-    //   for (var j = 0; j <= 255; j++) {
-    //     var x1 = 2 * i
-    //     var y1 = 2 * j
-    //     color = 'rgb(' + i + ',' + j + ',' + 255 + ')'
-    //     dot(x1, y1, color)
-    //   }
-    // }
+    // 放大有像素露白问题，因为像素点是255 * 255， 但是放大了2倍，所以点数大了一倍
+    /**
+    for (var i = 0; i <= 255; i++) {
+      for (var j = 0; j <= 255; j++) {
+        var x1 = 2 * i
+        var y1 = 2 * j
+        color = 'rgb(' + i + ',' + j + ',' + 255 + ')'
+        dot(x1, y1, color)
+        dot(x1 + 1, y1, color)
+        dot(x1 + 1, y1 - 1, color)
+        dot(x1, y1 - 1, color)
+      }
+    }
+      */
 
     // 1  0.27
     // 0  1
+    // 倾斜
     for (var i = 0; i <= 255; i++) {
       for (var j = 0; j <= 255; j++) {
         var x1 = i
@@ -287,12 +294,33 @@
 
     // 0.5    0.87
     // - 0.87  0.5
+    // 旋转
+
     for (var i = 0; i <= 255; i++) {
       for (var j = 0; j <= 255; j++) {
         var x1 = i * 0.5 + j * -0.87
         var y1 = i * 0.87 + j * 0.5
         color = 'rgb(' + i + ',' + j + ',' + 255 + ')'
         dot(x1 + 600, y1 + 800, color)
+      }
+    }
+
+    // 旋转时每个x,y都是浮点数，那么就有可能会有漏白
+    // 可以用倾斜代替旋转，有其特定公式
+    var theta = 1.2
+    for (var x = 0; x <= 255; x++) {
+      for (var y = 0; y <= 255; y++) {
+        color = 'rgb(' + x + ',' + y + ',' + 255 + ')'
+        // 第一次倾斜,每一次倾斜都要取整，不然最后x,y还是浮点数
+        var x1 = Math.trunc(x)
+        var y1 = Math.trunc(x * -Math.tan(theta / 2) + y)
+        // 第二次倾斜
+        x1 = Math.trunc(x1 + y1 * Math.sin(theta))
+        y1 = Math.trunc(y1)
+        // 第三次倾斜
+        x1 = Math.trunc(x1)
+        y1 = Math.trunc(x1 * -Math.tan(theta / 2) + y1)
+        dot(x1 + 600, y1 + 600, color)
       }
     }
 
