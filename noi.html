@@ -1644,6 +1644,18 @@
     }
   }
 </script>
+<script id="sqrt">
+  // 第二种方法：牛顿法,先求导数求出切线的斜率。每次都求出最近切线的x的值。多求几次即可。
+
+  function sqrt(n) {
+    var x = n
+    for (var i = 0; i <= 20; i++) {
+      x = (x * x + n) / (2 * x)
+    }
+    return x
+  }
+  
+</script>
 
   <script type="ok" id="2.20.1">
   var str = ''
