@@ -1433,7 +1433,7 @@
       weekday = (day + 1) % 7 // 这些天要加上这一月的第一天,表示第一天的周期
       return weekday
     }
-    
+
   </script>
 
   <script id="complete-number">
@@ -1644,19 +1644,19 @@
     }
   }
 </script>
-<script id="sqrt">
-  // 第二种方法：牛顿法,先求导数求出切线的斜率。每次都求出最近切线的x的值。多求几次即可。
+  <script id="sqrt">
+    // 第二种方法：牛顿法,先求导数求出切线的斜率。每次都求出最近切线的x的值。多求几次即可。
 
-  function sqrt(n) {
-    var x = n
-    for (var i = 0; i <= 20; i++) {
-      x = (x * x + n) / (2 * x)
+    function sqrt(n) {
+      var x = n
+      for (var i = 0; i <= 20; i++) {
+        x = (x * x + n) / (2 * x)
+      }
+      return x
     }
-    return x
-  }
-  https://leetcode.cn/u/feng-hu-7
-  
-</script>
+    https://leetcode.cn/u/feng-hu-7
+
+  </script>
 
   <script type="ok" id="2.20.1">
   var str = ''
@@ -1725,6 +1725,79 @@
   }
   console.log(res)
 </script>
+
+  <script>
+    function f(x) {
+      if (x === 1) {
+        return 1
+      }
+      return 2 * f(x - 1) + x * x
+    }
+  </script>
+  <script>
+    function factorial(x) {
+      if (x === 1) {
+        return 1
+      }
+      return x * factorial(x - 1)
+    }
+  </script>
+
+  <script id="爬梯子">
+
+    // 定义一个函数表示有几个阶梯，里面再定义一个函数用来计算爬梯方法
+    function findLadder(n) {
+      var counter = 1
+      var count = 0
+      function findSteps(step = 0, how) {
+        if (step > n) {
+          return
+        } else if (step === n) {
+          count++
+          console.log(how)
+          return
+        }
+        if (counter === 1) {
+          how = ''
+        } else {
+          how += '+'
+        }
+        counter++
+        findSteps(step + 1, how + 1)
+        findSteps(step + 2, how + 2)
+      }
+      findSteps()
+      console.log('一共有' + count + '种方法')
+    }
+  </script>
+  <script id="爬网格">
+    // x表示水平方向坐标，y表示垂直方向坐标
+    function climbGrid(x, y) {
+      var target = [x - 1, y - 1]
+      var counter = 1
+      var count = 0
+      // var arr = [0, 0] // 初始坐标
+      function findGrid(arr = [0, 0], how) {
+        if (arr[0] === target[0] && arr[1] === target[1]) {
+          count++
+          console.log(how)
+          return
+        } else if (arr[0] > target[0] || arr[1] > target[1]) {
+          return
+        }
+        if (counter === 1) {
+          how = ''
+        } else {
+          how += '+'
+        }
+        counter++
+        findGrid([arr[0] + 1, arr[1]], how + 'right') // 向右
+        findGrid([arr[0], arr[1] + 1], how + 'top') // 向上
+      }
+      findGrid()
+      console.log('一共有' + count + '种方法')
+    }
+  </script>
 
 </body>
 
