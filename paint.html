@@ -365,6 +365,18 @@
 
   </script>
 
+  <script>
+    var len = nums.length
+    for (var i = 0; i < len; i++) {
+      var res = target - nums[i]
+      for (var j = i + 1; j < len; j++) {
+        if (res === nums[j]) {
+          return [i, j]
+        }
+      }
+    }
+  </script>
+
 </body>
 
 </html>
