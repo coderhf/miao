@@ -1791,6 +1791,7 @@
           how += '+'
         }
         counter++
+        
         findGrid([arr[0] + 1, arr[1]], how + 'right') // 向右
         findGrid([arr[0], arr[1] + 1], how + 'top') // 向上
       }
@@ -1798,6 +1799,23 @@
       console.log('一共有' + count + '种方法')
     }
   </script>
+  <script id="fibs">
+    // 斐波那契数列用递归会有很多重复项计算，所以当数字大了以后就很很慢了
+    // 可以用数组存起来，如果能从数组找到，那就不需要进行了，直接返回这个值
+    var result = []
+    function fibs(n) {
+      if (result[n]) {
+        return result[n]
+      }
+      if (n === 1 || n === 2) {
+        return 1
+      }
+      var res = fibs(n - 1) + fibs(n - 2)
+      result[n] = res
+      return res
+    }
+  </script>
+  
 
 </body>
 
