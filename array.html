@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function indexOf(array, target) {
+      for (var i = 0; i < array.length; i++) {
+        if (array[i] === target) {
+          return i
+        }
+      }
+      return -1
+    }
+
+    function slice(array, start = 0, end = arr.length) {
+      var arr = []
+      for (var i = start; i < end; i++) {
+        arr.push(array[i])
+      }
+      return arr
+    }
+
+    function concat() {
+      var res = []
+      for (var i = 0; i < arguments.length; i++) {
+        var arr = arguments[i]
+        if (Array.isArray(arr)) {
+          for (var j = 0; j < arr.length; j++) {
+            res.push(arr[j])
+          }
+        } else {
+          res.push(arr)
+        }
+      }
+      return res
+    }
+  </script>
+</body>
+
+</html>
