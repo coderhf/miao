@@ -58,16 +58,14 @@
         }
         // 遍历完成，如果都是相同的，那么直接返回true
         return true
-      } else if (a === null || b === null) {
-        return a === b
-      } else if (typeof a == 'object' && typeof b == 'object') {
+      } else if (typeof a == 'object' && a !== null && b !== null && typeof b == 'object') {
         // 对象长度不一样，直接返回false就可以了
         if (Object.keys(a).length !== Object.keys(b).length) {
           return false
         }
         // 遍历for in
         for (var key in a) {
-          if (!isEqual(a[key], b[key])) {
+          if (!(key in b) || !isEqual(a[key], b[key])) {
             return false
           }
         }
@@ -98,6 +96,16 @@
         // 如果是原始值，就可以直接返回这个值了
         return a
       }
+    }
+
+    // 生成随机数，线性同余
+    var a = 17
+    var c = 19
+    var m = 31
+    var x = 23
+    function random() {
+      x = (a * x + c) % m
+      return x
     }
 
     // 生成start-end的数组，支持range(10)-range(1,10,-2);书上第四章的习题1
@@ -141,6 +149,8 @@
       }
       return array
     }
+
+    
   </script>
 </body>
 
