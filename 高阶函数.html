@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./ancestry.js"></script>
+</head>
+
+<body>
+  <script>
+
+    // 高阶函数forEach函数
+    function forEach(array, action) {
+      for (var i = 0; i < array.length; i++) {
+        action(array[i], i, array)
+      }
+    }
+
+    // 求导函数
+    function derive(f) {
+      return function (x) {
+        var gap = 0.000000001
+        var x1 = x - gap
+        var x2 = x + gap
+        y1 = f(x1)
+        y2 = f(x2)
+        return (y2 - y1) / (x2 - x1)
+      }
+    }
+    // 求x的平方的导函数：2*x
+    var f = derive(function (x) {
+      return x * x
+    })
+
+    function noisy(f) {
+      // 接收剩余参数，放入数组
+      return function (...args) {
+        console.log('calling with' + args)
+        var val = f(...args) // 展开运算符
+        console.log('calling with' + args + '-got' + val)
+        return val
+      }
+    }
+
+    // 映射高阶函数，返回对象某个属性的值
+    function map(array, transform) {
+      var ans = []
+      for (var i = 0; i < array.length; i++) {
+        ans.push(transform(array[i], i, array))
+      }
+      return ans
+    }
+
+    // 过滤函数 ，返回符合某种条件的对象
+    function filter(array, test) {
+      var ans = []
+      for (var i = 0; i < array.length; i++) {
+        if (test(array[i], i, array)) {
+          ans.push(array[i])
+        }
+      }
+      return ans
+    }
+
+    // reduce函数，将数组的每一个值都拿出来，与之前用某种运算算出来得知继续某种运算，以此继续下去
+    function reduce(array, combin, initial) {
+      var result = initial
+      for (var i = 0; i < array.length; i++) {
+        result = combin(result, array[i], i, array)
+      }
+      return result
+    }
+
+    // 对reduce进行优化，去掉initial。不给initial传值，让其从第一个元素开始
+    function reduce(array, combin, initial) {
+      var t = 0
+      if (initial == undefined) {
+        initial = array[0]
+        t = 1
+      }
+      for (var i = t; i < array.length; i++) {
+        initial = combin(initial, array[i], i, array)
+      }
+      return initial
+    }
+
+    // ancestry
+    // 求数据中男人和女人的平均年龄
+    var ancestry = JSON.parse(ANCESTRY_FILE)
+    averages(ancestry.filter(val => val.sex == 'm').map(val => val.died - val.born))
+    // 定义一个函数，用来求平均年龄
+    function averages(numbers) {
+      return numbers.reduce((sum, val) => sum + val) / numbers.length
+    }
+
+    // 但是这样写还是不够优雅，我们想要直接.reduce()方法来算出平均值，当然这也是可以的
+    // 试想，如果我们知道了前面3项的avg,那么第四项avg是：(avg * 3 + val) / 4
+    var avg = ancestry.filter(val => val.sex == 'm').map(val => val.died - val.born).reduce(average)
+
+    function average(avg, val, i) {
+      return (avg * i + val) / (i + 1)
+    }
+    // reduce也可以映射对象
+    var obj = ancestry.reduce((obj, val, i) => {
+      obj[i] = val.sex
+      return obj
+    }, {})
+
+    // 自己写一个bind函数
+    function bind(fn, ...parentArgs) {
+      return function (...args) {
+        return fn(...parentArgs, ...args)
+      }
+    }
+
+    bind((a, b, c, d) => {
+      return a + b + c + d
+    }, 1, 2)(3, 4)
+
+    /**
+     * 课后习题
+     * 
+    **/
+
+    // 5.14.1.数组扁平化(数组降维)
+    function flat(matrix) {
+      return matrix.reduce((array, val) => array.concat(val))
+    }
+    console.log(flat([[1, 3, 4], [1, 25, 654, 2], [4, 53, 62, 6552, 5], ['1525', 5, { name: 'hufeng' }]]))
+
+    // 5.14.2 计算母子年龄差
+    function motherAndSonAverage(ancestry) {
+      var ages = []
+      ancestry.forEach(val => {
+        for (var j = 0; j < ancestry.length; j++) {
+          if (ancestry[j].name == val.mother) {
+            ages.push(val.born - ancestry[j].born)
+          }
+        }
+      })
+      return ages.reduce(average)
+    }
+
+    // 5.14.3 计算平均寿命
+    function centuryAvgAge1(ancestry) {
+      // 按照世纪进行分组
+      var obj = {}
+      var centuryAvgAge = {}
+      for (var i = 0; i < ancestry.length; i++) {
+        var centuryNum = Math.ceil(ancestry[i].born / 100)
+        if (!obj[centuryNum]) {
+          obj[centuryNum] = []
+        }
+        obj[centuryNum].push(ancestry[i])
+      }
+
+      // 分组完成，再算平均值
+      for (var key in obj) {
+        centuryAvgAge[key] = obj[key].map(val => val.died - val.born).reduce(average)
+      }
+      return centuryAvgAge
+    }
+
+    function centuryAvgAge(ancestry) {
+      // 按照世纪进行分组
+      // var obj = groupBy(ancestry, val => {
+      //   return Math.ceil(val.born / 100)
+      // })
+
+      // 按照男女分组
+      var obj = groupBy(ancestry, val => val.sex)
+      // 分组完成，再算平均值
+      var centuryAvgAge = {}
+      for (var key in obj) {
+        centuryAvgAge[key] = obj[key].map(val => val.died - val.born).reduce(average)
+      }
+      return centuryAvgAge
+    }
+    // 这个题的额外练习，封装分组方法,接收两个参数，一个数组和一个函数（用来处理分类标记的，也就是用什么来分类，返回分类标签）
+    // 最后返回这个分好类的对象
+    function groupBy(array, predicate) {
+      var obj = {}
+      for (var i = 0; i < ancestry.length; i++) {
+        var centuryNum = predicate(ancestry[i], i, array)
+        if (!obj[centuryNum]) {
+          obj[centuryNum] = []
+        }
+        obj[centuryNum].push(ancestry[i])
+      }
+      return obj
+    }
+
+    // 5.14.4 写every和some方法
+    // every方法是所有为真就为真
+    function every(array, test) {
+      for (var i = 0; i < array.length; i++) {
+        if (!test(array[i], i, array)) {
+          return false
+        }
+      }
+      return true
+    }
+
+    // some方法是只要有一个为真就返回真，否则返回假
+    function some(array, test) {
+      for (var i = 0; i < array.length; i++) {
+        if (test(array[i])) {
+          return true
+        }
+      }
+      return false
+    }
+
+  </script>
+</body>
+
+</html>
