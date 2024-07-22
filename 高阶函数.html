@@ -128,9 +128,71 @@
     function flat(matrix) {
       return matrix.reduce((array, val) => array.concat(val))
     }
+
+    function flat1(matrix) {
+      var arr = []
+      for (var array of matrix) {
+        for (var item of array) {
+          arr.push(item)
+        }
+      }
+      return arr
+    }
+
+    function flat2(matrix) {
+      var ans = []
+      for (var array of matrix) {
+        ans.push(...array)
+      }
+      return ans
+    }
+
+    function flat3(matrix) {
+      var ans = []
+      for (var array of matrix) {
+        ans = ans.concat(array)
+      }
+      return ans
+    }
+
+    function flat4(matrix) {
+      return matrix.reduce((result, array) => {
+        return [...result, ...array]
+      }, [])
+    }
+
+    function flat5(matrix) {
+      return [].concat(...matrix)
+    }
+
+    function flatDeep(arrays) {
+      return matrix.reduce((result, array) => {
+        if (Array.isArray(array)) {
+          return [...result, ...flatDeep(array)]
+        } else {
+          return [...result, array]
+        }
+      }, [])
+    }
+
+    function flatDeep1(arrays) {
+      var ans = []
+      for (var array of arrays) {
+        if (Array.isArray(array)) {
+          for (var item of flatDeep1(array)) {
+            ans.push(item)
+          }
+        } else {
+          ans.push(array)
+        }
+      }
+      return ans
+    }
+
     console.log(flat([[1, 3, 4], [1, 25, 654, 2], [4, 53, 62, 6552, 5], ['1525', 5, { name: 'hufeng' }]]))
 
     // 5.14.2 计算母子年龄差
+    // 第一种方法
     function motherAndSonAverage(ancestry) {
       var ages = []
       ancestry.forEach(val => {
@@ -143,6 +205,21 @@
       return ages.reduce(average)
     }
 
+    // 通过人名映射对象自己
+    var byName = {}
+    for (var item of ancestry) {
+      byName[item.name] = item
+    }
+
+    function motherChildAgeDifference() {
+      var ans = ancestry.filter(person => {
+        return byName[person.mother]
+      }).map(person => {
+        var motherObj = byName[person.mother]
+        return person.born - motherObj.born
+      }).reduce(average)
+      return ans
+    }
     // 5.14.3 计算平均寿命
     function centuryAvgAge1(ancestry) {
       // 按照世纪进行分组
@@ -192,6 +269,26 @@
       return obj
     }
 
+    // 将对象计算出属性中属性值的某种结果再映射到对象中
+    function mapObject(obj, mapper) {
+      var o = {}
+      for (var key in obj) {
+        o[key] = mapper(obj[key], key)
+      }
+      return o
+    }
+
+    // 计算人均寿命
+    function lifeExpectance() {
+      var ans = mapObject(groupBy(ancestry, person => Math.ceil(person.died / 100)),
+        pers => {
+          return pers.map(p => {
+            return p.died - p.born
+          }).reduce(average)
+        })
+      return ans
+    }
+
     // 5.14.4 写every和some方法
     // every方法是所有为真就为真
     function every(array, test) {
@@ -203,6 +300,12 @@
       return true
     }
 
+    function every1(array, f) {
+      return array.reduce((result, item, i) => {
+        result && f(item, i, array)
+      }, true)
+    }
+
     // some方法是只要有一个为真就返回真，否则返回假
     function some(array, test) {
       for (var i = 0; i < array.length; i++) {
@@ -211,6 +314,36 @@
         }
       }
       return false
+    }
+
+    function some1(array, f) {
+      return array.reduce((result, item, i) => {
+        return result || f(item, i, array)
+      }, false)
+    }
+
+    function every2(array, f) {
+      return !some(array, (...args) => {
+        return !f(...args)
+      })
+    }
+    function every(array, f) {
+      return !some(array, negate(f))
+    }
+
+    function some2(array, f) {
+      return !every(array, (...args) => !f(...args))
+    }
+
+    function some3(array, f) {
+      return !every(array, negate(f))
+    }
+
+    // 返回一个对原函数运算结果取反的函数
+    function negate(f) {
+      return function (...args) {
+        return !f(...args)
+      }
     }
 
   </script>
