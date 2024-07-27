@@ -346,6 +346,99 @@
       }
     }
 
+    // 通过键与对象组合
+    function keyBy(array, predicate) {
+      let obj = {}
+      for (let i = 0; i < array.length; i++) {
+        let key = predicate(array[i], i, array)
+        obj[key] = array[i]
+      }
+      return obj
+    }
+
+    let byNameToObj = keyBy(ancestry, item => item.name)
+    let ph = byNameToObj['Philibert Haverbeke']
+
+    // 计算这个人与祖先Philibert Haverbeke的基因继承有多少
+    function reduceAncestry(person) {
+      if (!person) {
+        return 0
+      }
+      if (person.name === 'Pauwels van Haverbeke') {
+        return 1
+      }
+      let mother = reduceAncestry(byNameToObj[person.mother])
+      let father = reduceAncestry(byNameToObj[person.father])
+      return (mother + father) / 2
+    }
+
+    // 将上面这份代码抽象出来
+    function reduceAncestry(person, f, defaultValue = 0) {
+      function valueFor(person) {
+        if (!person) {
+          return defaultValue
+        }
+        let fromMother = valueFor(byNameToObj[person.mother])
+        let fromFather = valueFor(byNameToObj[person.father])
+        return f(person, fromMother, fromFather)
+      }
+      return valueFor(person)
+    }
+
+    // console.log(reduceAncestry(byNameToObj['Philibert Haverbeke']))
+    console.log(reduceAncestry(byNameToObj['Philibert Haverbeke'],
+      (person, fromMother, fromFather) => {
+        if (person.name === 'Pauwels van Haverbeke') {
+          return 1
+        }
+        return (fromMother + fromFather) / 2
+      },
+      0
+    ) / 4)
+
+    // 计算包括它在内的所有祖先超过70岁的人的个数
+    console.log(reduceAncestry(byNameToObj['Philibert Haverbeke'],
+      (person, fromMother, fromFather) => {
+        if (person.died - person.born >= 70) {
+          return fromMother + fromFather + 1
+        } else {
+          return fromMother + fromFather
+        }
+      },
+      0
+    ))
+
+    // 将上面在进行封装
+    function countAncestors1(person, test) {
+      return reduceAncestry(person,
+        (person, fromMother, fromFather) => {
+          let thisOneCounts = test(person)
+          return fromMother + fromFather + (thisOneCounts ? 1 : 0)
+        },
+        0
+      )
+    }
+
+    // 继续封装
+    function countAncestors(person, test) {
+      function combin(person, fromMother, fromFather) {
+        let thisOneCounts = test(person)
+        return fromMother + fromFather + (thisOneCounts ? 1 : 0)
+      }
+      return reduceAncestry(person, combin, 0)
+    }
+    // console.log(countAncestors(ph, item => item.died - item.born >= 70))
+
+    // 计算某人包括自己所有祖先中长寿的比例
+    function longLivingPercentage(person) {
+      let all = countAncestors(person, item => true) // 所有人
+      let longLiving = countAncestors(person, item => item.died - item.born >= 70)
+      return longLiving / all
+    }
+    console.log(longLivingPercentage(byNameToObj['Emile Haverbeke']))
+
+    'Philibert Haverbeke'
+    'Pauwels van Haverbeke' 
   </script>
 </body>
 

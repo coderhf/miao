@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /**
+     * 交换函数，传入索引和原数组
+     * 返回交换后的数组
+     */
+    function swap(array, i, j) {
+      var temp = array[i]
+      array[i] = array[j]
+      array[j] = temp
+    }
+
+    /**
+     * 生成一个随机数组,里面有n项
+     * 数组只有整数
+     */
+    function randomArray(n) {
+      let ans = []
+      for (let i = 0; i < n; i++) {
+        ans.push(Math.random() * n | 0)
+      }
+      return ans
+    }
+
+    /**
+     * 生成一个函数检查这个数组是否是有序的
+     * 如果有序返回true，否则返回false
+     */
+    function isSorted(array) {
+      for (let i = 0; i < array.length - 1; i++) {
+        if (array[i] > array[i + 1]) {
+          return false
+        }
+      }
+      return true
+    }
+
+    /**
+     * 冒泡排序
+     * 空间复杂度O(1)
+     * 时间复杂度O(n*n
+     */
+    function bubbleSort(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        let swapped = false
+        for (let j = 0; j < i; j++) {
+          // 前面的大于后面的就需要交换
+          if (array[j] > array[j + 1]) {
+            swap(array, j, j + 1)
+            swapped = true
+          }
+        }
+        // 如果继续比较全部都没有可以交换的了，说明整个数组都已经排好序了可以直接返回了 
+        if (!swapped) {
+          break
+        }
+      }
+      return array
+    }
+
+    /**
+     * 选择排序
+     * 依次选择数组中最小的值依次放在前面即可
+     * 空间复杂度O(1)
+     * 时间复杂度O(n*n
+     */
+    function selectSort(array) {
+      for (let i = 0; i < array.length; i++) {
+        let minIndex = i
+        for (let j = i + 1; j < array.length; j++) {
+          if (array[minIndex] > array[j]) {
+            minIndex = j
+          }
+        }
+        // 内部循环完，拿到最小值的索引，与i进行交换即可
+        swap(array, i, minIndex)
+      }
+      return array
+    }
+
+    /**
+     * 插入排序: 每次选择下一个元素插入到正确有序的位置上去
+     * 空间复杂度O(1)
+     * 时间复杂度O(n*n
+     */
+    function insertSort(array) {
+      for (let i = 1; i < array.length; i++) {
+        for (let j = i; j > 0; j--) {
+          if (array[j] < array[j - 1]) {
+            swap(array, j, j - 1)
+          }
+        }
+      }
+      return array
+    }
+
+    /**
+     * 归并排序：
+     *  将原数组一分为二，分别排序，之后合并为一个数组
+     * 时间复杂度：O(n * log(n))
+     * 空间复杂度：O(n + log(n)) -> O(n)
+    */
+    function mergeSort(array) {
+      // 结束条件
+      if (array.length < 2) {
+        return array
+      }
+      let midIdx = array.length >>> 1 // 拿到这个数组中间的索引
+      let leftArray = array.slice(0, midIdx)
+      let rightArray = array.slice(midIdx)
+
+      mergeSort(leftArray)
+      mergeSort(rightArray)
+
+      // 排好序后进行左右比较，放入数组中
+      let i = j = k = 0
+      while (i < leftArray.length && j < rightArray.length) {
+        if (leftArray[i] <= rightArray[j]) {
+          array[k++] = leftArray[i++]
+        } else {
+          array[k++] = rightArray[j++]
+        }
+      }
+      // 两个数组中额外的内容还需要继续放入array中
+      while (i < leftArray.length) {
+        array[k++] = leftArray[i++]
+      }
+
+      while (j < rightArray.length) {
+        array[k++] = rightArray[j++]
+      }
+      return array
+    }
+
+    /**
+     * 快速排序：
+     *  从原数组中随机选择一个数p
+     * 然后将原数组分成两组：
+     *  小于等于p的在一组
+     *  大于p的在一组
+     * 然后分别对两组数进行排序，之后直接拼接（不是归并）
+     * 
+     * 另一种做法是将数分成三组(推荐这种)
+     * 小于p的，等于P的，大于p的
+     * 对小于和大于的排序
+     * 之后将这三个拼接
+    */
+    function quickSort(array) {
+      if (array.length < 2) {
+        return array.slice() // slice的目的是为了保持跟后面一样返回新的数组（直接返回array也可以）
+      }
+      let dummyIdx = Math.random() * array.length | 0
+      let dummy = array[dummyIdx] // 拿到哨兵元素
+      let leftArray = []
+      let rightArray = []
+      let midArray = []
+
+      for (let i = 0; i < array.length; i++) {
+        if (array[i] < dummy) {
+          leftArray.push(array[i])
+        } else if (array[i] === dummy) {
+          midArray.push(array[i])
+        } else {
+          rightArray.push(array[i])
+        }
+      }
+      leftArray = quickSort(leftArray)
+      rightArray = quickSort(rightArray)
+      
+      return leftArray.concat(midArray, rightArray)
+    }
+
+    /**
+     * 快排的原地版本
+     * 时间复杂度：O(n*log(n))
+     * 空间复杂度O(log(n))
+     * 
+     * 函数的定义：对数组从left到right(不包含right)
+     * 快排最推荐这种写法
+    */
+   function quickSortInPlace(array, left = 0, right = array.length) {
+    if (right - left < 2) {
+      return array
+    }
+    // 随机拿到一个哨兵元素
+    let dummyIdx = Math.floor((right - left) * Math.random() + left)
+    let dummy = array[dummyIdx]
+
+    // 先把哨兵元素放到数组的最后位置
+    swap(array, dummyIdx, right - 1)
+
+    // 原地对元素进行分组
+    i = left
+    for (let j = left; j < right - 1; j++) {
+      if (array[j] < dummy) {
+        swap(array, i, j)
+        i++
+      }
+    }
+    swap(array, i, right - 1) // 交换哨兵元素
+    // 到此为止，i位置放的就是哨兵元素
+    // 其左边是小于它，右边都大于等于它
+    // 后续的排序i位置的数肯定不再需要变化位置了
+    // 接下来分别对左边和后边递归就可以
+    quickSortInPlace(array, left, i)
+    quickSortInPlace(array, i + 1, right)
+    return array
+   }
+  </script>
+</body>
+
+</html>

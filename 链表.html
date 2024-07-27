@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+
+    function ListNode(val, next) {
+      this.val = (val === undefined ? 0 : val)
+      this.next = (next === undefined ? null : next)
+    }
+    /**
+     * 将数组转成链表
+     */
+    function arrayToList1(array) {
+      if (array.length == 0) {
+        return null // 表示空链表
+      }
+      let nodes = []
+      for (let p of array) {
+        node = {
+          val: p,
+          next: null,
+        }
+        nodes.push(node)
+      }
+      // 遍历数组，将对象全部加到链表里
+      for (let i = 0; i < array.length - 1; i++) {
+        nodes[i].next = nodes[i + 1]
+      }
+      return nodes[0]
+    }
+
+    function arrayToList2(array) {
+      let helperNode = {
+        val: 0,
+        next: null
+      }
+      preNode = helperNode
+      for (let item of array) {
+        let node = {
+          val: item,
+          next: null,
+        }
+        preNode.next = node
+        preNode = node
+      }
+      return helperNode.next
+    }
+
+    function arrayToList3(array) {
+      // 递归
+      if (array.length == 0) {
+        return null
+      }
+      let node = {
+        val: array[0],
+        next: null,
+      }
+      restArray = array.slice(1)
+      node.next = arrayToList3(restArray)
+      return node
+    }
+
+    /**
+     * 将链表转成数组 
+     */
+    function listToArray(head) {
+      let ans = []
+      while (head) {
+        ans.push(head.val)
+        head = head.next
+      }
+      return ans
+    }
+
+    // 递归写法
+    function listToArray1(head) {
+      if (head == null) {
+        return []
+      }
+      return [head.val, ...listToArray1(head.next)]
+    }
+
+    /**
+     * 接收一个元素和一个链表，将元素添加到输入链表的开头
+     */
+    function prepend(val, head) {
+      let node = {
+        val: val,
+        next: head,
+      }
+      return node
+    }
+
+    // 为链表末尾添加元素
+    function append(val, head) {
+      let node = {
+        val: val,
+        next: null
+      }
+      if (head == null) {
+        return node
+      }
+      let p = head
+      while (p.next) {
+        p = p.next
+      }
+      p.next = node
+      return head
+    }
+
+    // 递归做法
+    function append1(val, head) {
+      if (head == null) {
+        return { val: val, next: null, }
+      }
+      let node = {
+        val: head.val,
+        next: append1(val, head.next)
+      }
+      return node
+    }
+
+    /**
+     * 接收一个链表和idx项，返回第idx项的val，否则返回undefined
+    */
+    function nth(head, idx) {
+      if (idx < 0 || head == null) {
+        return undefined
+      }
+      while (idx > 0 && head) {
+        head = head.next
+        idx--
+      }
+      if (head) {
+        return head.val
+      } else {
+        return undefined
+      }
+    }
+
+    // 递归
+    function nth1(head, idx) {
+      if (idx < 0 || head == null) {
+        return undefined
+      }
+      if (idx == 0) {
+        return head.val
+      }
+      return nth(head.next, idx - 1)
+    }
+
+    // 插入
+    function insert(head, idx, value) {
+
+    }
+
+    // 删除
+    function remove(head, idx) {
+
+    }
+
+    // 为什么链表的每个函数基本都可以用递归写？
+    // （啥函数不是都能吗？）并不是
+    // 因为链表就是递归结构的
+    // 链表是包含自身结构的结构
+    /**
+     * 链表不是数组
+     * 链表的结点不是连续空间存储的
+     * 而是每个结点存储了下一个结点的引用（地址）
+     * 所以链接不能使用head[idx]访问到其中的项
+     * 因为无法通过顺序就计算出结点所在的位置，因为结点的位置是无法预测的，而是需要从头结点顺着指针一步步前进到目标结点的
+     * 但也因为这个原因，在链接的中部增加一个结点的话，也不需要挪动后续所有的元素
+     * 数组查找快，增删慢
+     * 链表查找慢，增删快
+     * 
+     * 
+     */
+  </script>
+</body>
+
+</html>
