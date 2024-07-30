@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function rowHeights(rows) {
+      return rows.map(function (row) {
+        return row.reduce(function (max, cell) {
+          return Math.max(max, cell.minHeight());
+        }, 0);
+      });
+    }
+    function colWidths(rows) {
+      return rows[0].map(function (_, i) {
+        return rows.reduce(function (max, row) {
+          return Math.max(max, row[i].minWidth());
+        }, 0);
+      });
+    }
+
+
+    function drawTable(rows) {
+      var heights = rowHeights(rows);
+      var widths = colWidths(rows);
+      function drawLine(blocks, lineNo) {
+        return blocks.map(function (block) {
+          return block[lineNo];
+        }).join(" ");
+      }
+      function drawRow(row, rowNum) {
+        var blocks = row.map(function (cell, colNum) {
+          return cell.draw(widths[colNum], heights[rowNum]);
+        });
+        return blocks[0].map(function (_, lineNo) {
+          return drawLine(blocks, lineNo);
+        }).join("\n");
+      }
+      return rows.map(drawRow).join("\n");
+    }
+
+    // 字符串单元格的构造函数(数字不行，因为没有split方法，可以将数字变成字符串在调用这个构造函数)
+    function TextCell(text) {
+      this.text = text.split('\n')
+    }
+
+    TextCell.prototype.minWidth = function () {
+      return Math.max(...this.text.map(it => it.length))
+    }
+
+    TextCell.prototype.minHeight = function () {
+      return this.text.length
+    }
+
+    TextCell.prototype.draw = function (width, height) {
+      let result = []
+      for (let i = 0; i < height; i++) {
+        let line = this.text[i] || ''
+        // 每一行补宽度
+        while (line.length < width) {
+          line += ' '
+        }
+        result.push(line)
+      }
+      return result
+    }
+
+    // 画线的字符串单元格的构造函数
+    function BorderedCell(text) {
+      this.text = text.split('\n')
+    }
+
+    BorderedCell.prototype.minWidth = function () {
+      return Math.max(...this.text.map(it => it.length)) + 2
+    }
+
+    BorderedCell.prototype.minHeight = function () {
+      return this.text.length + 2
+    }
+
+    BorderedCell.prototype.draw = function (width, height) {
+      let borderTop = '-'.repeat(width)
+      let result = [borderTop]
+      for (let i = 0; i < height - 2; i++) {
+        let line = this.text[i] || ''
+        line = '|' + line
+        while (line.length < width - 1) {
+          line += ' '
+        }
+        line += '|'
+        result.push(line)
+      }
+      result.push(borderTop) // 最后一行也是下划线
+      return result
+    }
+
+    // 数字的构造函数方法
+    Number.prototype.minWidth = function () {
+      return this.toString().length
+    }
+
+    Number.prototype.minHeight = function () {
+      return 1
+    }
+
+    Number.prototype.draw = function (width, height) {
+      let result = []
+      let numStr = this.toString()
+      while (numStr.length < width) {
+        numStr += ' '
+      }
+      result.push(numStr)
+      // 行
+      for (let i = 0; i < height - 1; i++) {
+        result.push(' '.repeat(width))
+      }
+      return result
+    }
+
+    const MOUNTAINS = [{
+      name: "Kilimanjaro",
+      height: 5895,
+      country: "Tanzania"
+    }, {
+      name: "Everest",
+      height: 8848,
+      country: "Nepal"
+    }, {
+      name: "Mount Fuji",
+      height: 3776,
+      country: "Japan"
+    }, {
+      name: "Mont Blanc",
+      height: 4808,
+      country: "Italy/France"
+    }, {
+      name: "Vaalserberg",
+      height: 323,
+      country: "Netherlands"
+    }, {
+      name: "Denali",
+      height: 6168,
+      country: "United States"
+    }, {
+      name: "Popocatepetl",
+      height: 5465,
+      country: "Mexico"
+    }];
+
+    // 定义一个首行是下划线的单元格构造函数
+    function underlinedCell(inner) {
+      this.inner = inner  // inner已经是new TextCell(text)的对象了
+    }
+    underlinedCell.prototype.minWidth = function () {
+      return this.inner.minWidth() // 直接调用text的minWidth就行了
+    }
+    underlinedCell.prototype.minHeight = function () {
+      return this.inner.minHeight() + 1 // 有下划线，所以需要加1
+    }
+    underlinedCell.prototype.draw = function (width, height) {
+      return this.inner.draw(width, height - 1).concat('-'.repeat(width))
+    }
+
+    // 全部都是高阶函数的做法
+    function dataTable(data) {
+      let keys = Object.keys(data[0])
+      // 头部,第一行
+      let headerRow = keys.map(key => {
+        return new underlinedCell(new TextCell(key))
+      })
+      // 主体内容,返回的是个二维数组
+      let body = data.map(item => {
+        return keys.map(key => {
+          if (typeof item[key] === 'number') {
+            return item[key]
+          } else {
+            return new TextCell(item[key])
+          }
+        })
+      })
+      return [headerRow].concat(body)
+    }
+
+    // 主内容区不用高阶函数去做
+    function dataTable1(data) {
+      let table = []
+      let headerRow = Object.keys(data[0]).map(key => {
+        return new underlinedCell(new TextCell(key))
+      })
+      table.push(headerRow)
+      // 主体内容区
+      for (let row of data) {
+        let tableRow = []
+        for (let key in row) {
+          if (typeof row[key] === 'number') {
+            tableRow.push(row[key])
+          } else {
+            tableRow.push(new TextCell(row[key]))
+          }
+        }
+        table.push(tableRow)
+      }
+      return table
+    }
+    console.log(drawTable(dataTable(MOUNTAINS)))
+    console.log(drawTable(dataTable1(MOUNTAINS)))
+
+    let table = [
+      [12345, new underlinedCell(new TextCell('name')), new BorderedCell('ddfoo\nbar'),],
+      [new BorderedCell('foo\nbar'), Math.PI, new BorderedCell('foo\ndbar'),],
+      [new TextCell('foo\nbar\naaaa'), new TextCell('foowef\nbar'), new TextCell('wefoo\nbar'),],
+      [new TextCell('foo\nbar'), new TextCell('foo\nbar\nbwer'), new TextCell('sffoo\nbar'),],
+    ]
+
+    
+  </script>
+</body>
+
+</html>
