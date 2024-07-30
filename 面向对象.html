@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 构造函数
+    function Rabbit(type) {
+      this.type = type
+    }
+
+    let killerRabbit = new Rabbit('killer')
+    let blackRabbit = new Rabbit('black')
+    // console.log(blackRabbit.type)
+    Rabbit.prototype.speake = function (line) {
+      console.log('The ' + this.type + 'rabbit says ' + line)
+    }
+    blackRabbit.speake("Doom...")
+
+
+    function forOwn(obj, action) {
+      for (let key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          action(obj[key], key, obj)
+        }
+      }
+    }
+
+    // 书本第六章作业
+    // 6.14.1 向量类型
+    function Vector(x, y) {
+      this.x = x
+      this.y = y
+    }
+
+    Vector.prototype.plus = function (v) {
+      let x = this.x + v.x
+      let y = this.y + v.y
+      return new Vector(x, y)
+    }
+
+    Vector.prototype.minus = function (v) {
+      let x = this.x - v.x
+      let y = this.y - v.y
+      return new Vector(x, y)
+    }
+
+    Vector.prototype.length = function () {
+      return Math.sqrt(this.x * this.x + this.y * this.y)
+    }
+    // let v1 = new Vector(1, 2)
+    // let v2 = new Vector(3, -4)
+
+    // let v3 = v1.plus(v2)
+    // let v4 = v2.minus(v1)
+
+    // let l = v4.length()
+
+    // 表示一个复数
+    function Complex(real, imag) {
+      this.real = real
+      this.imag = imag
+    }
+
+    // 加法
+    Complex.prototype.plus = function (c) {
+      let real = this.real + c.real
+      let imag = this.imag + c.imag
+      return new Complex(real, imag)
+    }
+
+    // 减法
+    Complex.prototype.minus = function (c) {
+      let real = this.real - c.real
+      let imag = this.imag - c.imag
+      return new Complex(real, imag)
+    }
+
+    // 乘法
+    Complex.prototype.multiple = function (c) {
+      let real = this.real * c.real - this.imag * c.imag
+      let imag = this.real * c.imag + this.imag * c.real
+      return new Complex(real, imag)
+    }
+
+    Complex.prototype.div = function (c) {
+      let real = (this.real * c.real + this.imag * c.imag) / (c.real * c.real + c.imag * c.imag)
+      let imag = (this.imag * c.real - this.real * c.imag) / (c.real * c.real + c.imag * c.imag)
+      return new Complex(real, imag)
+    }
+
+    Complex.prototype.toString = function () {
+      let str = this.imag < 0 ? '' : '+'
+      return this.real + str + this.imag + 'i'
+    }
+
+    // let c1 = new Complex(4, 5)
+    // let c2 = new Complex(1, -2)
+
+    // let c3 = c1.plus(c2)
+    // let c4 = c1.minus(c2)
+    // let c5 = c1.multiple(c2)
+    // let c6 = c1.div(c2)
+
+    // console.log(c6.toString()) // 2+3i
+    // console.log(c2.toString()) // 2+3i
+
+
+  </script>
+
+  <script>
+    // 表示一个单向链表
+    function LinkedList() {
+
+    }
+    // 返回链表第idx个结点的值
+    LinkedList.prototype.get = function (idx) {
+
+    }
+    // 设置链表第idx项的值为val
+    LinkedList.prototype.set = function (idx, val) {
+
+    }
+    // 在链表末尾新增一个结点，值为val
+    LinkedList.prototype.push = function (val) {
+
+    }
+    // 返回链表末尾结点的值，并删除末尾结点
+    LinkedList.prototype.pop = function () {
+
+    }
+    // 在链表头部新增一个结点，值为val
+    LinkedList.prototype.unshift = function (val) {
+
+    }
+    // 返回链表第一个结点的值，并删除这一个结点
+    LinkedList.prototype.shift = function () {
+
+    }
+    LinkedList.prototype.toArray = function () {
+
+    }
+
+
+
+    // 表示一个集合（集合中元素没有序，但不能重复）
+    // 构造函数可选的可以传入集合中的初始值，但会被去重后存放
+    function Collection(initalValues) {
+
+    }
+    // 向集合中添加元素
+    Collection.prototype.add = function (item) {
+
+    }
+    // 从集合中删除item元素
+    Collection.prototype.delete = function (item) {
+
+    }
+
+    // 获取集合中的元素用 c.size，它是一个getter
+
+
+    // 清空集合中的所有元素
+    Collection.prototype.clear = function () {
+
+    }
+
+    // 判断集合中是否存在某元素
+    Collection.prototype.has = function (item) {
+
+    }
+    // 遍历集合中的元素（顺序无所谓）
+    Collection.prototype.forEach = function (func) {
+
+    }
+
+    var c = new Collection() //初始化一个空集合
+    // c.add(5)
+    // c.add(5)
+    // c.size // 1
+    // c.add(8)
+    // c.size // 2
+    // c.has(5) // true
+    // c.has(999) // false
+    // c.delete(5)
+    // c.size // 1
+    // c.delete(9)
+    // c.size // 1
+
+
+
+
+    // 表示一个映射
+    // 这个映射中，可以把任何值映射到任何值，映射的key不限于字符串
+    function Map() {
+      Object.defineProperty(this, 'index', {
+        writable: true,
+        enumerable: false,
+        value: 0,
+      })
+    }
+    Map.prototype = {
+      // 设置映射中的key所对应的值为val
+      set: function (key, val) {
+        let len = this.index
+        // 遍历，看有没有相同的key
+        for (let i = 0; i < len; i++) {
+          if (this[i].key === key) {
+            return
+          }
+        }
+        let obj = {
+          'key': key,
+          'val': val
+        }
+        this[this.index] = obj
+        this.index++
+      },
+      // 获取这个映射中key所对应的val
+      get: function (key) {
+        let len = this.index
+        for (let i = 0; i < len; i++) {
+          if (this[i].key === key) {
+            return this[i].val
+          }
+        }
+      },
+      // 判断这个映射中是否存在这个key的映射
+      has: function (key) {
+        let len = this.index
+        for (let i = 0; i < len; i++) {
+          if (this[i].key === key) {
+            return true
+          }
+        }
+        return false
+      },
+      // 删除这个映射中key及其映射的值的这一对儿
+      delete: function (key) {
+        let isDelete = false
+        let len = this.index
+        for (let i = 0; i < len; i++) {
+          if (this[i].key === key) {
+            delete this[i]
+            this.index--
+            isDelete = true
+          }
+        }
+        // 更新this
+        if (isDelete) {
+          let index = 0
+          for (let item in this) {
+            if (this.hasOwnProperty(item)) {
+              this[index++] = this[item]
+              delete this[item]
+            }
+          }
+        }
+        return isDelete
+      },
+      // 清空这个映射中所有的映射对儿
+      clear: function () {
+        let len = this.index
+        for (let i = 0; i < len; i++) {
+          this.delete(this[i].key)
+        }
+      },
+      // 获取这个映射中映射对儿的数量
+      get size() {
+        return this.index
+      },
+      // 遍历这个映射中所有的映射对儿
+      forEach(iterator) {
+        let len = this.index
+        for (let i = 0; i < len; i++) {
+          iterator(this[i], i, this)
+        }
+      },
+    }
+
+    let map = new Map()
+    map.set(null, null)
+    map.set([1, 2, 3], [1, 2, 3])
+
+
+
+    // 表示一个栈：即后进先出，先进后出
+    function Stack() {
+      this.items = {}
+      this.headIndex = 0 // 栈顶元素占位
+      this.tailIndex = -1 // 栈顶
+    }
+    // 向栈中增加元素
+    Stack.prototype.in = function (val) {
+      this.items[this.headIndex++] = val
+      this.tailIndex++
+    }
+    // 从栈中取出元素并删除栈顶元素
+    Stack.prototype.out = function () {
+      let item = this.items[this.tailIndex]
+      delete this.items[this.tailIndex--]
+      this.headIndex--
+      return item
+    }
+    // 查看但不删除栈顶元素
+    Stack.prototype.peek = function () {
+      return this.items[this.tailIndex]
+    }
+
+    // stack.size 获取栈中元素的数量
+    Object.defineProperty(Stack.prototype, 'size', {
+      get: function () {
+        return this.headIndex
+      }
+    })
+
+    // var stack = new Stack()
+    // stack.in(1)
+    // stack.in(2)
+    // stack.size // 2
+    // stack.in(3)
+    // stack.size // 3
+    // stack.out() // 3
+    // stack.out() // 2
+    // stack.in(5)
+    // stack.out() // 5 
+
+
+    // 表示一个队列：即先进先出，后进后出
+    function Queue() {
+      this.items = {}
+      this.headIndex = 0 // 表示最前面一个元素的索引
+      this.tailIndex = 0 // 表示尾部还未放元素的索引
+    }
+
+    // 向队列中增加元素
+    Queue.prototype.in = function (val) {
+      this.items[this.tailIndex++] = val
+    }
+    // 从队头取出元素并删除队头元素
+    Queue.prototype.out = function () {
+      let item = this.items[this.headIndex] // 保存这个元素
+      delete this.items[this.headIndex++] // 删除头部元素，headIndex加1
+      return item
+    }
+    // 查看队头元素（没有查看队尾元素的功能）
+    Queue.prototype.peek = function () {
+      return this.items[this.headIndex]
+    }
+    // 以及queue.size获取队列的长度
+    Object.defineProperty(Queue.prototype, 'size', {
+      get: function () {
+        return this.tailIndex - this.headIndex
+      }
+    })
+
+    // 深度对比
+    function isEqual(a, b) {
+      if (Array.isArray(a) && Array.isArray(b)) {
+        // 如果数组长度不一样，直接返回false
+        if (a.length !== b.length) {
+          return false
+        }
+        // 遍历
+        for (var i = 0; i < a.length; i++) {
+          // 如果比较有一个是不同的，那么直接返回false
+          if (!isEqual(a[i], b[i])) {
+            return false
+          }
+        }
+        // 遍历完成，如果都是相同的，那么直接返回true
+        return true
+      } else if (typeof a == 'object' && a !== null && b !== null && typeof b == 'object') {
+        // 对象长度不一样，直接返回false就可以了
+        if (Object.keys(a).length !== Object.keys(b).length) {
+          return false
+        }
+        // 遍历for in
+        for (var key in a) {
+          if (!(key in b) || !isEqual(a[key], b[key])) {
+            return false
+          }
+        }
+        return true
+      }
+      return a === b
+    }
+  </script>
+</body>
+
+</html>
