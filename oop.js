@@ -295,7 +295,7 @@ MyMap.prototype = {
   },
   // 获取这个映射中映射对儿的数量
   get size() {
-    return this._pairs.length
+    return this._pairs.length / 2
   },
   // 遍历这个映射中所有的映射对儿
   forEach(iterator) {
