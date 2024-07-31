@@ -182,7 +182,7 @@ LinkedList.prototype.toArray = function () {
 LinkedList.prototype.toString = function () {
   return this.toArray().join('->')
 }
-Object.defineProperty(LinkedList.prototype, 'length', {
+Object.defineProperty(LinkedList.prototype, 'size', {
   get: function () {
     return this._length
   },
