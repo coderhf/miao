@@ -235,3 +235,72 @@ MySet.prototype.forEach = function (func) {
     func(item)
   }
 }
+
+// 表示一个映射
+// 这个映射中，可以把任何值映射到任何值，映射的key不限于字符串
+function Map(initPairs = []) {
+  // 用一个数组来表示，偶数项表示key，奇数项表示value.[key, val,key,val]
+  this._pairs = []
+  for (let pair of initPairs) {
+    let key = pair[0]
+    let val = pair[1]
+    this.set(key, val)
+  }
+}
+Map.prototype = {
+  constructor: Map,
+  // 设置映射中的key所对应的值为val
+  set: function (key, val) {
+    for (let i = 0; i < this._pairs.length; i += 2) {
+      if (this._pairs[i] === key) {
+        this._pairs[i + 1] = val
+        return this
+      }
+    }
+    this._pairs.push(key, val)
+    return this
+  },
+  // 获取这个映射中key所对应的val
+  get: function (key) {
+    for (let i = 0; i < this._pairs.length; i += 2) {
+      if (this._pairs[i] === key) {
+        return this._pairs[i + 1]
+      }
+    }
+    return undefined
+  },
+  // 判断这个映射中是否存在这个key的映射
+  has: function (key) {
+    for (let i = 0; i < this._pairs.length; i += 2) {
+      if (this._pairs[i] === key) {
+        return true
+      }
+    }
+    return false
+  },
+  // 删除这个映射中key及其映射的值的这一对儿
+  delete: function (key) {
+    for (let i = 0; i < this._pairs.length; i++) {
+      if (this._pairs[i] === key) {
+        this._pairs.splice(i, 2)
+        return true
+      }
+    }
+    return false
+  },
+  // 清空这个映射中所有的映射对儿
+  clear: function () {
+    this._pairs = []
+    return this
+  },
+  // 获取这个映射中映射对儿的数量
+  get size() {
+    return this._pairs.length
+  },
+  // 遍历这个映射中所有的映射对儿
+  forEach(iterator) {
+    for (let i = 0; i < this._pairs.length; i++) {
+      iterator(this._pairs[i], this._pairs[i + 1])
+    }
+  },
+}
