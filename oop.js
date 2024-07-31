@@ -304,3 +304,27 @@ Map.prototype = {
     }
   },
 }
+
+// 表示一个栈：即后进先出，先进后出
+function Stack() {
+  this._elements = []
+}
+// 向栈中增加元素
+Stack.prototype.push = function (val) {
+  this._elements.push(val)
+}
+// 从栈中取出元素并删除栈顶元素
+Stack.prototype.pop = function () {
+  return this._elements.pop()
+}
+// 查看但不删除栈顶元素
+Stack.prototype.peek = function () {
+  return this._elements[this._elements.length - 1]
+}
+
+// stack.size 获取栈中元素的数量
+Object.defineProperty(Stack.prototype, 'size', {
+  get: function () {
+    return this._elements.length
+  },
+})
