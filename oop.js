@@ -206,7 +206,7 @@ MySet.prototype.add = function (val) {
 // 从集合中删除item元素
 MySet.prototype.delete = function (item) {
   let idx = this._elements.indexOf(item)
-  if (idx > 0) {
+  if (idx >= 0) {
     this._elements.splice(idx, 1)
     return true
   }
