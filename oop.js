@@ -238,7 +238,7 @@ MySet.prototype.forEach = function (func) {
 
 // 表示一个映射
 // 这个映射中，可以把任何值映射到任何值，映射的key不限于字符串
-function Map(initPairs = []) {
+function MyMap(initPairs = []) {
   // 用一个数组来表示，偶数项表示key，奇数项表示value.[key, val,key,val]
   this._pairs = []
   for (let pair of initPairs) {
@@ -247,8 +247,8 @@ function Map(initPairs = []) {
     this.set(key, val)
   }
 }
-Map.prototype = {
-  constructor: Map,
+MyMap.prototype = {
+  constructor: MyMap,
   // 设置映射中的key所对应的值为val
   set: function (key, val) {
     for (let i = 0; i < this._pairs.length; i += 2) {
