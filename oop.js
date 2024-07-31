@@ -328,3 +328,51 @@ Object.defineProperty(Stack.prototype, 'size', {
     return this._elements.length
   },
 })
+
+// 表示一个队列：即先进先出，后进后出
+function Queue() {
+  this._head = null
+  this._tail = null
+  this._length = 0
+}
+
+// 向队列中增加元素
+Queue.prototype.add = function (val) {
+  let node = {
+    val: val,
+    next: null,
+  }
+  this._length++
+  if (this._head == null) {
+    this._head = this._tail = node
+    return this
+  }
+  this._tail.next = node
+  this._tail = node
+  return this
+}
+// 从队头取出元素并删除队头元素
+Queue.prototype.pop = function () {
+  if (this._head == null) {
+    return undefined
+  }
+  this._length--
+  if (this._head === this._tail) {
+    let result = this._head.val
+    this._head = this._tail = null
+    return result
+  }
+  let result = this._head.val
+  this._head = this._head.next
+  return result
+}
+// 查看队头元素（没有查看队尾元素的功能）
+Queue.prototype.peek = function () {
+  return this._head.val
+}
+// 以及queue.size获取队列的长度
+Object.defineProperty(Queue.prototype, 'size', {
+  get: function () {
+    return this._length
+  },
+})
