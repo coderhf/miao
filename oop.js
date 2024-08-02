@@ -182,7 +182,7 @@ class LinkedList {
     pre.next = null
     return result
   }
-  prepend() {
+  prepend(val) {
     let node = {
       val: val,
       next: this._head,
