@@ -5,12 +5,12 @@ class Vector {
     this.x = x
     this.y = y
   }
-  plus() {
+  plus(v) {
     let x = this.x + v.x
     let y = this.y + v.y
     return new Vector(x, y)
   }
-  minus() {
+  minus(v) {
     let x = this.x - v.x
     let y = this.y - v.y
     return new Vector(x, y)
@@ -48,22 +48,22 @@ class Complex {
     this.real = real
     this.imag = imag
   }
-  plus() {
+  plus(c) {
     let real = this.real + c.real
     let imag = this.imag + c.imag
     return new Complex(real, imag)
   }
-  minus() {
+  minus(c) {
     let real = this.real - c.real
     let imag = this.imag - c.imag
     return new Complex(real, imag)
   }
-  multiple() {
+  multiple(c) {
     let real = this.real * c.real - this.imag * c.imag
     let imag = this.real * c.imag + this.imag * c.real
     return new Complex(real, imag)
   }
-  div() {
+  div(c) {
     let real =
       (this.real * c.real + this.imag * c.imag) /
       (c.real * c.real + c.imag * c.imag)
