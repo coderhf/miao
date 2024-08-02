@@ -121,7 +121,7 @@ class Complex {
 // 表示一个单向链表
 class LinkedList {
   constructor() {
-    this_head = null
+    this._head = null
     this._length = 0
   }
   at(idx) {
