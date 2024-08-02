@@ -1,5 +1,24 @@
 // 书本第六章作业
 // 6.14.1 向量类型
+class Vector {
+  constructor(x, y) {
+    this.x = x
+    this.y = y
+  }
+  plus() {
+    let x = this.x + v.x
+    let y = this.y + v.y
+    return new Vector(x,  y)
+  }
+  minus() {
+    let x = this.x - v.x
+    let y = this.y - v.y
+    return new Vector(x, y)
+  }
+  get length() {
+    return Math.sqrt(this.x * this.x + this.y * this.y)
+  }
+}
 function Vector(x, y) {
   this.x = x
   this.y = y
