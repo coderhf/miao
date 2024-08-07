@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 创建一个树结点的类
+    class TreeNode {
+      constructor(val, left = null, right = null) {
+        this.val = val
+        this.left == left
+        this.right = right
+      }
+    }
+
+    // 此函数的定义应该转换为从数组中将根结点在pos位置的二叉树转换为链式的erchs
+    // pos是根结点的位置
+    // [2, 3, 4, 5, null, 7, null ...]
+    function arrayToTree(array, pos = 0) {
+      if (array[pos] == null) {
+        return null
+      }
+      let root = new TreeNode(array[pos])
+      root.left = arrayToTree(array, 2 * pos + 1)
+      root.right = arrayToTree(array, 2 * pos + 2)
+      return root
+    }
+
+    // 上面函数的相反操作,将二叉树转换成数组
+    function treeToArray(root, idx = 0, array = []) {
+      if (root) {
+        array[idx] = root.val
+        treeToArray(root.left, 2 * idx + 1, array)
+        treeToArray(root.right, 2 * idx + 2, array)
+      }
+    }
+    // function treeToArray(root, idx = 0) {
+    //   if (root === null) {
+    //     array[idx] = null
+    //     return 
+    //   }
+    //   array[idx] = root.val
+    //   treeToArray(root.left, 2 * idx + 1)
+    //   treeToArray(root.right, 2 * idx + 2)
+    // }
+
+
+    // 将leetcode表示树的数组转换为链式表达(粘稠数组)
+    function condensedArrayToTree(array) {
+      if (array.length == 0) {
+        return null
+      }
+      let root = new TreeNode(array[0]) // 拿到根结点
+      let nodes = [root]
+      let curNode = null // 当前结点
+      for (let i = 1; i < array.length; i++) {
+        // 拿出最前面一个结点
+        let preNode = nodes.shift()
+        // 创建当前结点
+        if (array[i] === null) {
+          curNode = null
+        } else {
+          curNode = new TreeNode(array[i])
+          nodes.push(curNode)
+        }
+        // 给这个元素添加左子树结点
+        preNode.left = curNode
+
+        // 右子树结点
+        i++
+        if (array[i] === null) {
+          curNode = null
+        } else {
+          curNode = new TreeNode(array[i])
+          nodes.push(curNode)
+        }
+        preNode.right = curNode
+      }
+      return root
+    }
+
+    // 上面函数的反向运算
+    // 即传入一个链式表达的二叉树，返回其被用稠密的方式放入数组中的结果
+    function treeToCondensedArray(root) {
+      let result = []
+      let nodes = [root]
+      if (root == null) {
+        return result
+      }
+      while (nodes.length > 0) {
+        let node = nodes.shift() // 取出最前面的结点
+        if (node) {
+          result.push(node.val)
+          nodes.push(node.left, node.right)
+        } else {
+          result.push(null)
+        }
+      }
+      return result
+    }
+
+    // 先序遍历一颗二叉树
+    // function preOrderTraverse(root, array = []) {
+    //   if (root) {
+    //     array.push(root.val)
+    //     preOrderTraverse(root.left, array)
+    //     preOrderTraverse(root.right, array)
+    //   }
+    //   return array
+    // }
+    function preOrderTraverse(root) {
+      if (root) {
+        let val = root.val
+        let order1 = preOrderTraverse(root.left)
+        let order2 = preOrderTraverse(root.right)
+        return [val, ...order1, ...order2]
+      }
+      return []
+    }
+
+    // 上面改变为高阶函数(先序遍历)
+    function preOrderTraverse(root, fn) {
+      if (root) {
+        fn(root.val)
+        preOrderTraverse(root.left, fn)
+        preOrderTraverse(root.right, fn)
+      }
+    }
+
+    // 中序遍历
+    function inOrderTraverse(root, fn) {
+      if (root) {
+        inOrderTraverse(root.left, fn)
+        fn(root.val)
+        inOrderTraverse(root.right, fn)
+      }
+    }
+
+    // 后续遍历
+    function postOrderTraverse(root, fn) {
+      if (root) {
+        postOrderTraverse(root.left, fn)
+        fn(root.val)
+        postOrderTraverse(root.right, fn)
+      }
+    }
+
+    /**
+     * 排序二叉树、二叉搜索树(Binary Search Tree)
+     * 它是一种满足特定条件的二叉树：
+     *   每个节点的值都比他左子树上的要大，比它右子树上的值要小与等于
+     * 排序二叉树的中序遍历序列是有序的
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
+    // 将一个值插入到一颗排序二叉树中
+    function insertIntoBst(root, val) {
+      if (!root) {
+        return new TreeNode(val)
+      }
+      if (val < root.val) {
+        root.left = insertIntoBst(root.left, val)
+      } else {
+        root.right = insertIntoBst(root.right, val)
+      }
+      return root
+    }
+
+    // 对上面的优化,当它有跟结点相同的值时，我们随机左右子结点树上挂
+    // 但是还是不能解决给你的都是有序的数组的时间复杂度
+    function insertIntoBst2(root, val) {
+      if (!root) {
+        return new TreeNode(val)
+      }
+      if (val < root.val) {
+        root.left = insertIntoBst2(root.left, val)
+      } else if (val > root.val) {
+        root.right = insertIntoBst2(root.right, val)
+      } else {
+        if (Math.random() > 0.5) {
+          root.left = insertIntoBst2(root.left, val)
+        } else {
+          root.right = insertIntoBst2(root.right, val)
+
+        }
+      }
+      return root
+    }
+
+    /**
+     * 通过数组构建一个排序二叉树之后对二叉树进行中序遍历得到有序结果
+     * 以实现排序
+     * 时间复杂度：在最好的情况下是n*log(n),在最差的情况下：当数组元素都相同时，构建的排序二叉树会退化为有序链表，复杂度为n*n
+     * 空间复杂度：n
+     * 
+     * 
+     */
+    function bstSort(array) {
+      let root = null
+      for (let item of array) {
+        root = insertIntoBst2(root, item)
+      }
+      // 再通过中序遍历遍历出来
+      let i = 0
+      inOrderTraverse(root, val => {
+        array[i++] = val
+      })
+      return array
+    }
+  </script>
+</body>
+
+</html>

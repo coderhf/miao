@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+
+
+    // 这种间接调用自己，是必须要用全局变量的
+    let cnt = 0
+    function describe(description, func) {
+      console.log(' '.repeat(cnt) + description)
+      cnt++
+      func()
+      cnt--
+    }
+
+    // <!-- 实现以上函数，已让下面的调用能够输出最后的效果 -->
+    describe('foo', () => {
+      describe('bar', () => { })
+      describe('bar', () => {
+        describe('bar1', () => { })
+        describe('bar1', () => { })
+        describe('bar1', () => { })
+      })
+      describe('bar', () => { })
+    })
+
+    // foo
+    //   bar
+    //   bar
+    //     bar1
+    //     bar1
+    //     bar1
+    //   bar
+  </script>
+</body>
+
+</html>

@@ -67,6 +67,44 @@
       return array
     }
 
+    // 高阶函数版冒泡排序一
+    function bubbleSortBy(array, fn) {
+      for (let i = array.length - 1; i > 0; i--) {
+        let swapped = false
+        for (let j = 0; j < i; j++) {
+          // 前面的大于后面的就需要交换
+          if (fn(array[j]) > fn(array[j + 1])) {
+            swap(array, j, j + 1)
+            swapped = true
+          }
+        }
+        // 如果继续比较全部都没有可以交换的了，说明整个数组都已经排好序了可以直接返回了 
+        if (!swapped) {
+          break
+        }
+      }
+      return array
+    }
+
+    // 高阶函数版冒泡排序二 
+    function bubbleSortWith(array, compare) {
+      for (let i = array.length - 1; i > 0; i--) {
+        let swapped = false
+        for (let j = 0; j < i; j++) {
+          // 前面的大于后面的就需要交换
+          if (compare(array[j], array[j + 1]) > 0) {
+            swap(array, j, j + 1)
+            swapped = true
+          }
+        }
+        // 如果继续比较全部都没有可以交换的了，说明整个数组都已经排好序了可以直接返回了 
+        if (!swapped) {
+          break
+        }
+      }
+      return array
+    }
+
     /**
      * 选择排序
      * 依次选择数组中最小的值依次放在前面即可
@@ -175,7 +213,7 @@
       }
       leftArray = quickSort(leftArray)
       rightArray = quickSort(rightArray)
-      
+
       return leftArray.concat(midArray, rightArray)
     }
 
@@ -187,34 +225,34 @@
      * 函数的定义：对数组从left到right(不包含right)
      * 快排最推荐这种写法
     */
-   function quickSortInPlace(array, left = 0, right = array.length) {
-    if (right - left < 2) {
+    function quickSortInPlace(array, left = 0, right = array.length) {
+      if (right - left < 2) {
+        return array
+      }
+      // 随机拿到一个哨兵元素
+      let dummyIdx = Math.floor((right - left) * Math.random() + left)
+      let dummy = array[dummyIdx]
+
+      // 先把哨兵元素放到数组的最后位置
+      swap(array, dummyIdx, right - 1)
+
+      // 原地对元素进行分组
+      i = left
+      for (let j = left; j < right - 1; j++) {
+        if (array[j] < dummy) {
+          swap(array, i, j)
+          i++
+        }
+      }
+      swap(array, i, right - 1) // 交换哨兵元素
+      // 到此为止，i位置放的就是哨兵元素
+      // 其左边是小于它，右边都大于等于它
+      // 后续的排序i位置的数肯定不再需要变化位置了
+      // 接下来分别对左边和后边递归就可以
+      quickSortInPlace(array, left, i)
+      quickSortInPlace(array, i + 1, right)
       return array
     }
-    // 随机拿到一个哨兵元素
-    let dummyIdx = Math.floor((right - left) * Math.random() + left)
-    let dummy = array[dummyIdx]
-
-    // 先把哨兵元素放到数组的最后位置
-    swap(array, dummyIdx, right - 1)
-
-    // 原地对元素进行分组
-    i = left
-    for (let j = left; j < right - 1; j++) {
-      if (array[j] < dummy) {
-        swap(array, i, j)
-        i++
-      }
-    }
-    swap(array, i, right - 1) // 交换哨兵元素
-    // 到此为止，i位置放的就是哨兵元素
-    // 其左边是小于它，右边都大于等于它
-    // 后续的排序i位置的数肯定不再需要变化位置了
-    // 接下来分别对左边和后边递归就可以
-    quickSortInPlace(array, left, i)
-    quickSortInPlace(array, i + 1, right)
-    return array
-   }
   </script>
 </body>
 

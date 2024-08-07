@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 第八章作业 
+    // 8.11.1
+    class MultiplicatorUnitFailure extends Error {
+      constructor(message) {
+        super(message)
+      }
+    }
+    function primitiveMultiply(a, b) {
+      if (Math.random() > 0.5) {
+        return a * b
+      } else {
+        throw new MultiplicatorUnitFailure('failed')
+      }
+    }
+    function multiply(a, b) {
+      for (; ;) {
+        try {
+          return primitiveMultiply(a, b)
+        } catch (error) {
+          if (error instanceof MultiplicatorUnitFailure) {
+            console.log(error.message + '请再次尝试' + error.stack)
+            continue
+          } else {
+            throw error
+          }
+        }
+      }
+    }
+
+    // 8.11.2 上锁的箱子
+    var box = {
+      locked: true,
+      unlock: function () { this.locked = false },
+      lock: function () { this.locked = true },
+      _content: [],
+      get content() {
+        if (this.locked) throw new Error(" Locked !")
+        return this._content
+      }
+    }
+
+    function withBoxUnlocked(f) {
+      box.unlock
+      try {
+        f()
+      } finally {
+        box.lock
+      }
+    }
+  </script>
+</body>
+
+</html>
