@@ -221,124 +221,155 @@
 
 
 
-    // 表示一个集合（集合中元素没有序，但不能重复）
-    // 构造函数可选的可以传入集合中的初始值，但会被去重后存放
-    function MySet(initalValues = []) {
-      this._elements = []
-      for (let item of initalValues) {
-        this.add(item)
+    // 集合是特殊的映射：每个值都映射到它自身的映射
+    class MySet {
+      constructor() {
+        this._map = new MyHashMap()
       }
-    }
-    // 向集合中添加元素
-    MySet.prototype.add = function (val) {
-      if (!this._elements.includes(val)) {
-        this._elements.push(val)
+      add(key) {
+        this._map.set(key, key)
       }
-      return this
-    }
-    // 从集合中删除item元素
-    MySet.prototype.delete = function (item) {
-      let idx = this._elements.indexOf(item)
-      if (idx >= 0) {
-        this._elements.splice(idx, 1)
-        return true
+      delete(key) {
+        this._map.delete(key)
       }
-      return false
-    }
-
-    // 获取集合中的元素用 c.size，它是一个getter
-    Object.defineProperty(MySet.prototype, 'size', {
-      get: function () {
-        return this._elements.length
+      get(key) {
+        this._map.get(key)
       }
-    })
-
-    // 清空集合中的所有元素
-    MySet.prototype.clear = function () {
-      this._elements = []
-    }
-
-    // 判断集合中是否存在某元素
-    MySet.prototype.has = function (item) {
-      return this._elements.includes(item)
-    }
-    // 遍历集合中的元素（顺序无所谓）
-    MySet.prototype.forEach = function (func) {
-      for (let item of this._elements) {
-        func(item)
+      has(key) {
+        this._map.has(key)
+      }
+      forEach(fn) {
+        this._map.forEach(fn)
       }
     }
 
 
-    // 表示一个映射
-    // 这个映射中，可以把任何值映射到任何值，映射的key不限于字符串
-    function MyMap(initPairs = []) {
-      // 用一个数组来表示，偶数项表示key，奇数项表示value.[key, val,key,val]
-      this._pairs = []
-      for (let pair of initPairs) {
-        let key = pair[0]
-        let val = pair[1]
-        this.set(key, val)
+    class MyHashMap {
+      constructor() {
+        this._lists = new Array(16).fill(null)
+        this._size = 0
+        this._maxLoadFactor = 0.75
       }
-    }
-    MyMap.prototype = {
-      constructor: MyMap,
-      // 设置映射中的key所对应的值为val
-      set: function (key, val) {
-        for (let i = 0; i < this._pairs.length; i += 2) {
-          if (this._pairs[i] === key) {
-            this._pairs[i + 1] = val
+      // 计算键为key的映射应该存在数组的哪个位置（也就是转化key为一个随机但确定的数字）
+      _hash(key) {
+        let seed = 13131
+        let hash = 0
+        for (let i = 0; i < key.length; i++) {
+          hash = (hash * seed + key.charCodeAt(i)) >>> 0 // 防止数值过大超出语言最大范围
+        }
+        return hash % this._lists.length
+      }
+      _changeCapacityTo(capacity) {
+        // 缩小的长度不能小于16（原始长度）
+        if (capacity < 16) return
+        let newLists = new Array(capacity).fill(null)
+        let oldLists = this._lists
+        this._lists = newLists
+        this._size = 0
+        // 重新遍历将值放入新的数组（重新计算在新数组的位置）
+        for (let i = 0; i < oldLists.length; i++) {
+          let p = oldLists[i]
+          while (p) {
+            this.set(p.key, p.val)
+            p = p.next
+          }
+        }
+      }
+      set(key, val) {
+        let idx = this._hash(key) // 找到key所在数值的位置索引
+        let p = this._lists[idx] // 拿到对应的链表或null
+        while (p) {
+          if (p.key === key) {
+            // 更换值就行
+            p.val = val
             return this
           }
+          p = p.next
         }
-        this._pairs.push(key, val)
+        // 如果没找到，创建一个结点,让其在头结点的位置。
+        const node = {
+          key: key,
+          val: val,
+          next: this._lists[idx]
+        }
+        this._lists[idx] = node
+        this._size++
+        // 装载率过大需要给数组扩容
+        if (this.size / this._lists.length > this._maxLoadFactor) {
+          // 扩容2倍
+          this._changeCapacityTo(this._lists.length * 2)
+        }
         return this
-      },
-      // 获取这个映射中key所对应的val
-      get: function (key) {
-        for (let i = 0; i < this._pairs.length; i += 2) {
-          if (this._pairs[i] === key) {
-            return this._pairs[i + 1]
+      }
+      get(key) {
+        let idx = this._hash(key)
+        let p = this._lists[idx]
+        while (p) {
+          if (p.key === key) {
+            return p.val
           }
+          p = p.next
         }
         return undefined
-      },
-      // 判断这个映射中是否存在这个key的映射
-      has: function (key) {
-        for (let i = 0; i < this._pairs.length; i += 2) {
-          if (this._pairs[i] === key) {
+      }
+      has(key) {
+        let idx = this._hash(key)
+        let p = this._lists[idx]
+        while (p) {
+          if (p.key === key) {
+            return true
+          }
+          p = p.next
+        }
+        return false
+      }
+      delete(key) {
+        let idx = this._hash(key)
+        // 哨兵结点 
+        let dummy = {
+          next: this._lists[idx]
+        }
+        let cur = dummy
+        while (cur.next) {
+          if (cur.next.key === key) {
+            cur.next = cur.next.next
+            this._lists[idx] = dummy.next
+            this._size--
+            // 当装载率小于一定程度时，需要缩小数组长度
+            if (this.size / this._lists.length < this._maxLoadFactor / 4) {
+              this._changeCapacityTo(this._lists.length / 2)
+            }
             return true
           }
         }
         return false
-      },
-      // 删除这个映射中key及其映射的值的这一对儿
-      delete: function (key) {
-        for (let i = 0; i < this._pairs.length; i++) {
-          if (this._pairs[i] === key) {
-            this._pairs.splice(i, 2)
-            return true
-          }
-        }
-        return false
-      },
-      // 清空这个映射中所有的映射对儿
-      clear: function () {
-        this._pairs = []
-        return this
-      },
-      // 获取这个映射中映射对儿的数量
+      }
+      clear() {
+        this._lists = new Array(16).fill(null)
+        this._size = 0
+      }
       get size() {
-        return this._pairs.length / 2
-      },
-      // 遍历这个映射中所有的映射对儿
-      forEach(iterator) {
-        for (let i = 0; i < this._pairs.length; i++) {
-          iterator(this._pairs[i], this._pairs[i + 1])
+        return this._size
+      }
+      forEach(fn) {
+        for (let i = 0; i < this._size; i++) {
+          let p = this._lists[i]
+          while (p) {
+            fn(p.key, p.val)
+            p = p.next
+          }
         }
-      },
+      }
+      report() {
+        // 求size / 链表的个数 = 平均每个链表有多好个对象
+        let cnt = 0
+        for (let i = 0; i < this._lists.length; i++) {
+          let p = this._lists[i]
+          if (p) cnt++
+        }
+        return this.size / cnt
+      }
     }
-
 
 
     // 表示一个栈：即后进先出，先进后出
