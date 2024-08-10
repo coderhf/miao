@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+
+    /**
+     * 堆与堆排序
+     * 堆又叫优先队列，Priority Queue 、Heap （不常用）
+     * 优先队列就是一种只关注一个动态集合中最值元素的数据结构
+     * 其中的“优先”意思就是最值元素处于优先位置（即所谓的队头）
+     * 即在这个结构中，队头元素永远是最值
+     * 
+     * 堆是一颗完全二叉树
+     * 既然它是一颗完全二叉树，那么它可以使用简单数组来存
+     * 树结构的特定位置的值直接就存入数组特定下标
+     * 因为这样存并不会浪费任何空间，同时也不必使用链式结构，还节省空间
+     * 
+     * 堆中每个结点的值都比其两个子结点要大或小
+     * 结点的值大于等于子结点的堆叫最大堆/大顶堆
+     * 结点的值小于等于子结点的堆叫最小堆/小顶堆
+     * 最大堆中堆顶元素是最大值
+     * 最小堆中堆顶元素是最小值
+     * 
+     * 堆支持两个操作：
+     * 1. 删除堆顶元素（并维护堆的性质）
+     * 2. 向堆中增加一个元素（并维护堆的性质）
+     * 
+    */
+    class PriorityQueue {
+      constructor(array = []) {
+        this._items = []
+        if (array.length > 0) {
+          array.forEach(it => {
+            this.push(it)
+          })
+        }
+      }
+      // 通过索引交换数组中两个数的位置
+      _swap(i, j) {
+        let temp = this._items[i]
+        this._items[i] = this._items[j]
+        this._items[j] = temp
+      }
+      // 通过索引向上调整堆末尾值
+      _heapUp(idx) {
+        // idx为0的时候就已经是堆顶元素了，不需要调整了
+        while (idx > 0) {
+          let fIdx = (idx - 1) >>> 1 // 父结点的索引
+          if (this._items[idx] > this._items[fIdx]) {
+            // 交换两个位置
+            this._swap(idx, fIdx)
+            idx = fIdx // fIdx变为当前索引
+          } else {
+            break
+          }
+        }
+      }
+      // 从栈顶向下调整元素
+      _heapDown(idx) {
+        // 可以写成真，因为当元素没有子结点的时候，最大值一定就是自己，那么会直接break
+        while (true) {
+          let maxIdx = idx // 假设栈顶元素是最大值
+          // 找出最大的元素
+          let leftIdx = idx * 2 + 1
+          if (leftIdx < this._items.length && this._items[maxIdx] < this._items[leftIdx]) {
+            maxIdx = idx * 2 + 1
+          }
+          let rightIdx = idx * 2 + 2
+          if (rightIdx < this._items.length && this._items[maxIdx] < this._items[rightIdx]) {
+            maxIdx = idx * 2 + 2
+          }
+          // 如果最大值就是idx那么直接break，否则才交换最大值与idx
+          if (maxIdx !== idx) {
+            this._swap(idx, maxIdx)
+            idx = maxIdx
+          } else {
+            break
+          }
+        }
+      }
+      // 向堆里插入一个值
+      push(val) {
+        this._items.push(val)  // 先将其值放入堆的末尾
+        this._heapUp(this._items.length - 1)
+        return this
+      }
+      // 取出堆顶元素
+      pop() {
+        // 元素少于3个时，直接取出来即可,剩下的不需要调整了
+        if (this._items.length < 3) {
+          return this._items.shift()
+        }
+        let result = this._items[0] // 取出栈顶元素但是保留其位置
+        let lastEle = this._items.pop() // 取出末尾元素并且不保留位置
+        this._items[0] = lastEle // 将取出来的末尾元素放入栈顶 
+        this._heapDown(0) // 向下调整
+        return result // 返回栈顶元素
+      }
+      // 查看但不删除栈顶元素
+      peek() {
+        return this._items[0]
+      }
+      // 查看堆元素的个数
+      get size() {
+        return this._items.length
+      }
+    }
+
+    /**
+     * 复杂度：
+     *  由于存储的是完全二叉树，所以树的高度严格的为log(n),n为元素数量
+     *  而两个调整函数最多就是从堆顶到堆底，或反过来
+     * 所以push和pop的复杂度都为log(n)
+    */
+
+
+    class PriorityQueue1 {
+      // predicate是谓词函数，这样不仅可以维护大堆，还可以维护小堆
+      constructor(array = [], predicate = it => it) {
+        this._items = []
+        this.predicate = predicate
+        if (array.length > 0) {
+          array.forEach(it => {
+            this.push(it)
+          })
+        }
+      }
+      // 通过索引交换数组中两个数的位置
+      _swap(i, j) {
+        let temp = this._items[i]
+        this._items[i] = this._items[j]
+        this._items[j] = temp
+      }
+      // 通过索引向上调整堆末尾值
+      _heapUp(idx) {
+        // idx为0的时候就已经是堆顶元素了，不需要调整了
+        while (idx > 0) {
+          let fIdx = (idx - 1) >>> 1 // 父结点的索引
+          if (this.predicate(this._items[idx]) > this.predicate(this._items[fIdx])) {
+            // 交换两个位置
+            this._swap(idx, fIdx)
+            idx = fIdx // fIdx变为当前索引
+          } else {
+            break
+          }
+        }
+      }
+      // 从栈顶向下调整元素
+      _heapDown(idx) {
+        // 可以写成真，因为当元素没有子结点的时候，最大值一定就是自己，那么会直接break
+        while (true) {
+          let maxIdx = idx // 假设栈顶元素是最大值
+          // 找出最大的元素
+          let leftIdx = idx * 2 + 1
+          if (leftIdx < this._items.length && this.predicate(this._items[maxIdx]) < this.predicate(this._items[leftIdx])) {
+            maxIdx = idx * 2 + 1
+          }
+          let rightIdx = idx * 2 + 2
+          if (rightIdx < this._items.length && this.predicate(this._items[maxIdx]) < this.predicate(this._items[rightIdx])) {
+            maxIdx = idx * 2 + 2
+          }
+          // 如果最大值就是idx那么直接break，否则才交换最大值与idx
+          if (maxIdx !== idx) {
+            this._swap(idx, maxIdx)
+            idx = maxIdx
+          } else {
+            break
+          }
+        }
+      }
+      // 向堆里插入一个值
+      push(val) {
+        this._items.push(val)  // 先将其值放入堆的末尾
+        this._heapUp(this._items.length - 1)
+        return this
+      }
+      // 取出堆顶元素
+      pop() {
+        // 元素少于3个时，直接取出来即可,剩下的不需要调整了
+        if (this._items.length < 3) {
+          return this._items.shift()
+        }
+        let result = this._items[0] // 取出栈顶元素但是保留其位置
+        let lastEle = this._items.pop() // 取出末尾元素并且不保留位置
+        this._items[0] = lastEle // 将取出来的末尾元素放入栈顶 
+        this._heapDown(0) // 向下调整
+        return result // 返回栈顶元素
+      }
+      // 查看但不删除栈顶元素
+      peek() {
+        return this._items[0]
+      }
+      // 查看堆元素的个数
+      get size() {
+        return this._items.length
+      }
+    }
+
+    // 用堆进行排序,由于用到了一个额外的优先队列，所以有额外的空间占用
+    function heapSort(array = [], predicate = it => it) {
+      let p = new PriorityQueue1(array, predicate)
+      for (let i = 0; i < array.length; i++) {
+        array[i] = p.pop()
+      }
+      return array
+    }
+
+    /**
+     * 复杂度：
+     *  空间复杂度：O(1)
+     *  时间复杂度：O(n * log(n))
+     * 而且这个算法的复杂度一定不会退化
+     * 
+     * 堆排在排全部相同的数组时是有优势的，因为相同所以不会发生交换，省时间
+    */
+    // 原地堆排,默认是升序
+    function heapSortInPlace(array, compare = (a, b) => a - b) {
+      // 将数组原地变为堆
+      heapify(array, compare)
+      // 原地堆排
+      for (let i = array.length - 1; i > 0; i--) {
+        swap(array, 0, i)
+        heapDown(array, 0, i, compare) // i就是其调整范围
+      }
+      return array
+    }
+
+    // 向下调整元素,range代表在这个数组的范围内向下调整
+    function heapDown(array, idx, range = array.length, compare) {
+      // 可以写成真，因为当元素没有子结点的时候，最大值一定就是自己，那么会直接break
+      while (true) {
+        let maxIdx = idx // 假设栈顶元素是最大值
+        // 找出最大的元素
+        let leftIdx = idx * 2 + 1
+        if (leftIdx < range && compare(array[maxIdx], array[leftIdx]) < 0) {
+          maxIdx = leftIdx
+        }
+        let rightIdx = idx * 2 + 2
+        if (rightIdx < range && compare(array[maxIdx], array[rightIdx]) < 0) {
+          maxIdx = rightIdx
+        }
+        // 如果最大值就是idx那么直接break，否则才交换最大值与idx
+        if (maxIdx !== idx) {
+          swap(array, idx, maxIdx)
+          idx = maxIdx
+        } else {
+          break
+        }
+      }
+    }
+    // 将一个无序数组不使用任何额外空间的情况下原地调整成一个堆
+    // 可以起名叫堆化
+    function heapify(array, compare) {
+      for (let i = (array.length - 1) >>> 1; i >= 0; i--) {
+        heapDown(array, i, array.length, compare)
+      }
+    }
+    // 交换数组两元素
+    function swap(array, i, j) {
+      let temp = array[i]
+      array[i] = array[j]
+      array[j] = temp
+    }
+
+
+    
+  </script>
+</body>
+
+</html>
