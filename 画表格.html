@@ -8,6 +8,7 @@
 </head>
 
 <body>
+  <div id="foo"></div>
   <script>
     function rowHeights(rows) {
       return rows.map(function (row) {
@@ -217,8 +218,46 @@
       [new TextCell('foo\nbar'), new TextCell('foo\nbar\nbwer'), new TextCell('sffoo\nbar'),],
     ]
 
-    
+
+    // 将所有对象画成表格 
+    function consoleTable(array) {
+      // 拿到对象的key，且是不同key。做成表头
+      let headers = [...new Set(array.map(obj => {
+        return Object.keys(obj)
+      }).flat())]
+
+      let result = '<table border=1>'
+      result += '<tr>'
+      for (let header of headers) {
+        result +=  '<td>' + header + '</td>'
+      }
+      result += '<tr>'
+      
+      for (let obj of array) {
+        result += '<tr>'
+        // 列数是由key决定的
+        for (let key of headers) {
+          if (key in obj) {
+            result += '<td>' + obj[key] + '</td>'
+          } else {
+            result += '<td></td>'
+          }
+        } 
+        result += '</tr>'
+      }
+      
+
+      result += '</table>'
+
+      return result
+    }
+
+    function showData (data) {
+      foo.innerHTML = consoleTable(data)
+    }
+    showData([{a: 5, b: 3}, {a: 3, b: 4}, {a: 1, b: 2, c: 'foo'}])
   </script>
+  
 </body>
 
 </html>

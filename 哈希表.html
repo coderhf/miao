@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /**
+     * 真正的哈希表的get和set的性能都是O(1)而不是O(n)
+     *  它是如何做到的？
+     *    通过用映射的key直接计算出一个数值，它的映射的val就存在数值的这个下标上
+     *    这样一来就查找某个key对应的val就不用遍历整个数据结构了
+     * O(1)表示的是固定时长，而不是一条原始的语句或计算就能完成。或者说与映射表存储的映射对数量无关。
+     * 
+     * 但是它会遇到一个不可避免 的问题：
+     *  不同的key会计算得到相同的存储位置
+     *  这称作哈希冲突
+     *  要想按照上面的想法实现一个高性能 的映射表，就必须解决哈希冲突
+     * 解决哈希冲突的常用办法：
+     *  开放地址法
+     *  重新哈希
+     *  链式存储（Java源代码在使用：现在用红黑树
+     *    当不同key计算出的存储位置相同时，把这些映射对儿存在那个位置的同一个链表上
+     * 
+     * 装载率：
+     *  映射表的映射对儿的数量与内部的数组长度的比值
+     *  可以想象，装载率越低，哈希冲突越小
+     *    装载率大于100%时，一定会产生哈希冲突 
+    */
+    class MyHashMap {
+      constructor() {
+        this._lists = new Array(16).fill(null)
+        this._size = 0
+        this._maxLoadFactor = 0.75
+      }
+      // 计算键为key的映射应该存在数组的哪个位置（也就是转化key为一个随机但确定的数字）
+      _hash(key) {
+        let seed = 13131
+        let hash = 0
+        for (let i = 0; i < key.length; i++) {
+          hash = (hash * seed + key.charCodeAt(i)) >>> 0 // 防止数值过大超出语言最大范围
+        }
+        return hash % this._lists.length
+      }
+      _changeCapacityTo(capacity) {
+        // 缩小的长度不能小于16（原始长度）
+        if (capacity < 16) return 
+        let newLists = new Array(capacity).fill(null)
+        let oldLists = this._lists
+        this._lists = newLists
+        this._size = 0
+        // 重新遍历将值放入新的数组（重新计算在新数组的位置）
+        for (let i = 0; i < oldLists.length; i++) {
+          let p = oldLists[i]
+          while (p) {
+            this.set(p.key, p.val)
+            p = p.next
+          }
+        }
+      }
+      set (key, val) {
+        let idx = this._hash(key) // 找到key所在数值的位置索引
+        let p = this._lists[idx] // 拿到对应的链表或null
+        while (p) {
+          if (p.key === key) {
+            // 更换值就行
+            p.val = val
+            return this
+          }
+          p = p.next
+        }
+        // 如果没找到，创建一个结点,让其在头结点的位置。
+        const node = {
+          key: key,
+          val: val,
+          next: this._lists[idx]
+        }
+        this._lists[idx] = node
+        this._size++
+        // 装载率过大需要给数组扩容
+        if (this.size / this._lists.length > this._maxLoadFactor) {
+          // 扩容2倍
+          this._changeCapacityTo(this._lists.length * 2)
+        }
+        return this
+      }
+      get(key) {
+        let idx = this._hash(key)
+        let p = this._lists[idx]
+        while (p) {
+          if (p.key === key) {
+            return p.val
+          }
+          p = p.next
+        }
+        return undefined
+      }
+      has(key) {
+        let idx = this._hash(key)
+        let p = this._lists[idx]
+        while (p) {
+          if (p.key === key) {
+            return true
+          }
+          p = p.next
+        }
+        return false
+      }
+      delete(key) {
+        let idx = this._hash(key)
+        // 哨兵结点 
+        let dummy = {
+          next: this._lists[idx]
+        }
+        let cur = dummy
+        while (cur.next) {
+          if (cur.next.key === key) {
+            cur.next = cur.next.next
+            this._lists[idx] = dummy.next
+            this._size--
+            // 当装载率小于一定程度时，需要缩小数组长度
+            if (this.size / this._lists.length < this._maxLoadFactor / 4) {
+              this._changeCapacityTo(this._lists.length / 2)
+            }
+            return true
+          }
+        }
+        return false
+      }
+      clear() {
+        this._lists = new Array(16).fill(null)
+        this._size = 0
+      }
+      get size() {
+        return this._size
+      }
+      forEach(fn) {
+        for (let i = 0; i < this._size; i++) {
+          let p = this._lists[i]
+          while (p) {
+            fn(p.key, p.val)
+            p = p.next
+          }
+        }
+      }
+      report() {
+        // 求size / 链表的个数 = 平均每个链表有多好个对象
+        let cnt = 0
+        for (let i = 0; i < this._lists.length; i++) {
+          let p = this._lists[i]
+          if (p) cnt++
+        }
+        return this.size / cnt
+      }
+    }
+
+    let p = new MyHashMap()
+    for (let i = 0; i < 12; i++) {
+      let key = Math.random().toString(16).slice(2)
+      let val = Math.random() * 10 | 0
+      p.set(key, val)
+    }
+
+    // 集合是特殊的映射：每个值都映射到它自身的映射
+    class MySet {
+      constructor() {
+        this._map = new MyHashMap()
+      }
+      add(key) {
+        this._map.set(key, key)
+      }
+      delete(key) {
+        this._map.delete(key)
+      }
+      get(key) {
+        this._map.get(key)
+      }
+      has(key) {
+        this._map.has(key)
+      }
+      forEach(fn) {
+        this._map.forEach(fn)
+      }
+    }
+  </script>
+</body>
+
+</html>
