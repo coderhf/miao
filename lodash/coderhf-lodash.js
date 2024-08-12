@@ -215,6 +215,40 @@ let coderhf = (function () {
     return -1
   }
 
+  function flatten(array) {
+    let newArr = []
+    for (let i = 0; i < array.length; i++) {
+      let item = array[i]
+      if (Array.isArray(item)) {
+        for (let j = 0; j < item.length; j++) {
+          newArr.push(item[j])
+        }
+      } else {
+        newArr.push(item)
+      }
+    }
+    return newArr
+  }
+
+  function flattenDeep(array) {
+    let newArr = []
+    for (let i = 0; i < array.length; i++) {
+      let item = array[i]
+      if (Array.isArray(item)) {
+        for (let it of flattenDeep(item)) {
+          newArr.push(it)
+        }
+      } else {
+        newArr.push(item)
+      }
+    }
+    return newArr
+  }
+
+  function flattenDepth(array, depth = 1) {
+    
+  }
+
   return {
     isEqual: isEqual,
     matches: matches,
@@ -230,5 +264,9 @@ let coderhf = (function () {
     fill: fill,
     findIndex: findIndex,
     findLastIndex: findLastIndex,
+    flatten: flatten,
+    flattenDeep: flattenDeep,
+    flattenDepth: flattenDepth,
+
   }
 })()
