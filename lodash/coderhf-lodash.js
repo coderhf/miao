@@ -1,5 +1,5 @@
 // 立即执行函数
-let coderhf = (function () {
+var coderhf = (function () {
   // 工具函数：深度判断两个数是否相等
   function isEqual(a, b) {
     if (Array.isArray(a) && Array.isArray(b)) {
