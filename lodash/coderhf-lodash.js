@@ -1,5 +1,5 @@
 // 立即执行函数
-let coderhf = (function () {
+let coderhf1 = (function () {
   // 工具函数：深度判断两个数是否相等
   function isEqual(a, b) {
     if (Array.isArray(a) && Array.isArray(b)) {
@@ -215,7 +215,6 @@ let coderhf = (function () {
     return -1
   }
 
-  
   return {
     isEqual: isEqual,
     matches: matches,
@@ -233,3 +232,15 @@ let coderhf = (function () {
     findLastIndex: findLastIndex,
   }
 })()
+
+let coderhf = {
+  compact: function (array) {
+    let arr = []
+    for (let i = 0; i < array.length; i++) {
+      if (array[i]) {
+        arr.push(array[i])
+      }
+    }
+    return arr
+  },
+}
