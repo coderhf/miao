@@ -20,6 +20,8 @@ let coderhf = (function () {
         chunk = []
       }
     }
+    // 最后一次不满size个
+    ans.push(chunk)
     return ans
   }
 
