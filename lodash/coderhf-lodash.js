@@ -23,12 +23,8 @@ let coderhf = (function () {
     return ans
   }
 
-
-
-
   return {
     compact: compact,
     chunk: chunk,
-
   }
-}())
+})()
