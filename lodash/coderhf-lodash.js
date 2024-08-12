@@ -246,7 +246,7 @@ let coderhf = (function () {
   }
 
   function flattenDepth(array, depth = 1) {
-    
+
   }
 
   return {
