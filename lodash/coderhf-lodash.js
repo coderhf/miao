@@ -86,8 +86,8 @@ var coderhf = (function () {
         chunk = []
       }
     }
-    // 最后一次不满size个
-    ans.push(chunk)
+    // 最后一次不满size个,也就是最后chunk还有值
+    if (chunk.length > 0) ans.push(chunk)
     return ans
   }
 
