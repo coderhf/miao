@@ -10,8 +10,17 @@ let coderhf = (function () {
     return arr
   }
 
-  function chunk() {
-
+  function chunk(array, size = 1) {
+    let ans = []
+    let chunk = []
+    for (let i = 0; i < array.length; i++) {
+      chunk.push(array[i])
+      if (i % size === size - 1) {
+        ans.push(chunk)
+        chunk = []
+      }
+    }
+    return ans
   }
 
 
