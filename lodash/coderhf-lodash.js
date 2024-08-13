@@ -299,6 +299,10 @@ var coderhf = (function () {
     return arr
   }
 
+  function head(array) {
+    return array[0]
+  }
+
   return {
     isEqual: isEqual,
     matches: matches,
@@ -319,5 +323,6 @@ var coderhf = (function () {
     flattenDepth: flattenDepth,
     fromPairs: fromPairs,
     toPairs: toPairs,
+    head: head,
   }
 })()
