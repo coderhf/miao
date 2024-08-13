@@ -304,15 +304,10 @@ var coderhf = (function () {
   }
 
   function indexOf(array, value, fromIndex = 0) {
-    if (fromIndex >= 0) {
-      for (let i = fromIndex; i < array.length; i++) {
-        if (array[i] === value) {
-          return i
-        }
-      }
-    } else {
-      for (let i = fromIndex + array.length; i >= 0; i--) {
-        if (array[i] === value) return i
+    if (fromIndex < 0) fromIndex = fromIndex + array.length
+    for (let i = fromIndex < 0 ? 0 : fromIndex; i < array.length; i++) {
+      if (array[i] === value) {
+        return i
       }
     }
     return -1
@@ -340,6 +335,5 @@ var coderhf = (function () {
     toPairs: toPairs,
     head: head,
     indexOf: indexOf,
-
   }
 })()
