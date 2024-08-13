@@ -313,6 +313,14 @@ var coderhf = (function () {
     return -1
   }
 
+  function lastIndexOf(array, value, fromIndex) {
+    if (fromIndex < 0) fromIndex = fromIndex + array.length
+    for (let i = fromIndex < 0 ? array.length - 1 : fromIndex; i >= 0; i--) {
+      if (array[i] === value) return i
+    }
+    return -1
+  }
+
   return {
     isEqual: isEqual,
     matches: matches,
@@ -335,5 +343,6 @@ var coderhf = (function () {
     toPairs: toPairs,
     head: head,
     indexOf: indexOf,
+    lastIndexOf: lastIndexOf,
   }
 })()
