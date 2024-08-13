@@ -389,6 +389,25 @@ var coderhf = (function () {
     return true
   }
 
+  function some(array, predicate = it => it) {
+    if (typeof predicate === 'object' && predicate !== null) {
+      if (Array.isArray(predicate)) {
+        predicate = this.matchesProperty(predicate)
+      } else {
+        predicate = this.matches(predicate)
+      }
+    } else if (typeof predicate === 'string') {
+      predicate = this.property(predicate)
+    } else {
+      return false
+    }
+    for (let i = 0; i < array.length; i++) {
+      let item = array[i]
+      if (predicate(item)) return true
+    }
+    return false
+  }
+
 
 
 
@@ -422,5 +441,6 @@ var coderhf = (function () {
     pull: pull,
     reverse: reverse,
     every: every,
+    some: some,
   }
 })()
