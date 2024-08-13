@@ -315,7 +315,7 @@ var coderhf = (function () {
 
   function lastIndexOf(array, value, fromIndex = array.length - 1) {
     if (fromIndex < 0) fromIndex = fromIndex + array.length
-    for (let i = fromIndex < 0 ? array.length - 1 : fromIndex; i >= 0; i--) {
+    for (let i = fromIndex < 0 ? 0 : fromIndex; i >= 0; i--) {
       if (array[i] === value) return i
     }
     return -1
