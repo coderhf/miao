@@ -364,10 +364,10 @@ var coderhf = (function () {
     for (let i = 0; i < midIdx; i++) {
       // 交换位置
       let temp = array[i]
-      array[i] = array[n - 1 - i] 
+      array[i] = array[n - 1 - i]
       array[n - 1 - i] = temp
     }
-    return  array
+    return array
   }
 
   function every(array, predicate = it => it) {
@@ -408,9 +408,38 @@ var coderhf = (function () {
     return false
   }
 
-
-
-
+  function countBy(collection, iterater = it => it) {
+    if (typeof iterater === 'object' && iterater !== null) {
+      if (Array.isArray(iterater)) {
+        iterater = this.matchesProperty(iterater)
+      } else {
+        iterater = this.matches(iterater)
+      }
+    } else if (typeof iterater === 'number' || typeof iterater === 'string') {
+      iterater = this.property(iterater)
+    } else if (iterater === null) {
+      iterater = it => it
+    }
+    let ans = {}
+    if (typeof collection === 'object' && collection !== null) {
+      // 数组
+      if (Array.isArray(collection)) {
+        for (let val of collection) {
+          let key = iterater(val)
+          ans[key] = (ans[key] || 0) + 1
+        }
+      } else {
+        // 对象
+        for (let key in collection) {
+          if (collection.hasOwnProperty(key)) {
+            key = iterater(collection[key]) // 转换后的Key
+            ans[key] = (ans[key] || 0) + 1
+          }
+        }
+      }
+    }
+    return ans
+  }
 
   return {
     isEqual: isEqual,
@@ -442,5 +471,6 @@ var coderhf = (function () {
     reverse: reverse,
     every: every,
     some: some,
+    countBy: countBy,
   }
 })()
