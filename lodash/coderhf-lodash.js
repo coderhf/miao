@@ -371,16 +371,16 @@ var coderhf = (function () {
   }
 
   function every(array, predicate = it => it) {
-    if (typeof predicate === 'object' && predicate !== null) {
-      if (Array.isArray(predicate)) {
-        predicate = this.matchesProperty(predicate)
+    if (typeof iterater === 'object' && iterater !== null) {
+      if (Array.isArray(iterater)) {
+        iterater = this.matchesProperty(iterater)
       } else {
-        predicate = this.matches(predicate)
+        iterater = this.matches(iterater)
       }
-    } else if (typeof predicate === 'string') {
-      predicate = this.property(predicate)
-    } else {
-      return false
+    } else if (typeof iterater === 'number' || typeof iterater === 'string') {
+      iterater = this.property(iterater)
+    } else if (iterater === null) {
+      iterater = it => it
     }
     for (let i = 0; i < array.length; i++) {
       let item = array[i]
@@ -390,16 +390,16 @@ var coderhf = (function () {
   }
 
   function some(array, predicate = it => it) {
-    if (typeof predicate === 'object' && predicate !== null) {
-      if (Array.isArray(predicate)) {
-        predicate = this.matchesProperty(predicate)
+    if (typeof iterater === 'object' && iterater !== null) {
+      if (Array.isArray(iterater)) {
+        iterater = this.matchesProperty(iterater)
       } else {
-        predicate = this.matches(predicate)
+        iterater = this.matches(iterater)
       }
-    } else if (typeof predicate === 'string') {
-      predicate = this.property(predicate)
-    } else {
-      return false
+    } else if (typeof iterater === 'number' || typeof iterater === 'string') {
+      iterater = this.property(iterater)
+    } else if (iterater === null) {
+      iterater = it => it
     }
     for (let i = 0; i < array.length; i++) {
       let item = array[i]
