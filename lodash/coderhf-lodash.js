@@ -536,6 +536,35 @@ var coderhf = (function () {
     return collection
   }
 
+  function map(collection, iterater) {
+    if (typeof iterater === 'object' && iterater !== null) {
+      if (Array.isArray(iterater)) {
+        iterater = this.matchesProperty(iterater)
+      } else {
+        iterater = this.matches(iterater)
+      }
+    } else if (typeof iterater === 'number' || typeof iterater === 'string') {
+      iterater = this.property(iterater)
+    } else if (iterater === null) {
+      iterater = it => it
+    }
+    let ans = []
+    if (typeof collection === 'object' && collection !== null) {
+      if (Array.isArray(collection)) {
+        for (let i = 0; i < collection.length; i++) {
+          ans.push(iterater(collection[i], i, collection))
+        }
+      } else {
+        for (let key in collection) {
+          if (collection.hasOwnProperty(key)) {
+            ans.push(iterater(collection[key], key, collection))
+          }
+        }
+      }
+    }
+    return ans
+  }
+
   return {
     isEqual: isEqual,
     matches: matches,
@@ -570,5 +599,6 @@ var coderhf = (function () {
     groupBy: groupBy,
     keyBy: keyBy,
     forEach: forEach,
+    map: map,
   }
 })()
