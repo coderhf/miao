@@ -313,7 +313,7 @@ var coderhf = (function () {
     return -1
   }
 
-  function lastIndexOf(array, value, fromIndex) {
+  function lastIndexOf(array, value, fromIndex = array.length - 1) {
     if (fromIndex < 0) fromIndex = fromIndex + array.length
     for (let i = fromIndex < 0 ? array.length - 1 : fromIndex; i >= 0; i--) {
       if (array[i] === value) return i
@@ -331,6 +331,7 @@ var coderhf = (function () {
 
   function join(array, separator = ',') {
     let res = ''
+    if (typeof separator !== 'string') separator = separator.toString()
     for (let i = 0; i < array.length; i++) {
       if (i == 0) {
         res += array[i]
