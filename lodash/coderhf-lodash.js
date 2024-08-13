@@ -108,9 +108,13 @@ var coderhf = (function () {
     return ans
   }
 
-  function differenceBy(array, values, iterater = it => it) {
-    if (typeof iterater === 'string') {
-      iterater = coderhf.property(iterater)
+  function differenceBy(array, ...values) {
+    if (typeof values.at(-1) === 'string') {
+      iterater = coderhf.property(values.pop())
+    } else if (typeof values.at(-1) === 'function') {
+      iterater = values.pop()
+    } else {
+      iterater = it => it
     }
     let ans = []
     let set = new Set()
