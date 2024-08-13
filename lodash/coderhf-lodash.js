@@ -481,7 +481,36 @@ var coderhf = (function () {
     return ans
   }
 
-
+  function keyBy(collection, iterater = it => it) {
+    if (typeof iterater === 'object' && iterater !== null) {
+      if (Array.isArray(iterater)) {
+        iterater = this.matchesProperty(iterater)
+      } else {
+        iterater = this.matches(iterater)
+      }
+    } else if (typeof iterater === 'number' || typeof iterater === 'string') {
+      iterater = this.property(iterater)
+    } else if (iterater === null) {
+      iterater = it => it
+    }
+    let ans = {}
+    if (typeof collection === 'object' && collection !== null) {
+      if (Array.isArray(collection)) {
+        for (let item of collection) {
+          let key = iterater(item)
+          ans[key] = item
+        }
+      } else {
+        for (let key in collection) {
+          if (collection.hasOwnProperty(key)) {
+            let val = collection[key]
+            ans[iterater(val)] = val
+          }
+        }
+      }
+    }
+    return ans
+  }
 
   return {
     isEqual: isEqual,
@@ -515,5 +544,6 @@ var coderhf = (function () {
     some: some,
     countBy: countBy,
     groupBy: groupBy,
+    keyBy: keyBy,
   }
 })()
