@@ -358,6 +358,41 @@ var coderhf = (function () {
     return array
   }
 
+  function reverse(array) {
+    let n = array.length
+    let midIdx = Math.floor(n / 2) // 拿到中间的索引
+    for (let i = 0; i < midIdx; i++) {
+      // 交换位置
+      let temp = array[i]
+      array[i] = array[n - 1 - i] 
+      array[n - 1 - i] = temp
+    }
+    return  array
+  }
+
+  function every(array, predicate = it => it) {
+    if (typeof predicate === 'object' && predicate !== null) {
+      if (Array.isArray(predicate)) {
+        predicate = this.matchesProperty(predicate)
+      } else {
+        predicate = this.matches(predicate)
+      }
+    } else if (typeof predicate === 'string') {
+      predicate = this.property(predicate)
+    } else {
+      return false
+    }
+    for (let i = 0; i < array.length; i++) {
+      let item = array[i]
+      if (!predicate(item)) return false
+    }
+    return true
+  }
+
+
+
+
+
   return {
     isEqual: isEqual,
     matches: matches,
@@ -385,5 +420,7 @@ var coderhf = (function () {
     join: join,
     last: last,
     pull: pull,
+    reverse: reverse,
+    every: every,
   }
 })()
