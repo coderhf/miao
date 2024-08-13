@@ -321,6 +321,14 @@ var coderhf = (function () {
     return -1
   }
 
+  function initial(array) {
+    let arr = []
+    for (let i = 0; i < array.length - 1; i++) {
+      arr.push(array[i])
+    }
+    return arr
+  }
+
   return {
     isEqual: isEqual,
     matches: matches,
@@ -344,5 +352,6 @@ var coderhf = (function () {
     head: head,
     indexOf: indexOf,
     lastIndexOf: lastIndexOf,
+    initial: initial,
   }
 })()
