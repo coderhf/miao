@@ -329,6 +329,18 @@ var coderhf = (function () {
     return arr
   }
 
+  function join(array, separator = ',') {
+    let res = ''
+    for (let i = 0; i < array.length; i++) {
+      if (i == 0) {
+        res += array[i]
+      } else {
+        res += separator + array[i]
+      }
+    }
+    return res
+  }
+
   return {
     isEqual: isEqual,
     matches: matches,
@@ -353,5 +365,6 @@ var coderhf = (function () {
     indexOf: indexOf,
     lastIndexOf: lastIndexOf,
     initial: initial,
+    join: join,
   }
 })()
