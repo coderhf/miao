@@ -512,6 +512,30 @@ var coderhf = (function () {
     return ans
   }
 
+  function forEach(collection, iterater) {
+    if (typeof iterater !== 'function') {
+      iterater = (val, idx, collection) => {
+        console.log(val, idx, collection)
+      }
+    }
+    if (typeof collection === 'object' && collection !== null) {
+      if (Array.isArray(collection)) {
+        for (let i = 0; i < collection.length; i++) {
+          let bol = iterater(collection[i], i, collection)
+          if (bol === false) return collection
+        }
+      } else {
+        for (let key in collection) {
+          if (collection.hasOwnProperty(key)) {
+            let bol = iterater(collection[key], key, collection)
+            if (bol === false) return collection
+          }
+        }
+      }
+    }
+    return collection
+  }
+
   return {
     isEqual: isEqual,
     matches: matches,
@@ -545,5 +569,6 @@ var coderhf = (function () {
     countBy: countBy,
     groupBy: groupBy,
     keyBy: keyBy,
+    forEach: forEach,
   }
 })()
