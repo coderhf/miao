@@ -283,6 +283,20 @@ var coderhf = (function () {
     return obj
   }
 
+  function toPairs(obj) {
+    let arr = []
+    if (obj instanceof Object) {
+      for (let key in obj) {
+        arr.push([key, obj[key]])
+      }
+    } else if (obj instanceof Map) {
+      arr.push(...obj)
+    } else if (obj instanceof Set) {
+      arr.push(...obj.entries())
+    }
+    return arr
+  }
+
   return {
     isEqual: isEqual,
     matches: matches,
@@ -302,6 +316,6 @@ var coderhf = (function () {
     flattenDeep: flattenDeep,
     flattenDepth: flattenDepth,
     fromPairs: fromPairs,
-
+    toPairs: toPairs,
   }
 })()
