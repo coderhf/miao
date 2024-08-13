@@ -371,16 +371,16 @@ var coderhf = (function () {
   }
 
   function every(array, predicate = it => it) {
-    if (typeof iterater === 'object' && iterater !== null) {
-      if (Array.isArray(iterater)) {
-        iterater = this.matchesProperty(iterater)
+    if (typeof predicate === 'object' && predicate !== null) {
+      if (Array.isArray(predicate)) {
+        predicate = this.matchesProperty(predicate)
       } else {
-        iterater = this.matches(iterater)
+        predicate = this.matches(predicate)
       }
-    } else if (typeof iterater === 'number' || typeof iterater === 'string') {
-      iterater = this.property(iterater)
-    } else if (iterater === null) {
-      iterater = it => it
+    } else if (typeof predicate === 'number' || typeof predicate === 'string') {
+      predicate = this.property(predicate)
+    } else if (predicate === null) {
+      predicate = it => it
     }
     for (let i = 0; i < array.length; i++) {
       let item = array[i]
@@ -390,16 +390,16 @@ var coderhf = (function () {
   }
 
   function some(array, predicate = it => it) {
-    if (typeof iterater === 'object' && iterater !== null) {
-      if (Array.isArray(iterater)) {
-        iterater = this.matchesProperty(iterater)
+    if (typeof predicate === 'object' && predicate !== null) {
+      if (Array.isArray(predicate)) {
+        predicate = this.matchesProperty(predicate)
       } else {
-        iterater = this.matches(iterater)
+        predicate = this.matches(predicate)
       }
-    } else if (typeof iterater === 'number' || typeof iterater === 'string') {
-      iterater = this.property(iterater)
-    } else if (iterater === null) {
-      iterater = it => it
+    } else if (typeof predicate === 'number' || typeof predicate === 'string') {
+      predicate = this.property(predicate)
+    } else if (predicate === null) {
+      predicate = it => it
     }
     for (let i = 0; i < array.length; i++) {
       let item = array[i]
@@ -480,6 +480,8 @@ var coderhf = (function () {
     }
     return ans
   }
+
+
 
   return {
     isEqual: isEqual,
