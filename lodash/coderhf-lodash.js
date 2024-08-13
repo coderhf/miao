@@ -346,6 +346,17 @@ var coderhf = (function () {
     return array.at(-1)
   }
 
+  function pull(array, ...values) {
+    let dummy = []
+    for (let i = 0; i < array.length; i++) {
+      let val = array[i]
+      if (values.indexOf(val) === -1) {
+        dummy.push(val)
+      }
+    }
+    array = dummy
+  }
+
   return {
     isEqual: isEqual,
     matches: matches,
@@ -372,5 +383,6 @@ var coderhf = (function () {
     initial: initial,
     join: join,
     last: last,
+    pull: pull,
   }
 })()
