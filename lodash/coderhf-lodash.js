@@ -110,7 +110,7 @@ var coderhf = (function () {
 
   function differenceBy(array, ...values) {
     if (typeof values.at(-1) === 'string') {
-      iterater = coderhf.property(values.pop())
+      iterater = this.property(values.pop())
     } else if (typeof values.at(-1) === 'function') {
       iterater = values.pop()
     } else {
@@ -187,14 +187,14 @@ var coderhf = (function () {
     // 判断predicate的类型
     if (typeof predicate === 'object' && predicate !== null) {
       if (Array.isArray(predicate)) {
-        predicate = coderhf.matchesProperty(predicate)
+        predicate = this.matchesProperty(predicate)
       } else {
-        predicate = coderhf.matches(predicate)
+        predicate = this.matches(predicate)
       }
     } else if (typeof predicate === 'function') {
       predicate = predicate
     } else {
-      predicate = coderhf.property(predicate)
+      predicate = this.property(predicate)
     }
     for (let i = fromIndex; i < array.length; i++) {
       if (predicate(array[i])) {
@@ -208,14 +208,14 @@ var coderhf = (function () {
     // 判断predicate的类型
     if (typeof predicate === 'object' && predicate !== null) {
       if (Array.isArray(predicate)) {
-        predicate = coderhf.matchesProperty(predicate)
+        predicate = this.matchesProperty(predicate)
       } else {
-        predicate = coderhf.matches(predicate)
+        predicate = this.matches(predicate)
       }
     } else if (typeof predicate === 'function') {
       predicate = predicate
     } else {
-      predicate = coderhf.property(predicate)
+      predicate = this.property(predicate)
     }
     for (let i = fromIndex; i >= 0; i--) {
       if (predicate(array[i])) {
@@ -255,7 +255,24 @@ var coderhf = (function () {
     return newArr
   }
 
-  function flattenDepth(array, depth = 1) {}
+  function flattenDepth(array, depth = 1) {
+    function fn(array, depth, cnt = 0) {
+      cnt++
+      let newArr = []
+      for (let i = 0; i < array.length; i++) {
+        let item = array[i]
+        if (Array.isArray(item) && cnt <= depth) {
+          for (let it of fn(item, depth, cnt)) {
+            newArr.push(it)
+          }
+        } else {
+          newArr.push(item)
+        }
+      }
+      return newArr
+    }
+    return fn(array, depth)
+  }
 
   return {
     isEqual: isEqual,
