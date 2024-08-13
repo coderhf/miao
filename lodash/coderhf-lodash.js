@@ -441,6 +441,46 @@ var coderhf = (function () {
     return ans
   }
 
+  function groupBy(collection, iterater = it => it) {
+    if (typeof iterater === 'object' && iterater !== null) {
+      if (Array.isArray(iterater)) {
+        iterater = this.matchesProperty(iterater)
+      } else {
+        iterater = this.matches(iterater)
+      }
+    } else if (typeof iterater === 'number' || typeof iterater === 'string') {
+      iterater = this.property(iterater)
+    } else if (iterater === null) {
+      iterater = it => it
+    }
+    let ans = {}
+    if (typeof collection === 'object' && collection !== null) {
+      if (Array.isArray(collection)) {
+        for (let val of collection) {
+          let key = iterater(val)
+          if (ans[key]) {
+            ans[key].push(val)
+          } else {
+            ans[key] = [val]
+          }
+        }
+      } else {
+        for (let key in collection) {
+          if (collection.hasOwnProperty(key)) {
+            let val = collection[key]
+            key = iterater(collection[key])
+            if (ans[key]) {
+              ans[key].push(val)
+            } else {
+              ans[key] = [val]
+            }
+          }
+        }
+      }
+    }
+    return ans
+  }
+
   return {
     isEqual: isEqual,
     matches: matches,
@@ -472,5 +512,6 @@ var coderhf = (function () {
     every: every,
     some: some,
     countBy: countBy,
+    groupBy: groupBy,
   }
 })()
