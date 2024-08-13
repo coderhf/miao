@@ -355,6 +355,7 @@ var coderhf = (function () {
       }
     }
     array = dummy
+    return array
   }
 
   return {
