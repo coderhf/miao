@@ -93,21 +93,16 @@ var coderhf = (function () {
 
   function difference(array, ...values) {
     let ans = []
-    for (let i = 0; i < array.length; i++) {
-      let item = array[i]
-      let flag = true
-      for (let j = 0; j < values.length; j++) {
-        let value = values[j]
-        for (let val of value) {
-          if (item === val) {
-            flag = false
-            break
-          }
-        }
-        if (!flag) break
+    let set = new Set()
+    for (let i = 0; i < values.length; i++) {
+      let value = values[i]
+      for (let val of value) {
+        set.add(val)
       }
-      if (flag) {
-        ans.push(item)
+    }
+    for (let i = 0; i < array.length; i++) {
+      if (!set.has(array[i])) {
+        ans.push(array[i])
       }
     }
     return ans
