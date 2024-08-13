@@ -274,6 +274,15 @@ var coderhf = (function () {
     return fn(array, depth)
   }
 
+  function fromPairs(pairs) {
+    let obj = {}
+    for (let i = 0; i < pairs.length; i++) {
+      let pair = pairs[i]
+      obj[pair[0]] = pair[1]
+    }
+    return obj
+  }
+
   return {
     isEqual: isEqual,
     matches: matches,
@@ -292,5 +301,7 @@ var coderhf = (function () {
     flatten: flatten,
     flattenDeep: flattenDeep,
     flattenDepth: flattenDepth,
+    fromPairs: fromPairs,
+
   }
 })()
