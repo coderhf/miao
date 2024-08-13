@@ -108,20 +108,27 @@ var coderhf = (function () {
     return ans
   }
 
-  function differenceBy(array, values, iterater) {
+  function differenceBy(array, values, iterater = it => it) {
+    if (typeof iterater === 'string') {
+      iterater = coderhf.property(iterater)
+    }
     let ans = []
+    let set = new Set()
+    for (let i = 0; i < values.length; i++) {
+      let value = values[i]
+      for (let val of value) {
+        set.add(val)
+      }
+    }
     for (let i = 0; i < array.length; i++) {
-      let item = array[i]
       let flag = true
-      for (let j = 0; j < values.length; j++) {
-        if (iterater(item) === iterater(values[j])) {
+      for (let item of set) {
+        if (iterater(array[i]) === iterater(item)) {
           flag = false
           break
         }
       }
-      if (flag) {
-        ans.push(item)
-      }
+      if (flag) ans.push(array[i])
     }
     return ans
   }
@@ -244,9 +251,7 @@ var coderhf = (function () {
     return newArr
   }
 
-  function flattenDepth(array, depth = 1) {
-
-  }
+  function flattenDepth(array, depth = 1) {}
 
   return {
     isEqual: isEqual,
@@ -266,6 +271,5 @@ var coderhf = (function () {
     flatten: flatten,
     flattenDeep: flattenDeep,
     flattenDepth: flattenDepth,
-
   }
 })()
