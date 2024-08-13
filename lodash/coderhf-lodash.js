@@ -341,6 +341,10 @@ var coderhf = (function () {
     return res
   }
 
+  function last(array) {
+    return array.at(-1)
+  }
+
   return {
     isEqual: isEqual,
     matches: matches,
@@ -366,5 +370,6 @@ var coderhf = (function () {
     lastIndexOf: lastIndexOf,
     initial: initial,
     join: join,
+    last: last,
   }
 })()
