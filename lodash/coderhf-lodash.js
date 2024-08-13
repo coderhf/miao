@@ -285,14 +285,16 @@ var coderhf = (function () {
 
   function toPairs(obj) {
     let arr = []
-    if (obj instanceof Object) {
-      for (let key in obj) {
-        arr.push([key, obj[key]])
-      }
-    } else if (obj instanceof Map) {
+    if (obj instanceof Map) {
       arr.push(...obj)
     } else if (obj instanceof Set) {
       arr.push(...obj.entries())
+    } else if (obj instanceof Object) {
+      for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          arr.push([key, obj[key]])
+        }
+      }
     }
     return arr
   }
