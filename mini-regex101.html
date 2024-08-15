@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Regex101</title>
+  <script src="https://cdn.tailwindcss.com/"></script>
+  <style>
+    input, button {
+      outline: none;
+    }
+    #result strong {
+      font-weight: normal;
+      &:nth-of-type(odd) {
+        background-color: #9fcfff;
+      }
+      &:nth-of-type(even) {
+        background-color: #d5ebff;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <div>REGULAR EXPRESSION</div>
+    <input class="border" type="text" id="regInput" value="will" onkeyup="run()">
+    <button onclick="run()">RUN</button>
+    <div id="tips" class="text-red-600"></div>
+    <div>FLAGS</div>
+    <label for=""><input type="checkbox" name="" id="flag-g" checked>g</label>
+    <label for=""><input type="checkbox" name="" id="flag-m">m</label>
+    <label for=""><input type="checkbox" name="" id="flag-i">i</label>
+    <label for=""><input type="checkbox" name="" id="flag-y">y</label>
+    <label for=""><input type="checkbox" name="" id="flag-u">u</label>
+    <label for=""><input type="checkbox" name="" id="flag-s">s</label>
+    <label for=""><input type="checkbox" name="" id="flag-d" checked>d</label>
+    <label for=""><input type="checkbox" name="" id="flag-v">v</label>
+
+    <div>TEST STRING</div>
+    <textarea name="" id="testStringInput" style="width: 500px;height: 300px;">
+      An explanation of your regex will be automatically generated as you type.
+      An explanation of your regex will be automatically generated as you type.
+      3 chickens
+      55 cows
+      100 eggs
+      1 dragonfly
+      1 pig
+    </textarea>
+    <div id="result" class="border border-slate-500 w-[500px] h-[300px]"></div>
+  </div>
+
+  <script>
+    // 点击运行，正则表达式匹配
+    function run() {
+      let regString = regInput.value // 获取正则表达式
+      if (regString === '') {
+        return
+      }
+      let flags = getFlags() // 获取选中的正则匹配标签
+      // 用trycatch，是因为外面传进来的表达式可能是语法错误的，当然也有可能是其它错误
+      let reg
+      try {
+        reg = new RegExp(regString, flags) // 创建出正则表达式对象
+      } catch (error) {
+        if (error instanceof SyntaxError) {
+          // 给用户提示错误
+          tips.innerHTML = error.message
+          return
+        } else {
+          throw error
+        }
+      }
+      tips.innerHTML = ''  // 正常运行，错误提示要清空
+      let testString =testStringInput.value // 获取正则匹配内容
+      
+      let match
+      let lastIndex = 0
+      let html 
+      while (match = reg.exec(testString)) {
+        html += testString.slice(lastIndex, match.index) // 切割到匹配到前的字符串
+        html += `<strong>${match[0]}</strong>`
+        lastIndex = reg.lastIndex
+
+        // 处理零宽断言会导致死循环，因为匹配的都是“”，index永远为index.不会变
+        if (match[0].length == 0) {
+          reg.lastIndex++
+        }
+        // 如果不是全局匹配 /g。则只需要匹配一次
+        if (reg.global === false) {
+          break
+        }
+      }
+      // 最后一段字符串
+      html += testString.slice(lastIndex, testString.length)
+      result.innerHTML = html
+    }
+
+    function getFlags() {
+      let flags = ['g', 'm', 'i', 'y', 'u', 's', 'd', 'v']
+      return flags.filter(it => {
+        let element = document.getElementById('flag-' + it) // 获取对应的标签选项卡
+        return element.checked
+      }).join('')
+    }
+  </script>
+</body>
+</html>
