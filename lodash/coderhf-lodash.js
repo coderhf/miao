@@ -87,8 +87,12 @@ var coderhf = (function () {
   }
   // 工具函数
   function property(key) {
+    let keys = key.split('.')
     return function (obj) {
-      return obj[key]
+      for (let key of keys) {
+        obj = obj[key]
+      } 
+      return obj
     }
   }
   function compact(array) {
