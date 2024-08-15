@@ -617,6 +617,27 @@ var coderhf = (function () {
     }
     return ans
   }
+
+  function reduce(collection, iterater, accumulator) {
+    iterater = this.iterater(iterater)
+    let result = accumulator
+    if (typeof collection === 'object') {
+      if (Array.isArray(collection)) {
+        for (let i = 0; i < collection.length; i++) {
+          let value = collection[i]
+          result = iterater(result, value, i, collection)
+        }
+      } else {
+        for (let key in collection) {
+          if (collection.hasOwnProperty(key)) {
+            let value = collection[key]
+            result = iterater(result, value, key, collection)
+          }
+        }
+      }
+    }
+    return result
+  }
   return {
     iterater: iterater,
     isEqual: isEqual,
@@ -654,5 +675,6 @@ var coderhf = (function () {
     forEach: forEach,
     map: map,
     filter: filter,
+    reduce: reduce,
   }
 })()
