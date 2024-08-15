@@ -618,7 +618,7 @@ var coderhf = (function () {
     return ans
   }
 
-  function reduce(collection, iterater, accumulator) {
+  function reduce(collection, iterater, accumulator = 0) {
     iterater = this.iterater(iterater)
     let result = accumulator
     if (typeof collection === 'object') {
@@ -639,7 +639,7 @@ var coderhf = (function () {
     return result
   }
 
-  function reduceRight(collection, iterater, accumulator) {
+  function reduceRight(collection, iterater, accumulator = 0) {
     iterater = this.iterater(iterater)
     let result = accumulator
     if (typeof collection === 'object') {
