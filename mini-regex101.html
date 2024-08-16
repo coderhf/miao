@@ -1,62 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mini Regex101</title>
   <script src="https://cdn.tailwindcss.com/"></script>
   <style>
-    input, button {
+    body {
+      background-color: #e5e5e5;
+    }
+
+    input,
+    button {
       outline: none;
     }
-    #result strong {
+
+    .container .content {
+      width: 700px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .content .title {
+      padding-bottom: 5px;
+      position: relative;
+    }
+
+    .content .title::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 65%;
+      height: 1px;
+      background-color: #d4d4d4;
+    }
+
+    #regInput {
+      width: 90%;
+      height: 40px;
+      margin: 10px 0;
+      text-indent: 2em;
+    }
+
+    #regInput+.btn {
+      width: 60px;
+      float: right;
+      margin-top: 10px;
+      height: 40px;
+      background-color: orange;
+    }
+
+    .content #tips {
+      height: 30px;
+      line-height: 30px;
+      background-color: #fff;
+    }
+
+    .content .flag {
+      height: 30px;
+      line-height: 30px;
+      border-bottom: 1px solid #d4d4d4;
+      margin-bottom: 5px;
+    }
+
+    .content label {
+      margin-right: 12px;
+    }
+
+    .content .test {
+      height: 40px;
+      line-height: 40px;
+      border-bottom: 1px solid #d4d4d4;
+      margin-top: 10px;
+    }
+
+    textarea,
+    #result {
+      font-family: consolas;
+      white-space: pre-wrap;
+      word-break: break-all;
+      width: 100%;
+      height: 300px;
+      border: 1px solid #d2d2d2;
+      border-radius: 4px;
+      margin-top: 10px;
+      background-color: #fff;
+    }
+
+    #result>strong {
       font-weight: normal;
-      &:nth-of-type(odd) {
+
+      &:nth-of-type(even) {
         background-color: #9fcfff;
       }
-      &:nth-of-type(even) {
+
+      &:nth-of-type(odd) {
         background-color: #d5ebff;
       }
     }
+
+    /* 偶数 */
+    #result>strong:nth-of-type(even) [data-group-index="1"] {
+      background-color: #a0cca2;
+    }
+
+    #result>strong:nth-of-type(even) [data-group-index="2"] {
+      background-color: #debf8c;
+    }
+
+    #result>strong:nth-of-type(even) [data-group-index="3"] {
+      background-color: #afacfb;
+    }
+
+    #result>strong:nth-of-type(even) [data-group-index="4"] {
+      background-color: #e1a9f4;
+    }
+
+    #result>strong:nth-of-type(even) [data-group-index="5"] {
+      background-color: #ed9995;
+    }
+
+    /* 奇数 */
+    #result>strong:nth-of-type(odd) [data-group-index="1"] {
+      background-color: #c4e9adfe;
+    }
+
+    #result>strong:nth-of-type(odd) [data-group-index="2"] {
+      background-color: #f4d7a7;
+    }
+
+    #result>strong:nth-of-type(odd) [data-group-index="3"] {
+      background-color: #cac7fefe;
+    }
+
+    #result>strong:nth-of-type(odd) [data-group-index="4"] {
+      background-color: #f2cefffe;
+    }
+
+    #result>strong:nth-of-type(odd) [data-group-index="5"] {
+      background-color: #fdc4bffe;
+    }
+
+    #result strong[data-group-index="0"]:not(:has(:hover)):hover {
+      outline: 3px solid #3192f4;
+    }
+
+    #result strong[data-group-index="1"]:not(:has(:hover)):hover {
+      outline: 3px solid #7acf7f;
+    }
+
+    #result strong[data-group-index="2"]:not(:has(:hover)):hover {
+      outline: 3px solid #eb9b1a;
+    }
+
+    #result strong[data-group-index="3"]:not(:has(:hover)):hover {
+      outline: 3px solid #6c67f5;
+    }
+
+    #result strong[data-group-index="4"]:not(:has(:hover)):hover {
+      outline: 3px solid #d983f5;
+    }
+
+    #result strong[data-group-index="5"]:not(:has(:hover)):hover {
+      outline: 3px solid #f4857f;
+    }
+
+    /* 零宽断言样式 */
+    .zero-width-assert {
+      padding: 0 1px;
+      border-left: 2px dotted magenta;
+      border-radius: 5%;
+    }
+
+    .zero-width-assert:nth-of-type(even):hover {
+      background-color: #9fcfff;
+      outline: 2px solid gray;
+      border-left-color: transparent;
+    }
+
+    .zero-width-assert:nth-of-type(odd):hover {
+      background-color: #d5ebff;
+      outline: 2px solid gray;
+      border-left-color: transparent;
+    }
   </style>
 </head>
-<body>
-  <div>
-    <div>REGULAR EXPRESSION</div>
-    <input class="border" type="text" id="regInput" value="will" onkeyup="run()">
-    <button onclick="run()">RUN</button>
-    <div id="tips" class="text-red-600"></div>
-    <div>FLAGS</div>
-    <label for=""><input type="checkbox" name="" id="flag-g" checked>g</label>
-    <label for=""><input type="checkbox" name="" id="flag-m">m</label>
-    <label for=""><input type="checkbox" name="" id="flag-i">i</label>
-    <label for=""><input type="checkbox" name="" id="flag-y">y</label>
-    <label for=""><input type="checkbox" name="" id="flag-u">u</label>
-    <label for=""><input type="checkbox" name="" id="flag-s">s</label>
-    <label for=""><input type="checkbox" name="" id="flag-d" checked>d</label>
-    <label for=""><input type="checkbox" name="" id="flag-v">v</label>
 
-    <div>TEST STRING</div>
-    <textarea name="" id="testStringInput" style="width: 500px;height: 300px;">
-      An explanation of your regex will be automatically generated as you type.
-      An explanation of your regex will be automatically generated as you type.
-      3 chickens
-      55 cows
-      100 eggs
-      1 dragonfly
-      1 pig
-    </textarea>
-    <div id="result" class="border border-slate-500 w-[500px] h-[300px]"></div>
+<body>
+  <div class="container">
+    <div class="content">
+      <div class="title">REGULAR EXPRESSION</div>
+      <input class="border" type="text" id="regInput" value="(.)(.)(.)(.)(.)(.)(.)(.)(.)\b" oninput="run()">
+      <button onclick="run()" class="btn">RUN</button>
+      <div id="tips" class="text-red-600"></div>
+      <div class="flag">FLAGS</div>
+      <label for=""><input type="checkbox" name="" id="flag-g" checked>g</label>
+      <label for=""><input type="checkbox" name="" id="flag-m">m</label>
+      <label for=""><input type="checkbox" name="" id="flag-i">i</label>
+      <label for=""><input type="checkbox" name="" id="flag-y">y</label>
+      <label for=""><input type="checkbox" name="" id="flag-u">u</label>
+      <label for=""><input type="checkbox" name="" id="flag-s">s</label>
+      <label for=""><input type="checkbox" name="" id="flag-v">v</label>
+
+      <div class="test">TEST STRING</div>
+      <textarea name="" oninput="run()" id="testStringInput">Detailedfaflafj match information</textarea>
+      <div id="result" class="border border-slate-500 w-[500px] h-[300px]"></div>
+    </div>
   </div>
 
   <script>
+    const BASIC = 6
+    run()
     // 点击运行，正则表达式匹配
     function run() {
       let regString = regInput.value // 获取正则表达式
       if (regString === '') {
+        tips.innerHTML = ''
         return
       }
-      let flags = getFlags() // 获取选中的正则匹配标签
+      let flags = getFlags() + 'd' // 获取选中的正则匹配标签,d标记必须要有，所以不让用户去选择
       // 用trycatch，是因为外面传进来的表达式可能是语法错误的，当然也有可能是其它错误
       let reg
       try {
@@ -65,20 +229,22 @@
         if (error instanceof SyntaxError) {
           // 给用户提示错误
           tips.innerHTML = error.message
+          result.innerHTML = testStringInput.value
           return
         } else {
           throw error
         }
       }
       tips.innerHTML = ''  // 正常运行，错误提示要清空
-      let testString =testStringInput.value // 获取正则匹配内容
-      
+      let testString = testStringInput.value // 获取正则匹配内容
+
       let match
       let lastIndex = 0
-      let html 
+      let html = ''
+      let matchIndex = 0 // 匹配次数
       while (match = reg.exec(testString)) {
         html += testString.slice(lastIndex, match.index) // 切割到匹配到前的字符串
-        html += `<strong>${match[0]}</strong>`
+        html += highlightMatch(match, matchIndex)
         lastIndex = reg.lastIndex
 
         // 处理零宽断言会导致死循环，因为匹配的都是“”，index永远为index.不会变
@@ -89,14 +255,50 @@
         if (reg.global === false) {
           break
         }
+        matchIndex++
       }
       // 最后一段字符串
       html += testString.slice(lastIndex, testString.length)
       result.innerHTML = html
     }
 
+    // 创建每一个匹配的html串
+    function highlightMatch(match, matchIndex) {
+      // 处理零宽断言
+      if (match[0].length === 0) {
+        let info = [
+          `Match ${matchIndex + 1}`,
+          `Group 0: empty string`,
+          `Pos: ${match.index}-${match.index}`,
+        ].join('\n')
+        return `<em class="zero-width-assert" title="${info}"></em>`
+      }
+      let helper = new Array(match[0].length + 1).fill('')
+      let groupIndex = 0
+      for (let index of match.indices) {
+        let start = index[0] - match.index
+        let end = index[1] - match.index
+        let info = [
+          `Match ${matchIndex + 1}`,
+          `Group ${groupIndex}: ${match[groupIndex]}`,
+          `Pos: ${index[0]}-${index[1]}`,
+        ].join('\n')
+        // groupIndex % BASIC 表示分组颜色（子颜色）是五种，加上主颜色一种共6种。子颜色进行循环使用
+        helper[start] += `<strong data-group-index="${groupIndex % BASIC}" title="${info}">`
+        helper[end] = `</strong>` + helper[end]
+        groupIndex++
+      }
+      let result = ''
+      let i
+      for (i = 0; i < match[0].length; i++) {
+        result += helper[i] + match[0][i]
+      }
+      result += helper[i]
+      return result
+    }
+
     function getFlags() {
-      let flags = ['g', 'm', 'i', 'y', 'u', 's', 'd', 'v']
+      let flags = ['g', 'm', 'i', 'y', 'u', 's', 'v']
       return flags.filter(it => {
         let element = document.getElementById('flag-' + it) // 获取对应的标签选项卡
         return element.checked
@@ -104,4 +306,5 @@
     }
   </script>
 </body>
+
 </html>

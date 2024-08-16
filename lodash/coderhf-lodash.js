@@ -674,6 +674,54 @@ var coderhf = (function () {
       return cnt
     }
   }
+
+  function sortBy(collection, iterater) {
+    let isFn = false
+    // 归并排序是稳定排序
+    if (typeof iterater[0] === 'function') {
+      isFn = true
+      iterater = iterater[0]
+    }
+    let ans = []
+    if (typeof collection === 'object' && collection !== null && Array.isArray(collection)) {
+
+    } else {
+
+    }
+    function mergeSort(array, iterater = it => it) {
+      // 结束条件
+      if (array.length < 2) {
+        return array
+      }
+      let midIdx = array.length >>> 1 // 拿到这个数组中间的索引
+      let leftArray = array.slice(0, midIdx)
+      let rightArray = array.slice(midIdx)
+
+      mergeSort(leftArray)
+      mergeSort(rightArray)
+
+      // 排好序后进行左右比较，放入数组中
+      let i = (j = k = 0)
+      while (i < leftArray.length && j < rightArray.length) {
+        if (iterater(leftArray[i]) <= iterater(rightArray[j])) {
+          array[k++] = leftArray[i++]
+        } else {
+          array[k++] = rightArray[j++]
+        }
+      }
+      // 两个数组中额外的内容还需要继续放入array中
+      while (i < leftArray.length) {
+        array[k++] = leftArray[i++]
+      }
+
+      while (j < rightArray.length) {
+        array[k++] = rightArray[j++]
+      }
+      return array
+    }
+  }
+
+  
   return {
     iterater: iterater,
     isEqual: isEqual,
@@ -714,5 +762,6 @@ var coderhf = (function () {
     reduce: reduce,
     reduceRight: reduceRight,
     size: size,
+    sortBy: sortBy,
   }
 })()
