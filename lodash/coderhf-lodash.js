@@ -721,7 +721,56 @@ var coderhf = (function () {
     }
   }
 
-  
+  function sample(collection) {
+    if (Array.isArray(collection)) {
+      return collection[Math.floor(Math.random() * collection.length)]
+    } else if (typeof collection === 'object' && collection !== null) {
+      let res = []
+      for (let key of collection) {
+        if (collection.hasOwnProperty(key)) {
+          res.push(key)
+        }
+      }
+      let key = res[Math.floor(Math.random() * res.length)]
+      return collection[key]
+    }
+  }
+
+  function isUndefined(value) {
+    return value === undefined
+  }
+
+  function isNull(value) {
+    return value === null
+  }
+
+  function isNil(value) {
+    return this.isUndefined(value) || this.isNull(value)
+  }
+
+  function max(array) {
+    if (array.length == 0 || !Array.isArray(array)) return undefined
+    let max = -Infinity
+    for (let i = 0; i < array.length; i++) {
+      let val = array[i]
+      if (max < val) {
+        max = val
+      }
+    }
+    return max
+  }
+
+  function min(array) {
+    if (array.length == 0 || !Array.isArray(array)) return undefined
+    let min = Infinity
+    for (let i = 0; i < array.length; i++) {
+      let val = array[i]
+      if (min > val) {
+        min = val
+      }
+    }
+    return min
+  }
   return {
     iterater: iterater,
     isEqual: isEqual,
@@ -763,5 +812,11 @@ var coderhf = (function () {
     reduceRight: reduceRight,
     size: size,
     sortBy: sortBy,
+    sample: sample,
+    isUndefined: isUndefined,
+    isNull: isNull,
+    isNil: isNil,
+    max: max,
+    min: min,
   }
 })()
