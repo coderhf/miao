@@ -961,6 +961,12 @@ var coderhf = (function () {
     }
     return ans
   }
+
+  function concat(array, ...values) {
+    let ans = [...array]
+    ans.push(...this.flatten(values))
+    return ans
+  }
   return {
     iterater: iterater,
     isEqual: isEqual,
@@ -1019,5 +1025,6 @@ var coderhf = (function () {
     mapKeys: mapKeys,
     mapValues: mapValues,
     range: range,
+    concat: concat,
   }
 })()
