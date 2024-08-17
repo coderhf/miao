@@ -914,6 +914,19 @@ var coderhf = (function () {
       return false
     }
   }
+
+  function mapKeys(object, iterater) {
+    iterater = this.iterater(iterater)
+    let obj = {}
+    for (let key in object) {
+      if (object.hasOwnProperty(key)) {
+        let val = object[key]
+        let newKey = iterater(val, key, object) 
+        obj[newKey] = val
+      }
+    }
+    return obj
+  }
   return {
     iterater: iterater,
     isEqual: isEqual,
@@ -969,5 +982,6 @@ var coderhf = (function () {
     flatMapDepth: flatMapDepth,
     get: get,
     has: has,
+    mapKeys: mapKeys,
   }
 })()
