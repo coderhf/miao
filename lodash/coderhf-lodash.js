@@ -989,6 +989,20 @@ var coderhf = (function () {
     }
     return str + string
   }
+
+  function padEnd(string = '', length = 0, chars = ' ') {
+    let needLen = length - string.length // 需要补其的长度
+    let str = ''
+    while (str.length <= needLen) {
+      str += chars
+    }
+    // 多了需要裁剪
+    if (str.length > needLen) {
+      let len = needLen - str.length // 负数
+      str = str.slice(0, len)
+    }
+    return string + str
+  }
   return {
     iterater: iterater,
     isEqual: isEqual,
@@ -1050,5 +1064,6 @@ var coderhf = (function () {
     concat: concat,
     repeat: repeat,
     padStart: padStart,
+    padEnd: padEnd,
   }
 })()
