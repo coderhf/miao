@@ -867,6 +867,30 @@ var coderhf = (function () {
     }
     return result
   }
+
+  function get(object, path, defaultValue) {
+    if (Array.isArray(path)) {
+      for (let key of path) {
+        object = object[key]
+        if (object === undefined) return defaultValue
+      }
+    } else if (typeof path === 'string') {
+      let keys = path.split('.')
+      let reg = /\[(\d+)\]/g
+      for (let key of keys) {
+        let endKeys = key.split(reg)
+        for (let k of endKeys) {
+          if (k !== '') {
+            object = object[k]
+            if (object === undefined) return defaultValue
+          }
+        }
+      }
+    } else {
+      return defaultValue
+    }
+    return object
+  }
   return {
     iterater: iterater,
     isEqual: isEqual,
@@ -920,5 +944,6 @@ var coderhf = (function () {
     sumBy: sumBy,
     flatMap: flatMap,
     flatMapDepth: flatMapDepth,
+    get: get,
   }
 })()
