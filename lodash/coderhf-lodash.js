@@ -891,6 +891,29 @@ var coderhf = (function () {
     }
     return object
   }
+
+  function has(object, path) {
+    if (typeof object === 'object' && object !== null) {
+      let keys
+      if (typeof path === 'string') {
+        keys = path.split('.')
+      } else if (Array.isArray(path)) {
+        keys = path
+      } else {
+        return false
+      }
+      for (let key of keys) {
+        if (object.hasOwnProperty(key)) {
+          object = object[key]
+        } else {
+          return false
+        }
+      }
+      return true
+    } else {
+      return false
+    }
+  }
   return {
     iterater: iterater,
     isEqual: isEqual,
@@ -945,5 +968,6 @@ var coderhf = (function () {
     flatMap: flatMap,
     flatMapDepth: flatMapDepth,
     get: get,
+    has: has,
   }
 })()
