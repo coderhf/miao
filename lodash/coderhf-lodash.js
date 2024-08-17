@@ -841,6 +841,32 @@ var coderhf = (function () {
     }
     return result
   }
+
+  function flatMapDepth(collection, iterater, depth = 1) {
+    let result = []
+    if (Array.isArray(collection)) {
+      for (let i = 0; i < collection.length; i++) {
+        let arr = iterater(collection[i], i, collection)
+        if (Array.isArray(arr)) {
+          result.push(this.flattenDepth(arr, depth))
+        } else {
+          result.push(arr)
+        }
+      }
+    } else if (typeof collection === 'object' && collection !== 'null') {
+      for (let key of collection) {
+        if (collection.hasOwnProperty(key)) {
+          let arr = iterater(collection(key))
+          if (Array.isArray(arr)) {
+            result.push(this.flattenDepth(arr, depth))
+          } else {
+            result.push(arr)
+          }
+        }
+      }
+    }
+    return result
+  }
   return {
     iterater: iterater,
     isEqual: isEqual,
@@ -893,5 +919,6 @@ var coderhf = (function () {
     round: round,
     sumBy: sumBy,
     flatMap: flatMap,
+    flatMapDepth: flatMapDepth,
   }
 })()
