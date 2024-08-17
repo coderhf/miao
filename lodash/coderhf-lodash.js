@@ -683,10 +683,12 @@ var coderhf = (function () {
       iterater = iterater[0]
     }
     let ans = []
-    if (typeof collection === 'object' && collection !== null && Array.isArray(collection)) {
-
+    if (
+      typeof collection === 'object' &&
+      collection !== null &&
+      Array.isArray(collection)
+    ) {
     } else {
-
     }
     function mergeSort(array, iterater = it => it) {
       // 结束条件
@@ -750,8 +752,8 @@ var coderhf = (function () {
 
   function max(array) {
     if (array.length == 0 || !Array.isArray(array)) return undefined
-    let max = -Infinity
-    for (let i = 0; i < array.length; i++) {
+    let max = array[0]
+    for (let i = 1; i < array.length; i++) {
       let val = array[i]
       if (max < val) {
         max = val
@@ -762,14 +764,56 @@ var coderhf = (function () {
 
   function min(array) {
     if (array.length == 0 || !Array.isArray(array)) return undefined
-    let min = Infinity
-    for (let i = 0; i < array.length; i++) {
+    let min = array[0]
+    for (let i = 1; i < array.length; i++) {
       let val = array[i]
       if (min > val) {
         min = val
       }
     }
     return min
+  }
+
+  function maxBy(array, iterater) {
+    if (array.length == 0 || !Array.isArray(array)) return undefined
+    iterater = this.iterater(iterater)
+    let max = array[0]
+    for (let i = 1; i < array.length; i++) {
+      if (iterater(max) < iterater(array[i])) {
+        max = array[i]
+      }
+    }
+    return max
+  }
+
+  function minBy(array, iterater) {
+    if (array.length == 0 || !Array.isArray(array)) return undefined
+    iterater = this.iterater(iterater)
+    let min = array[0]
+    for (let i = 1; i < array.length; i++) {
+      if (iterater(min) > iterater(array[i])) {
+        min = array[i]
+      }
+    }
+    return min
+  }
+
+  function round(number, precision) {}
+
+  function sumBy(array, iterater) {
+    iterater = this.iterater(iterater)
+    let result = 0
+    if (Array.isArray(array)) {
+      for (let item of array) {
+        let val = iterater(item)
+        result += val
+      }
+    } else if (typeof array === 'string') {
+      result = array
+    } else {
+      result = 0
+    }
+    return result
   }
   return {
     iterater: iterater,
@@ -818,5 +862,9 @@ var coderhf = (function () {
     isNil: isNil,
     max: max,
     min: min,
+    maxBy: maxBy,
+    minBy: minBy,
+    round: round,
+    sumBy: sumBy,
   }
 })()
