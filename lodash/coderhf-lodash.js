@@ -921,7 +921,7 @@ var coderhf = (function () {
     for (let key in object) {
       if (object.hasOwnProperty(key)) {
         let val = object[key]
-        let newKey = iterater(val, key, object) 
+        let newKey = iterater(val, key, object)
         obj[newKey] = val
       }
     }
@@ -939,6 +939,27 @@ var coderhf = (function () {
       }
     }
     return obj
+  }
+
+  function range(start = 0, end, step = 1) {
+    let ans = []
+    let count
+    if (arguments.length == 1) {
+      end = start
+      step = start >= 0 ? 1 : -1
+      start = 0
+    }
+    if (step === 0) {
+      count = end - start
+    } else {
+      count = (end - start) / step
+    }
+    for (let i = 0; i < count; i++) {
+      ans.push(start)
+      start += step
+      if (Math.abs(start) > Math.abs(end)) break
+    }
+    return ans
   }
   return {
     iterater: iterater,
@@ -997,5 +1018,6 @@ var coderhf = (function () {
     has: has,
     mapKeys: mapKeys,
     mapValues: mapValues,
+    range: range,
   }
 })()
