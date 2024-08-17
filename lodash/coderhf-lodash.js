@@ -927,6 +927,19 @@ var coderhf = (function () {
     }
     return obj
   }
+
+  function mapValues(object, iterater) {
+    iterater = this.iterater(iterater)
+    let obj = {}
+    for (let key in object) {
+      if (object.hasOwnProperty(key)) {
+        let val = object[key]
+        let newVal = iterater(val, key, object)
+        obj[key] = newVal
+      }
+    }
+    return obj
+  }
   return {
     iterater: iterater,
     isEqual: isEqual,
@@ -983,5 +996,6 @@ var coderhf = (function () {
     get: get,
     has: has,
     mapKeys: mapKeys,
+    mapValues: mapValues,
   }
 })()
