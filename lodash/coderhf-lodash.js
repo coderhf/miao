@@ -967,6 +967,14 @@ var coderhf = (function () {
     ans.push(...this.flatten(values))
     return ans
   }
+
+  function repeat(string = '', n = 1) {
+    let ans = ''
+    for (let i = 0; i < n; i++) {
+      ans += string
+    }
+    return ans
+  }
   return {
     iterater: iterater,
     isEqual: isEqual,
@@ -1026,5 +1034,6 @@ var coderhf = (function () {
     mapValues: mapValues,
     range: range,
     concat: concat,
+    repeat: repeat,
   }
 })()
