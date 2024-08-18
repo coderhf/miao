@@ -1233,6 +1233,11 @@ var coderhf = (function () {
     return object
   }
 
+  // 递归下降法实现json的解析
+  // 即对于递归结构的文本的解析，通过为每种语法实现一个解析函数
+  // 解析函数开始时全局指针指向这个值在文本中开始的位置 
+  // 解析函数根据说法将其解析出来，并移动指针到这个值结束位置的后面
+  // 由于结构可能是递归嵌套的，所以函数之间的调用也能映射出这种嵌套关系
   function parseJSON(string) {
     let i = 0
     return parseValue()
