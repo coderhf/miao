@@ -1052,7 +1052,7 @@ var coderhf = (function () {
   }
 
   function random(lower = 0, upper = 1, floating) {
-    let random 
+    let random
     if (arguments.length === 1) {
       if (typeof arguments[0] === 'boolean') {
         floating = arguments[0]
@@ -1076,14 +1076,17 @@ var coderhf = (function () {
           lower = 0
         }
       } else {
-        if (!Number.isInteger(arguments[0]) || !Number.isInteger(arguments[1])) {
+        if (
+          !Number.isInteger(arguments[0]) ||
+          !Number.isInteger(arguments[1])
+        ) {
           floating = true
-        } 
+        }
       }
     } else {
       if (!Number.isInteger(lower) || !Number.isInteger(upper)) {
         floating = true
-      } 
+      }
     }
     if (!floating) {
       random = Math.floor(Math.random() * (upper - lower + 1) + lower)
@@ -1093,13 +1096,9 @@ var coderhf = (function () {
     return random
   }
 
-  function ceil(number, precision = 0) {
+  function ceil(number, precision = 0) {}
 
-  }
-
-  function floor(number, precision = 0) {
-
-  }
+  function floor(number, precision = 0) {}
 
   function cloneDeep(value) {
     if (Array.isArray(value)) {
@@ -1140,7 +1139,7 @@ var coderhf = (function () {
   function trimEnd(string = '', chars = ' ') {
     if (string === '') return string
     chars = chars.split('')
-    let i 
+    let i
     for (i = string.length - 1; i >= 0; i--) {
       let s = string[i]
       if (chars.indexOf(s) === -1) break
@@ -1171,6 +1170,56 @@ var coderhf = (function () {
         for (let key in obj) {
           if (obj.hasOwnProperty(key)) {
             object[key] = obj[key]
+          }
+        }
+      }
+    }
+    return object
+  }
+
+  function merge(object, ...source) {
+    for (let i = 0; i < source.length; i++) {
+      let obj = source[i]
+      if (typeof obj === 'object') {
+        for (let key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            if (object.hasOwnProperty(key)) {
+              // 判断key的值是否都为对象或数组（数组里面也必须是对象）
+              if (
+                obj[key].toString() === '[object Object]' &&
+                object[key].toString() === '[object Object]'
+              ) {
+                object[key] = this.assign(object[key], obj[key])
+              } else if (
+                Array.isArray(object[key]) &&
+                Array.isArray(obj[key])
+              ) {
+                let i
+                for (i = 0; i < object[key].length; i++) {
+                  if (
+                    object[key][i].toString() === '[object Object]' &&
+                    obj[key][i].toString() === '[object Object]'
+                  ) {
+                    object[key][i] = this.assign(object[key][i], obj[key][i])
+                  } else {
+                    object[key][i] = obj[key][i]
+                  }
+                }
+                while (obj[key].length > i) {
+                  object[key][i] = obj[key][i]
+                  i++
+                }
+              } else if (
+                Array.isArray(object[key]) &&
+                obj[key].toString() === '[object Object]'
+              ) {
+                object[key] = this.assign(object[key], obj[key])
+              } else {
+                object[key] = obj[key]
+              }
+            } else {
+              object[key] = obj[key]
+            }
           }
         }
       }
@@ -1250,5 +1299,6 @@ var coderhf = (function () {
     trimEnd: trimEnd,
     trim: trim,
     assign: assign,
+    merge: merge,
   }
 })()
