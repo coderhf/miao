@@ -1092,6 +1092,77 @@ var coderhf = (function () {
     }
     return random
   }
+
+  function ceil(number, precision = 0) {
+
+  }
+
+  function floor(number, precision = 0) {
+
+  }
+
+  function cloneDeep(value) {
+    if (Array.isArray(value)) {
+      let arr = []
+      for (let i = 0; i < value.length; i++) {
+        arr.push(cloneDeep(value[i]))
+      }
+      return arr
+    } else if (typeof value === 'object' && value !== null) {
+      let obj = {}
+      for (let key in value) {
+        if (value.hasOwnProperty(key)) {
+          obj[key] = cloneDeep(value[key])
+        }
+      }
+      return obj
+    } else {
+      return value
+    }
+  }
+
+  function trimStart(string = '', chars = ' ') {
+    if (string === '') return string
+    let newStr = ''
+    chars = chars.split('')
+    let i
+    // 从左往右找
+    for (i = 0; i < string.length; i++) {
+      let s = string[i]
+      if (chars.indexOf(s) === -1) {
+        break
+      }
+    }
+    newStr = string.slice(i)
+    return newStr
+  }
+
+  function trimEnd(string = '', chars = ' ') {
+    if (string === '') return string
+    chars = chars.split('')
+    let i 
+    for (i = string.length - 1; i >= 0; i--) {
+      let s = string[i]
+      if (chars.indexOf(s) === -1) break
+    }
+    return string.slice(0, i + 1)
+  }
+
+  function trim(string = '', chars = ' ') {
+    if (string === '') return string
+    if (typeof chars !== 'string') chars = ' '
+    chars = chars.split('')
+    let i, j
+    for (i = 0; i < string.length; i++) {
+      let s = string[i]
+      if (chars.indexOf(s) === -1) break
+    }
+    for (j = string.length - 1; j >= 0; j--) {
+      let s = string[j]
+      if (chars.indexOf(s) === -1) break
+    }
+    return string.slice(i, j + 1)
+  }
   return {
     iterater: iterater,
     isEqual: isEqual,
@@ -1158,5 +1229,11 @@ var coderhf = (function () {
     keys: keys,
     values: values,
     random: random,
+    ceil: ceil,
+    floor: floor,
+    cloneDeep: cloneDeep,
+    trimStart: trimStart,
+    trimEnd: trimEnd,
+    trim: trim,
   }
 })()
