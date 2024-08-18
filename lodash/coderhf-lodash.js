@@ -1030,6 +1030,68 @@ var coderhf = (function () {
     }
     return leftStr + string + rightStr
   }
+
+  function keys(object) {
+    let arr = []
+    for (let key in object) {
+      if (object.hasOwnProperty(key)) {
+        arr.push(key)
+      }
+    }
+    return arr
+  }
+
+  function values(object) {
+    let arr = []
+    for (let key in object) {
+      if (object.hasOwnProperty(key)) {
+        arr.push(object[key])
+      }
+    }
+    return arr
+  }
+
+  function random(lower = 0, upper = 1, floating) {
+    let random 
+    if (arguments.length === 1) {
+      if (typeof arguments[0] === 'boolean') {
+        floating = arguments[0]
+        lower = 0
+      } else {
+        if (!Number.isInteger(arguments[0])) {
+          floating = true
+          upper = lower
+          lower = 0
+        }
+      }
+    } else if (arguments.length == 2) {
+      if (typeof arguments[1] == 'boolean') {
+        if (!Number.isInteger(lower)) {
+          floating = true
+          upper = lower
+          lower = 0
+        } else {
+          floating = arguments[1]
+          upper = lower
+          lower = 0
+        }
+      } else {
+        if (!Number.isInteger(arguments[0]) || !Number.isInteger(arguments[1])) {
+          floating = true
+        } 
+      }
+    } else {
+      if (!Number.isInteger(lower) || !Number.isInteger(upper)) {
+        floating = true
+      } 
+    }
+    if (!floating) {
+      random = Math.floor(Math.random() * (upper - lower + 1) + lower)
+    } else {
+      random = Math.random() * (upper - lower) + lower
+    }
+    return random
+  }
   return {
     iterater: iterater,
     isEqual: isEqual,
@@ -1093,5 +1155,8 @@ var coderhf = (function () {
     padStart: padStart,
     padEnd: padEnd,
     pad: pad,
+    keys: keys,
+    values: values,
+    random: random,
   }
 })()
