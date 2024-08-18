@@ -1233,7 +1233,116 @@ var coderhf = (function () {
     return object
   }
 
-  function parseJSON(string) {}
+  function parseJSON(string) {
+    let i = 0
+    return parseValue()
+
+    function parseObj() {
+      let result = {}
+      i++ // 跳过{
+      // 如果是一个空{}，则直接返回
+      if (string[i] === '}') {
+        i++ // skip }
+        return result
+      }
+      while (i < string.length) {
+        let key = parseStr()
+        // 如果没有遇到':'抛出异常
+        if (string[i] !== ':') {
+          throw new SyntaxError('Expected `:` but got ' + string[i])
+        }
+        i++ // 跳过：->value
+        let value = parseValue() // 值不知道是什么类型的值，所以调用解析值的方法
+        result[key] = value
+        if (string[i] === ',') {
+          i++ // 跳过,
+        } else if (string[i] === '}') {
+          i++ // 跳过 }
+          break
+        }
+      }
+      return result
+    }
+
+    function parseArray() {
+      let result = []
+      i++ // 跳过[
+      if (string[i] === ']') {
+        i++ // skip ]
+        return result
+      }
+      while (i < string.length) {
+        let value = parseValue() // 解析这个值
+        result.push(value)
+        if (string[i] === ',') {
+          i++ // skip ,
+        } else if (string[i] === ']') {
+          i++ // skip ]
+          break
+        } else {
+          // 两个都没有遇到，抛出异常
+          throw new SyntaxError('Expected `, or ]` but got ' + string[i])
+        }
+      }
+      return result
+    }
+
+    // 暂时只考虑整数
+    // 实际上json支持浮点数，科学计数法，负数等
+    function parseNumber() {
+      let startIdx = i // 数字开始的索引
+      while (string[i] >= '0' && string[i] <= '9') {
+        i++
+      }
+      return Number(string.slice(startIdx, i))
+    }
+
+    function parseStr() {
+      i++ // skip "
+      let startIdx = i
+      while (string[i] !== '"') {
+        i++
+      }
+      i++ // skip "
+      return string.slice(startIdx, i)
+    }
+
+    function parseValue() {
+      if (string[i] === '{') {
+        return parseObj()
+      } else if (string[i] === '[') {
+        return parseArray()
+      } else if (string[i] === '"') {
+        return parseStr()
+      } else if (string[i] === 'f') {
+        if (string.slice(i, i + 5) === 'false') {
+          i += 5
+          return false
+        } else {
+          // 抛出错误
+          throw new SyntaxError('unexpected token at position' + i)
+        }
+      } else if (string[i] === 't') {
+        if (string.slice(i, i + 4) === 'true') {
+          i += 4
+          return true
+        } else {
+          throw new SyntaxError('unexpected token at position' + i)
+        }
+      } else if (string[i] === 'n') {
+        if (string.slice(i, i + 4) === 'null') {
+          i += 4
+          return null
+        } else {
+          throw new SyntaxError('unexpected token at position' + i)
+        }
+      } else {
+        return parseNumber()
+      }
+    }
+  }
+
+  
   return {
     iterater: iterater,
     isEqual: isEqual,
