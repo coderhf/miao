@@ -1120,10 +1120,13 @@ var coderhf = (function () {
     }
   }
 
-  function trimStart(string = '', chars = ' ') {
-    if (string === '') return string
-    let newStr = ''
+  function trimStart(
+    string = '',
+    chars = ' \n\r\t\f\x0b\xa0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000'
+  ) {
+    // Js中空白符有很多种
     chars = chars.split('')
+    if (string === '') return string
     let i
     // 从左往右找
     for (i = 0; i < string.length; i++) {
@@ -1132,13 +1135,14 @@ var coderhf = (function () {
         break
       }
     }
-    newStr = string.slice(i)
-    return newStr
+    return string.slice(i)
   }
 
-  function trimEnd(string = '', chars = ' ') {
+  function trimEnd(
+    string = '',
+    chars = ' \n\r\t\f\x0b\xa0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000'
+  ) {
     if (string === '') return string
-    chars = chars.split('')
     let i
     for (i = string.length - 1; i >= 0; i--) {
       let s = string[i]
@@ -1147,10 +1151,12 @@ var coderhf = (function () {
     return string.slice(0, i + 1)
   }
 
-  function trim(string = '', chars = ' ') {
+  function trim(
+    string = '',
+    chars = ' \n\r\t\f\x0b\xa0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000'
+  ) {
     if (string === '') return string
     if (typeof chars !== 'string') chars = ' '
-    chars = chars.split('')
     let i, j
     for (i = 0; i < string.length; i++) {
       let s = string[i]
@@ -1226,6 +1232,8 @@ var coderhf = (function () {
     }
     return object
   }
+
+  function parseJSON(string) {}
   return {
     iterater: iterater,
     isEqual: isEqual,
@@ -1300,5 +1308,6 @@ var coderhf = (function () {
     trim: trim,
     assign: assign,
     merge: merge,
+    parseJSON: parseJSON,
   }
 })()
