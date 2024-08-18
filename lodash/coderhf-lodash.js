@@ -1107,7 +1107,7 @@ var coderhf = (function () {
         arr.push(cloneDeep(value[i]))
       }
       return arr
-    } else if (typeof value === 'object' && value !== null) {
+    } else if (typeof value === 'object' && value !== null && !(value instanceof RegExp)) {
       let obj = {}
       for (let key in value) {
         if (value.hasOwnProperty(key)) {
@@ -1342,7 +1342,9 @@ var coderhf = (function () {
     }
   }
 
-  
+  function stringifyJSON(obj) {
+    
+  }
   return {
     iterater: iterater,
     isEqual: isEqual,
@@ -1418,5 +1420,6 @@ var coderhf = (function () {
     assign: assign,
     merge: merge,
     parseJSON: parseJSON,
+    stringifyJSON: stringifyJSON,
   }
 })()
