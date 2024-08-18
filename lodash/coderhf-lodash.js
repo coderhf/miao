@@ -1163,6 +1163,20 @@ var coderhf = (function () {
     }
     return string.slice(i, j + 1)
   }
+
+  function assign(object, ...source) {
+    for (let i = 0; i < source.length; i++) {
+      let obj = source[i]
+      if (typeof obj === 'object') {
+        for (let key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            object[key] = obj[key]
+          }
+        }
+      }
+    }
+    return object
+  }
   return {
     iterater: iterater,
     isEqual: isEqual,
@@ -1235,5 +1249,6 @@ var coderhf = (function () {
     trimStart: trimStart,
     trimEnd: trimEnd,
     trim: trim,
+    assign: assign,
   }
 })()
