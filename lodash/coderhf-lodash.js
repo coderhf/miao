@@ -1003,6 +1003,33 @@ var coderhf = (function () {
     }
     return string + str
   }
+
+  function pad(string = '', length = 0, chars = ' ') {
+    let leftStr = ''
+    let rightStr = ''
+    let needLen = length - string.length
+    let leftLen = needLen >> 1 //Math.floor(needLen / 2)
+    let rightLen = needLen - leftLen
+    for (let i = 0; i < leftLen; i++) {
+      leftStr += chars
+      if (leftStr.length >= leftLen) {
+        break
+      }
+    }
+    for (let i = 0; i < rightLen; i++) {
+      rightStr += chars
+      if (rightStr.length >= rightLen) {
+        break
+      }
+    }
+    if (leftStr.length > leftLen) {
+      leftStr = leftStr.slice(0, leftLen - leftStr.length)
+    }
+    if (rightStr.length > rightLen) {
+      rightStr = rightStr.slice(0, rightLen - rightStr.length)
+    }
+    return leftStr + string + rightStr
+  }
   return {
     iterater: iterater,
     isEqual: isEqual,
@@ -1065,5 +1092,6 @@ var coderhf = (function () {
     repeat: repeat,
     padStart: padStart,
     padEnd: padEnd,
+    pad: pad,
   }
 })()
