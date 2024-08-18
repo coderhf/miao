@@ -1303,8 +1303,9 @@ var coderhf = (function () {
       while (string[i] !== '"') {
         i++
       }
+      let res = string.slice(startIdx, i)
       i++ // skip "
-      return string.slice(startIdx, i)
+      return res
     }
 
     function parseValue() {
