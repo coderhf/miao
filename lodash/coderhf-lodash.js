@@ -1192,8 +1192,8 @@ var coderhf = (function () {
             if (object.hasOwnProperty(key)) {
               // 判断key的值是否都为对象或数组（数组里面也必须是对象）
               if (
-                obj[key].toString() === '[object Object]' &&
-                object[key].toString() === '[object Object]'
+                Object.prototype.toString.call(obj[key]) === '[object Object]' &&
+                Object.prototype.toString.call(object[key]) === '[object Object]'
               ) {
                 object[key] = this.assign(object[key], obj[key])
               } else if (
@@ -1217,7 +1217,7 @@ var coderhf = (function () {
                 }
               } else if (
                 Array.isArray(object[key]) &&
-                obj[key].toString() === '[object Object]'
+                Object.prototype.toString.call(obj[key]) === '[object Object]'
               ) {
                 object[key] = this.assign(object[key], obj[key])
               } else {
