@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <img src="" alt="Cat">
+  <img src="" alt="Hat">
+  <div id="hu">
+    <div></div>
+    <div class="code">
+      <a href="" class="code"></a>
+      <p class="aaa"></p>
+    </div>
+    <main class="code">
+      <img src="" class="code" alt="">
+      <img src="" class="aaa" alt="">
+    </main>
+  </div>
+  <script>
+    // 下面的递归函数会扫描一个文档，搜索包含特定字符串的文本节点，并在找到第一个节点时返回true
+
+    function talksAbout(node, string) {
+      if (node.nodeType == document.ELEMENT_NODE) {
+        for (let i = 0; i < node.childNodes.length; i++) {
+          if (talksAbout(node.childNodes[i], string)) {
+            return true
+          }
+        }
+        return false
+      } else if (node.nodeType == document.TEXT_NODE) {
+        return node.nodeValue.indexOf(string) > -1
+      }
+    }
+
+    // 编写一个脚本，将文档中所有的图像替换成包含其alt属性的文本
+    function replaceImages() {
+      let images = document.body.getElementsByTagName('img')
+      // 因为getElementsByTagName是动态更新的，所以只能是从后面遍历，或者是将其变成真正的数组
+      for (let i = images.length - 1; i >= 0; i--) {
+        let image = images[i]
+        if (image.alt) {
+          let text = document.createTextNode(image.alt)
+          image.parentNode.replaceChild(text, image)
+        }
+      }
+    }
+
+    // 获取属性id为id的元素
+    function getElementById(id) {
+      let ans = null
+      function fn(id, body = document.body) {
+        for (let i = 0; i < body.childNodes.length; i++) {
+          let node = body.childNodes[i]
+          if (node.nodeType === document.ELEMENT_NODE) {
+            if (node.id && node.id === id) {
+              ans = node
+              return
+            } else {
+              fn(id, node)
+            }
+          }
+        }
+      }
+      fn(id)
+      return ans
+    }
+
+    function getElementsByTagName(node, tagName) {
+      let ans = []
+      function fn(node, tagName) {
+        for (let i = 0; i < node.childNodes.length; i++) {
+          let currentNode = node.childNodes[i]
+          if (currentNode.nodeType === document.ELEMENT_NODE) {
+            if (currentNode.className) {
+              let reg = new RegExp('\\b' + tagName + '\\b', 'g')
+              if (reg.test(currentNode.className)) {
+                ans.push(currentNode)
+              }
+            }
+            fn(currentNode, tagName)
+          }
+        }
+      }
+      fn(node, tagName)
+      return ans
+    }
+  </script>
+</body>
+
+</html>
