@@ -1098,7 +1098,13 @@ var coderhf = (function () {
 
   function ceil(number, precision = 0) {}
 
-  function floor(number, precision = 0) {}
+  function floor(number, precision = 0) {
+    if (precision >= 0) {
+      return Math.floor(number, precision)
+    }
+    let res = Math.pow(10, precision)
+    return Math.floor(number * res) / res
+  }
 
   function cloneDeep(value) {
     if (Array.isArray(value)) {
