@@ -5,12 +5,66 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    .container {
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .container .sun {
+      width: 100px;
+      height: 100px;
+      line-height: 100px;
+      border-radius: 50%;
+      background-color: red;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+    }
+
+    .container .earth {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      line-height: 60px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background-color: lightblue;
+      color: red;
+      text-align: center;
+    }
+
+    .container .moon {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: lightgreen;
+      line-height: 30px;
+      text-align: center;
+      font-weight: bold;
+      color: yellow;
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 12px;
+    }
+  </style>
 </head>
 
 <body>
   <img src="" alt="Cat">
   <img src="" alt="Hat">
-  <div id="hu">
+  <div id="hu" data-name="胡适 刘德华">
     <div></div>
     <div class="code">
       <a href="" class="code"></a>
@@ -21,6 +75,95 @@
       <img src="" class="aaa" alt="">
     </main>
   </div>
+
+  <blockquote id="quote">
+    No book can ever be finished . While working on it we learn
+    just enough to find it immature the moment we turn away
+    from it.
+  </blockquote>
+
+  <p> Here it is , the identity function :</p>
+  <pre data-language="javascript">
+  function id(x) { return x; }
+  </pre>
+
+  <p><span id="one"></span></p>
+  <p><span id="two"></span></p>
+  <p style="text-align: center;margin-top: 150px;">
+    <img src="img/cat.png" style="position: relative">
+  </p>
+
+  <div class="container">
+    <span class="sun">太阳</span>
+    <span class="earth">地球</span>
+    <span class="moon">月亮</span>
+  </div>
+
+  <script type="xxx">
+    // 13.13 位置与动画
+    function foo() {
+      var img = document.querySelector('img')
+
+      var r = 100
+
+      for (var i = 0; i < 10000; i++) {
+        var angle = i / 100
+        var left = Math.sin(angle) * r
+        var top1 = Math.cos(angle) * r
+        console.log(left, top1)
+        img.style.left = left + 'px'
+        img.style.top = top1 + 'px'
+      }
+    }
+
+    var cat = document.querySelector("img");
+    var angle = 0, lastTime = null;
+
+    function animate(time) {
+      // console.log(time)
+
+      if (lastTime != null)
+        angle += (time - lastTime) * 0.001;
+      lastTime = time;
+
+      // angle += 0.01
+      // angle = time / 1000
+      // angle = Date.now() / 1000
+
+      cat.style.top = (Math.sin(angle) * 100) + "px";
+      cat.style.left = (Math.cos(angle) * 100) + "px";
+
+      requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+  </script>
+
+
+  <script type="xxx">
+    // 13.9 布局
+    function time(name, action) {
+      let start = Date.now()
+      action()
+      console.log(name, 'took', Date.now() - start, 'ms')
+    }
+
+    time('naive', function naive () {
+      let target = document.getElementById('one')
+      while (target.offsetWidth < 2000) {
+        target.appendChild(document.createTextNode('X'))
+      }
+    })
+
+    time('clever', function clever () {
+      let target = document.getElementById('two')
+      target.appendChild(document.createTextNode('XXXXX'))
+      let total = Math.ceil(2000 / (target.offsetWidth / 5))
+      for (let i = 5; i < total; i++) {
+        target.appendChild(document.createTextNode('X'))
+      }
+    })
+  </script>
   <script>
     // 下面的递归函数会扫描一个文档，搜索包含特定字符串的文本节点，并在找到第一个节点时返回true
 
@@ -51,7 +194,7 @@
     }
 
     // 获取属性id为id的元素
-    function getElementById(id) {
+    function getElementById1(id) {
       let ans = null
       function fn(id, body = document.body) {
         for (let i = 0; i < body.childNodes.length; i++) {
@@ -70,26 +213,189 @@
       return ans
     }
 
-    function getElementsByTagName(node, tagName) {
+    function getElementById(id, node = document.body) {
+      let ans = null
+      if (node.nodeType !== document.ELEMENT_NODE) {
+        node = document.body
+      }
+      traverse(node, node => {
+        if (node.id === id) {
+          ans = node
+          return false
+        }
+      })
+      return ans
+    }
+
+    function traverse(node, fn) {
+      fn(node)
+      for (let i = 0; i < node.children.length; i++) {
+        if (traverse(node.children[i], fn) === false) {
+          return false
+        }
+      }
+    }
+
+    function getElementsByClassName(node, className) {
       let ans = []
-      function fn(node, tagName) {
-        for (let i = 0; i < node.childNodes.length; i++) {
-          let currentNode = node.childNodes[i]
-          if (currentNode.nodeType === document.ELEMENT_NODE) {
+      function fn(node, className) {
+        if (node.nodeType === document.ELEMENT_NODE) {
+          for (let i = 0; i < node.children.length; i++) {
+            let currentNode = node.children[i]
             if (currentNode.className) {
-              let reg = new RegExp('\\b' + tagName + '\\b', 'g')
+              let reg = new RegExp('\\b' + className + '\\b', 'g')
               if (reg.test(currentNode.className)) {
                 ans.push(currentNode)
               }
             }
-            fn(currentNode, tagName)
+            fn(currentNode, className)
           }
         }
       }
-      fn(node, tagName)
+      fn(node, className)
       return ans
     }
+
+    function getElementsByTagName(node, tagName) {
+      let ans = []
+      tagName = tagName.toUpperCase()
+      if (node.nodeType === document.ELEMENT_NODE) {
+        for (let i = 0; i < node.children.length; i++) {
+          Newnode = node.children[i]
+          if (Newnode.tagName === tagName) {
+            ans.push(Newnode)
+          }
+          ans.push(...getElementsByTagName(Newnode, tagName))
+        }
+        return ans
+      }
+      return null
+    }
+
+    // 13.7 创建结点
+    // 定义了一个elt工具 ，用于创建一个新的元素节点，并将其剩余节点当作该节点的孩子节点
+    function elt(type, ...args) {
+      let node = document.createElement(type)
+      for (let i = 0; i < args.length; i++) {
+        let child = args[i]
+        if (typeof child === 'string') {
+          child = document.createTextNode(child)
+        }
+        node.appendChild(child)
+      }
+      return node
+    }
+
+    document.getElementById("quote").appendChild(
+      elt("footer", "---",
+        elt("strong", "Karl Popper"),
+        ", preface to the second editon of ",
+        elt("em", "The Open Society and Its Enemies"),
+        ", 1950"))
+
+    // 13，8 属性 
+    // 写一个简易的语法高亮器
+    function highlightCode(node, keywords) {
+      let text = node.textContent
+      node.textContent = ''
+      let match, lastIndex = 0
+      while (match = keywords.exec(text)) {
+        let before = text.slice(lastIndex, match.index)
+        node.appendChild(document.createTextNode(before))
+        let strong = document.createElement('strong')
+        strong.appendChild(document.createTextNode(match[0]))
+        node.appendChild(strong)
+        lastIndex = keywords.lastIndex
+      }
+      let after = text.slice(lastIndex)
+      node.appendChild(document.createTextNode(after))
+    }
+
+    let languages = {
+      javascript: /\b(function|var|let|const|return)\b/g // 等等。。。
+    }
+
+    function highlightAllCode() {
+      let pres = document.body.getElementsByTagName('pre')
+      for (let i = 0; i < pres.length; i++) {
+        let pre = pres[i]
+        let lang = pre.dataset.language
+        if (languages.hasOwnProperty(lang)) {
+          highlightCode(pre, languages[lang])
+        }
+      }
+    }
+    highlightAllCode()
+
+    //  13.15 习题
+    // 13.15.1 创建一张表
+    const MOUNTAINS = [
+      { name: "Kilimanjaro", height: 5895, place: "Tanzania" },
+      { name: "Everest", height: 8848, place: "Nepal" },
+      { name: "Mount Fuji", height: 3776, place: "Japan" },
+      { name: "Vaalserberg", height: 323, place: "Netherlands" },
+      { name: "Denali", height: 6168, place: "United States" },
+      { name: "Popocatepetl", height: 5465, place: "Mexico" },
+      { name: "Mont Blanc", height: 4808, place: "Italy/France" }
+    ];
+
+    function buildTable(node = document.body, mountains) {
+      let table = document.createElement('table')
+      let keys = Object.keys(mountains[0])
+      let tr = document.createElement('tr')
+      // 标题行
+      for (let key of keys) {
+        let th = document.createElement('th')
+        let text = document.createTextNode(key)
+        th.appendChild(text)
+        tr.appendChild(th)
+        table.appendChild(tr)
+      }
+      // 内容 -》 行/列
+      for (let i = 0; i < mountains.length; i++) {
+        let tr = document.createElement('tr')
+        let obj = mountains[i]
+        table.appendChild(tr)
+        for (let j = 0; j < keys.length; j++) {
+          let td = document.createElement('td')
+          let val = obj[keys[j]] // 每一列的值
+          let text = document.createTextNode(val)
+          td.appendChild(text)
+          if (typeof val === 'number') {
+            td.style.textAlign = 'right'
+          }
+          tr.appendChild(td)
+        }
+      }
+      document.body.appendChild(table)
+    }
+    buildTable(document.body, MOUNTAINS)
+
+    // 13.15.3 画一个宇宙行星系动画（只有地球，月亮，太阳
+    let sun = document.querySelector('.sun')
+    let earth = document.querySelector('.earth')
+    let moon = document.querySelector('.moon')
+
+    function animateEarth(time) {
+      let angle1 = Date.now() / 1200
+      let angle2 = Date.now() / 100
+  
+      let y1 = (Math.sin(angle1) * 200) + sun.getBoundingClientRect().top + 50 - 30
+      let x1 = (Math.cos(angle1) * 200) + sun.getBoundingClientRect().left + 50 - 30
+      let y2 = Math.sin(angle2) * 100 + y1 + 30 - 15
+      let x2 = Math.cos(angle2) * 100 + x1 + 30 - 15
+      earth.style.top = y1 + 'px'
+      earth.style.left = x1 + 'px'
+      moon.style.top = y2 + 'px'
+      moon.style.left = x2 + 'px'
+      requestAnimationFrame(animateEarth)
+    }
+
+    
+    requestAnimationFrame(animateEarth)
   </script>
+
+
 </body>
 
 </html>
