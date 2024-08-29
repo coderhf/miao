@@ -798,7 +798,13 @@ var coderhf = (function () {
     return min
   }
 
-  function round(number, precision) {}
+  function round(number, precision) {
+    if (precision >= 0) {
+      return Math.round(number, precision)
+    }
+    let res = Math.pow(10, precision)
+    return Math.round(number * res) / res
+  }
 
   function sumBy(array, iterater) {
     iterater = this.iterater(iterater)
@@ -1096,7 +1102,13 @@ var coderhf = (function () {
     return random
   }
 
-  function ceil(number, precision = 0) {}
+  function ceil(number, precision = 0) {
+    if (precision >= 0) {
+      return Math.ceil(number, precision)
+    }
+    let res = Math.pow(10, precision)
+    return Math.ceil(number * res) / res
+  }
 
   function floor(number, precision = 0) {
     if (precision >= 0) {
@@ -1237,6 +1249,10 @@ var coderhf = (function () {
       }
     }
     return object
+  }
+
+  function dropRightWhile(array, predicate) {
+
   }
 
   // 递归下降法实现json的解析
@@ -1390,6 +1406,7 @@ var coderhf = (function () {
     differenceWith: differenceWith,
     drop: drop,
     dropRight: dropRight,
+    dropRightWhile: dropRightWhile,
     fill: fill,
     findIndex: findIndex,
     findLastIndex: findLastIndex,

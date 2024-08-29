@@ -237,7 +237,7 @@
       swap(array, dummyIdx, right - 1)
 
       // 原地对元素进行分组
-      i = left
+      let i = left
       for (let j = left; j < right - 1; j++) {
         if (array[j] < dummy) {
           swap(array, i, j)
@@ -251,6 +251,68 @@
       // 接下来分别对左边和后边递归就可以
       quickSortInPlace(array, left, i)
       quickSortInPlace(array, i + 1, right)
+      return array
+    }
+
+    // 三路快排
+    function quickSortInPlace1(array, left = 0, right = array.length) {
+      if (right - left < 2) {
+        return array
+      }
+      // 随机拿到一个哨兵元素
+      let dummyIdx = Math.floor((right - left) * Math.random() + left)
+      let dummy = array[dummyIdx]
+      // swap(array, dummyIdx, right - 1)
+      // 原地对元素进行分组
+      let i = left
+      let k = left
+      for (let j = left; j < right; j++) {
+        if (array[j] < dummy) {
+          swap(array, i, j)
+          if (i !== k) {
+            swap(array, j, k)
+          }
+          i++
+          k++
+        } else if (array[j] == dummy) {
+          swap(array, j, k)
+          k++
+        }
+      }
+      // swap(array, k, right - 1)
+      // 接下来分别对左边和后边递归就可以
+      quickSortInPlace1(array, left, i)
+      quickSortInPlace1(array, k, right)
+      return array
+    }
+
+    // 三路快排第二种方式
+    function quickSortInPlace2(array, left = 0, right = array.length) {
+      if (right - left < 2) {
+        return array
+      }
+      // 随机拿到一个哨兵元素
+      let dummyIdx = Math.floor((right - left) * Math.random() + left)
+      let dummy = array[dummyIdx]
+      // swap(array, dummyIdx, right - 1)
+      // 原地对元素进行分组
+      let i = left
+      let k = right - 1
+      for (let j = left; j <= k; j++) {
+        if (array[j] < dummy) {
+          swap(array, i, j)
+          i++
+        }
+        if (array[j] > dummy) {
+          swap(array, j, k)
+          k--
+          j-- // 因为不知道交换过来的k的值是什么值，所以j必须在执行一次
+        }
+      }
+      // swap(array, k, right - 1)
+      // 接下来分别对左边和后边递归就可以
+      quickSortInPlace2(array, left, i)
+      quickSortInPlace2(array, k + 1, right)
       return array
     }
 
