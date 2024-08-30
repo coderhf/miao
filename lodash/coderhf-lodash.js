@@ -1236,8 +1236,18 @@ var coderhf = (function () {
   }
 
   function dropRightWhile(array, predicate) {
-
+    let iterater = this.iterater(predicate)
+    for (let i = array.length - 1; i >= 0; i--) {
+      if (iterater(array[i])) {
+        array.pop()
+      } else {
+        break
+      }
+    }
+    return array
   }
+
+  
 
   // 递归下降法实现json的解析
   // 即对于递归结构的文本的解析，通过为每种语法实现一个解析函数
