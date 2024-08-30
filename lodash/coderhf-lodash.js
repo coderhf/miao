@@ -682,7 +682,7 @@ var coderhf = (function () {
       res = mergeSort(res, iterater)
     }
     return res
-    
+
     function mergeSort(array, iterater = it => it) {
       // 结束条件
       if (array.length < 2) {
@@ -1109,7 +1109,11 @@ var coderhf = (function () {
         arr.push(cloneDeep(value[i]))
       }
       return arr
-    } else if (typeof value === 'object' && value !== null && !(value instanceof RegExp)) {
+    } else if (
+      typeof value === 'object' &&
+      value !== null &&
+      !(value instanceof RegExp)
+    ) {
       let obj = {}
       for (let key in value) {
         if (value.hasOwnProperty(key)) {
@@ -1194,8 +1198,10 @@ var coderhf = (function () {
             if (object.hasOwnProperty(key)) {
               // 判断key的值是否都为对象或数组（数组里面也必须是对象）
               if (
-                Object.prototype.toString.call(obj[key]) === '[object Object]' &&
-                Object.prototype.toString.call(object[key]) === '[object Object]'
+                Object.prototype.toString.call(obj[key]) ===
+                  '[object Object]' &&
+                Object.prototype.toString.call(object[key]) ===
+                  '[object Object]'
               ) {
                 object[key] = this.assign(object[key], obj[key])
               } else if (
@@ -1247,11 +1253,22 @@ var coderhf = (function () {
     return array
   }
 
-  
+  function dropWhile(array, predicate = it => it) {
+    let iterater = this.iterater(predicate)
+    let ans = []
+    let isF = false
+    for (let item of array) {
+      if (!iterater(item) || isF) {
+        isF = true
+        ans.push(item)
+      }
+    }
+    return ans
+  }
 
   // 递归下降法实现json的解析
   // 即对于递归结构的文本的解析，通过为每种语法实现一个解析函数
-  // 解析函数开始时全局指针指向这个值在文本中开始的位置 
+  // 解析函数开始时全局指针指向这个值在文本中开始的位置
   // 解析函数根据说法将其解析出来，并移动指针到这个值结束位置的后面
   // 由于结构可能是递归嵌套的，所以函数之间的调用也能映射出这种嵌套关系
   function parseJSON(string) {
@@ -1372,11 +1389,15 @@ var coderhf = (function () {
       }
       str = str.slice(1)
       return '[' + str + ']'
-    } else if (typeof obj === 'object' && obj !== null && !(obj instanceof RegExp)) {
+    } else if (
+      typeof obj === 'object' &&
+      obj !== null &&
+      !(obj instanceof RegExp)
+    ) {
       let str = ''
       for (let key in obj) {
         if (obj.hasOwnProperty(key)) {
-          str += ',"' + key + '"' + ':' +  stringifyJSON(obj[key])
+          str += ',"' + key + '"' + ':' + stringifyJSON(obj[key])
         }
       }
       str = str.slice(1)
@@ -1401,6 +1422,7 @@ var coderhf = (function () {
     drop: drop,
     dropRight: dropRight,
     dropRightWhile: dropRightWhile,
+    dropWhile: dropWhile,
     fill: fill,
     findIndex: findIndex,
     findLastIndex: findLastIndex,
