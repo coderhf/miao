@@ -675,21 +675,14 @@ var coderhf = (function () {
     }
   }
 
-  function sortBy(collection, iterater) {
-    let isFn = false
-    // 归并排序是稳定排序
-    if (typeof iterater[0] === 'function') {
-      isFn = true
-      iterater = iterater[0]
+  function sortBy(collection, iteratees) {
+    let res = collection.slice()
+    for (let i = iteratees.length - 1; i >= 0; i--) {
+      let iterater = this.iterater(iteratees[i])
+      res = mergeSort(res, iterater)
     }
-    let ans = []
-    if (
-      typeof collection === 'object' &&
-      collection !== null &&
-      Array.isArray(collection)
-    ) {
-    } else {
-    }
+    return res
+    
     function mergeSort(array, iterater = it => it) {
       // 结束条件
       if (array.length < 2) {
@@ -699,8 +692,8 @@ var coderhf = (function () {
       let leftArray = array.slice(0, midIdx)
       let rightArray = array.slice(midIdx)
 
-      mergeSort(leftArray)
-      mergeSort(rightArray)
+      mergeSort(leftArray, iterater)
+      mergeSort(rightArray, iterater)
 
       // 排好序后进行左右比较，放入数组中
       let i = (j = k = 0)
