@@ -1283,11 +1283,11 @@ var coderhf = (function () {
     return firstArr
   }
 
-  function intersectionBy(array, iteratee) {
-    iteratee = this.iterater(iteratee)
-    let firstArr = array[0]
-    for (let i = 1; i < array.length; i++) {
-      let arr = array[i].map(it => iteratee(it))
+  function intersectionBy() {
+    iteratee = this.iterater(arguments[arguments.length - 1])
+    let firstArr = arguments[0]
+    for (let i = 1; i < arguments.length - 1; i++) {
+      let arr = arguments[i].map(it => iteratee(it))
       if (firstArr.length > 0) {
         for (let j = firstArr.length - 1; j >= 0; j--) {
           if (!arr.includes(iteratee(firstArr[j]))) {
