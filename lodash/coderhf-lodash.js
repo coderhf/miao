@@ -1266,6 +1266,23 @@ var coderhf = (function () {
     return ans
   }
 
+  function intersection(...array) {
+    let firstArr = array[0]
+    for (let i = 1; i < array.length; i++) {
+      let arr = array[i]
+      if (firstArr.length > 0) {
+        for (let j = firstArr.length - 1; j >= 0; j--) {
+          if (!arr.includes(firstArr[j])) {
+            firstArr.splice(j, 1)
+          }
+        }
+      } else {
+        return firstArr
+      }
+    }
+    return firstArr
+  }
+
   // 递归下降法实现json的解析
   // 即对于递归结构的文本的解析，通过为每种语法实现一个解析函数
   // 解析函数开始时全局指针指向这个值在文本中开始的位置
@@ -1484,6 +1501,7 @@ var coderhf = (function () {
     trim: trim,
     assign: assign,
     merge: merge,
+    intersection: intersection,
     parseJSON: parseJSON,
     stringifyJSON: stringifyJSON,
   }
