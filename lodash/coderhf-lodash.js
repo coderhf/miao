@@ -1284,7 +1284,7 @@ var coderhf = (function () {
   }
 
   function intersectionBy() {
-    iteratee = this.iterater(arguments[arguments.length - 1])
+    let iteratee = this.iterater(arguments[arguments.length - 1])
     let firstArr = arguments[0]
     for (let i = 1; i < arguments.length - 1; i++) {
       let arr = arguments[i].map(it => iteratee(it))
@@ -1293,6 +1293,25 @@ var coderhf = (function () {
           if (!arr.includes(iteratee(firstArr[j]))) {
             firstArr.splice(j, 1)
           }
+        }
+      } else {
+        return firstArr
+      }
+    }
+    return firstArr
+  }
+
+  function intersectionWith() {
+    let comparator = arguments[arguments.length - 1]
+    let firstArr = arguments[0]
+    for (let i = 1; i < arguments.length - 1; i++) {
+      let arr = arguments[i]
+      if (firstArr.length > 0) {
+        for (let j = firstArr.length - 1; j >= 0; j--) {
+          let isDel = arr.every(it => {
+            return !comparator(it, firstArr[j])
+          })
+          if (isDel) firstArr.splice(j, 1)
         }
       } else {
         return firstArr
@@ -1521,6 +1540,7 @@ var coderhf = (function () {
     merge: merge,
     intersection: intersection,
     intersectionBy: intersectionBy,
+    intersectionWith: intersectionWith,
     parseJSON: parseJSON,
     stringifyJSON: stringifyJSON,
   }
