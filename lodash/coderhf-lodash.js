@@ -387,44 +387,6 @@ var coderhf = (function () {
     return array
   }
 
-  function pullAll(array, values) {
-    for (let i = array.length - 1; i >= 0; i--) {
-      if (values.includes(array[i])) {
-        array.splice(i, 1)
-      }
-    }
-    return array
-  }
-
-  function pullAllBy(array, values, iteratee = it => it) {
-    iteratee = this.iterater(iteratee)
-    values = values.map(it => iteratee(it))
-    for (let i = array.length - 1; i >= 0; i--) {
-      if (values.includes(iteratee(array[i]))) {
-        array.splice(i, 1)
-      }
-    }
-  }
-
-  function pullAllWith(array, values, comparator) {
-    if (typeof comparator != 'function') return array
-    for (let i = array.length - 1; i >= 0; i--) {
-      let isDel = values.some(it => comparator(array[i], it))
-      if (isDel) array.splice(i, 1)
-    }
-    return array
-  }
-
-  function pullAt(array, indexes) {
-    if (!indexes) return array
-    let ans = []
-    for (let idx of indexes) {
-      ans.push(array[idx])
-    }
-    this.pullAll(array, ans)
-    return ans
-  }
-
   function reverse(array) {
     let n = array.length
     let midIdx = Math.floor(n / 2) // 拿到中间的索引
@@ -829,7 +791,7 @@ var coderhf = (function () {
     return min
   }
 
-  function round(number, precision = 0) {
+  function round(number, precision) {
     let res = Math.pow(10, precision)
     return Math.round(number * res) / res
   }
@@ -1358,131 +1320,6 @@ var coderhf = (function () {
     return firstArr
   }
 
-  function nth(array, n = 0) {
-    if (n < 0) {
-      n = array.length + n
-    }
-    return array[n]
-  }
-
-  function sortedIndex(array, value) {}
-
-  function tail(array) {
-    return array.slice(1)
-  }
-
-  function take(array, n = 1) {
-    return array.slice(0, n)
-  }
-
-  function takeRight(array, n = 1) {
-    if (n == 0) {
-      return []
-    }
-    return array.slice(-n)
-  }
-
-  function takeRightWhile(array, predicate = it => it) {
-    predicate = this.iterater(predicate)
-    for (let i = array.length - 1; i >= 0; i--) {
-      if (!predicate(array[i])) {
-        return array.slice(i + 1)
-      }
-    }
-  }
-
-  function takeWhile(array, predicate = it => it) {
-    predicate = this.iterater(predicate)
-    for (let i = 0; i < array.length; i++) {
-      if (!predicate(array[i])) {
-        if (i == 0) {
-          return []
-        }
-        return array.slice(0, i)
-      }
-    }
-  }
-
-  function union(...arrays) {
-    let newArray = this.flattenDeep(arrays)
-    let ans = []
-    for (let val of newArray) {
-      if (!ans.includes(val)) {
-        ans.push(val)
-      }
-    }
-    return ans
-  }
-
-  function unionBy(...args) {
-    let iteratee
-    let ans = []
-    let helper = []
-    if (Array.isArray(args[args.length - 1])) {
-      iteratee = it => it
-    } else {
-      iteratee = this.iterater(args[args.length - 1])
-      args.pop() // 删除
-    }
-    let newArray = this.flattenDeep(args)
-    for (let val of newArray) {
-      if (!helper.includes(iteratee(val))) {
-        helper.push(iteratee(val))
-        ans.push(val)
-      }
-    }
-    return ans
-  }
-
-  function unionWith(...args) {
-    let comparator
-    let ans = []
-    if (Array.isArray(args[args.length - 1])) {
-      comparator = it => it
-    } else {
-      comparator = this.iterater(args[args.length - 1])
-      args.pop() // 删除
-    }
-    let newArray = this.flattenDeep(args)
-    for (let item of newArray) {
-      let isTrue = ans.some(it => comparator(it, item))
-      if (!isTrue) ans.push(item)
-    }
-    return ans
-  }
-
-  function uniq(array) {
-    let ans = []
-    for (let val of array) {
-      if (!ans.includes(val)) {
-        ans.push(val)
-      }
-    }
-    return ans
-  }
-
-  function uniqBy(array, iteratee = it => it) {
-    iteratee = this.iterater(iteratee)
-    let helper = []
-    let ans = []
-    for (let val of array) {
-      if (!helper.includes(iteratee(val))) {
-        helper.push(iteratee(val))
-        ans.push(val)
-      }
-    }
-    return ans
-  }
-
-  function uniqWith(array, comparator = it => it) {
-    let ans = []
-    comparator = this.iterater(comparator)
-    for (let item of array) {
-      let isTrue = ans.some(it => comparator(it, item))
-      if (!isTrue) ans.push(item)
-    }
-    return ans
-  }
   // 递归下降法实现json的解析
   // 即对于递归结构的文本的解析，通过为每种语法实现一个解析函数
   // 解析函数开始时全局指针指向这个值在文本中开始的位置
@@ -1655,10 +1492,6 @@ var coderhf = (function () {
     join: join,
     last: last,
     pull: pull,
-    pullAll: pullAll,
-    pullAllBy: pullAllBy,
-    pullAllWith: pullAllWith,
-    pullAt: pullAt,
     reverse: reverse,
     every: every,
     some: some,
@@ -1708,19 +1541,6 @@ var coderhf = (function () {
     intersection: intersection,
     intersectionBy: intersectionBy,
     intersectionWith: intersectionWith,
-    nth: nth,
-    sortedIndex: sortedIndex,
-    tail: tail,
-    take: take,
-    takeRight: takeRight,
-    takeRightWhile: takeRightWhile,
-    takeWhile: takeWhile,
-    union: union,
-    unionBy: unionBy,
-    unionWith: unionWith,
-    uniq: uniq,
-    uniqBy: uniqBy,
-    uniqWith: uniqWith,
     parseJSON: parseJSON,
     stringifyJSON: stringifyJSON,
   }
