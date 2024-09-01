@@ -387,6 +387,45 @@ var coderhf = (function () {
     return array
   }
 
+  function pullAll(array, values) {
+    for (let i = array.length - 1; i >= 0; i--) {
+      if (values.includes(array[i])) {
+        array.splice(i, 1)
+      }
+    }
+    return array
+  }
+
+  function pullAllBy(array, values, iteratee = it => it) {
+    iteratee = this.iterater(iteratee)
+    values = values.map(it => iteratee(it))
+    for (let i = array.length - 1; i >= 0; i--) {
+      if (values.includes(iteratee(array[i]))) {
+        array.splice(i, 1)
+      }
+    }
+    return array
+  }
+
+  function pullAllWith(array, values, comparator) {
+    if (typeof comparator != 'function') return array
+    for (let i = array.length - 1; i >= 0; i--) {
+      let isDel = values.some(it => comparator(array[i], it))
+      if (isDel) array.splice(i, 1)
+    }
+    return array
+  }
+
+  function pullAt(array, indexes) {
+    if (!indexes) return array
+    let ans = []
+    for (let idx of indexes) {
+      ans.push(array[idx])
+    }
+    this.pullAll(array, ans)
+    return ans
+  }
+
   function reverse(array) {
     let n = array.length
     let midIdx = Math.floor(n / 2) // 拿到中间的索引
@@ -1320,6 +1359,13 @@ var coderhf = (function () {
     return firstArr
   }
 
+  function nth(array, n = 0) {
+    if (n < 0) {
+      n = array.length + n
+    }
+    return array[n]
+  }
+
   // 递归下降法实现json的解析
   // 即对于递归结构的文本的解析，通过为每种语法实现一个解析函数
   // 解析函数开始时全局指针指向这个值在文本中开始的位置
@@ -1492,6 +1538,10 @@ var coderhf = (function () {
     join: join,
     last: last,
     pull: pull,
+    pullAll: pullAll,
+    pullAllBy: pullAllBy,
+    pullAllWith: pullAllWith,
+    pullAt: pullAt,
     reverse: reverse,
     every: every,
     some: some,
@@ -1541,6 +1591,7 @@ var coderhf = (function () {
     intersection: intersection,
     intersectionBy: intersectionBy,
     intersectionWith: intersectionWith,
+    nth: nth,
     parseJSON: parseJSON,
     stringifyJSON: stringifyJSON,
   }
