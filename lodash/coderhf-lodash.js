@@ -829,7 +829,7 @@ var coderhf = (function () {
     return min
   }
 
-  function round(number, precision) {
+  function round(number, precision = 0) {
     let res = Math.pow(10, precision)
     return Math.round(number * res) / res
   }
