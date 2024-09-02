@@ -404,7 +404,6 @@ var coderhf = (function () {
         array.splice(i, 1)
       }
     }
-    return array
   }
 
   function pullAllWith(array, values, comparator) {
