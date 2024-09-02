@@ -1365,6 +1365,45 @@ var coderhf = (function () {
     return array[n]
   }
 
+  function sortedIndex(array, value) {
+
+  }
+
+  function tail(array) {
+    return array.slice(1)
+  }
+
+  function take(array, n = 1) {
+    return array.slice(0, n)
+  }
+
+  function takeRight(array, n = 1) {
+    if (n == 0) {
+      return []
+    }
+    return array.slice(-n)
+  }
+
+  function takeRightWhile(array, predicate = it => it) {
+    predicate = this.iterater(predicate)
+    for (let i = array.length - 1; i >= 0; i--) {
+      if (!predicate(array[i])) {
+        return array.slice(i + 1)
+      }
+    }
+  }
+
+  function takeWhile(array, predicate = it => it) {
+    predicate = this.iterater(predicate)
+    for (let i = 0; i < array.length; i++) {
+      if (!predicate(array[i])) {
+        if (i == 0) {
+          return []
+        }
+        return array.slice(0, i)
+      }
+    }
+  }
   // 递归下降法实现json的解析
   // 即对于递归结构的文本的解析，通过为每种语法实现一个解析函数
   // 解析函数开始时全局指针指向这个值在文本中开始的位置
@@ -1591,6 +1630,12 @@ var coderhf = (function () {
     intersectionBy: intersectionBy,
     intersectionWith: intersectionWith,
     nth: nth,
+    sortedIndex: sortedIndex,
+    tail: tail,
+    take: take,
+    takeRight: takeRight,
+    takeRightWhile: takeRightWhile,
+    takeWhile: takeWhile,
     parseJSON: parseJSON,
     stringifyJSON: stringifyJSON,
   }
