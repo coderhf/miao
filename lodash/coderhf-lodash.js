@@ -1365,9 +1365,7 @@ var coderhf = (function () {
     return array[n]
   }
 
-  function sortedIndex(array, value) {
-
-  }
+  function sortedIndex(array, value) {}
 
   function tail(array) {
     return array.slice(1)
@@ -1403,6 +1401,87 @@ var coderhf = (function () {
         return array.slice(0, i)
       }
     }
+  }
+
+  function union(...arrays) {
+    let newArray = this.flattenDeep(arrays)
+    let ans = []
+    for (let val of newArray) {
+      if (!ans.includes(val)) {
+        ans.push(val)
+      }
+    }
+    return ans
+  }
+
+  function unionBy(...args) {
+    let iteratee
+    let ans = []
+    let helper = []
+    if (Array.isArray(args[args.length - 1])) {
+      iteratee = it => it
+    } else {
+      iteratee = this.iterater(args[args.length - 1])
+      args.pop() // 删除
+    }
+    let newArray = this.flattenDeep(args)
+    for (let val of newArray) {
+      if (!helper.includes(iteratee(val))) {
+        helper.push(iteratee(val))
+        ans.push(val)
+      }
+    }
+    return ans
+  }
+
+  function unionWith(...args) {
+    let comparator
+    let ans = []
+    if (Array.isArray(args[args.length - 1])) {
+      comparator = it => it
+    } else {
+      comparator = this.iterater(args[args.length - 1])
+      args.pop() // 删除
+    }
+    let newArray = this.flattenDeep(args)
+    for (let item of newArray) {
+      let isTrue = ans.some(it => comparator(it, item))
+      if (!isTrue) ans.push(item)
+    }
+    return ans
+  }
+
+  function uniq(array) {
+    let ans = []
+    for (let val of array) {
+      if (!ans.includes(val)) {
+        ans.push(val)
+      }
+    }
+    return ans
+  }
+
+  function uniqBy(array, iteratee = it => it) {
+    iteratee = this.iterater(iteratee)
+    let helper = []
+    let ans = []
+    for (let val of array) {
+      if (!helper.includes(iteratee(val))) {
+        helper.push(iteratee(val))
+        ans.push(val)
+      }
+    }
+    return ans
+  }
+
+  function uniqWith(array, comparator = it => it) {
+    let ans = []
+    comparator = this.iterater(comparator)
+    for (let item of array) {
+      let isTrue = ans.some(it => comparator(it, item))
+      if (!isTrue) ans.push(item)
+    }
+    return ans
   }
   // 递归下降法实现json的解析
   // 即对于递归结构的文本的解析，通过为每种语法实现一个解析函数
@@ -1636,6 +1715,12 @@ var coderhf = (function () {
     takeRight: takeRight,
     takeRightWhile: takeRightWhile,
     takeWhile: takeWhile,
+    union: union,
+    unionBy: unionBy,
+    unionWith: unionWith,
+    uniq: uniq,
+    uniqBy: uniqBy,
+    uniqWith: uniqWith,
     parseJSON: parseJSON,
     stringifyJSON: stringifyJSON,
   }
