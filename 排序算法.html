@@ -26,7 +26,7 @@
     function randomArray(n) {
       let ans = []
       for (let i = 0; i < n; i++) {
-        ans.push(Math.random() * n | 0)
+        ans.push(Math.random() * n | 0) // 小数取整
       }
       return ans
     }
@@ -47,7 +47,7 @@
     /**
      * 冒泡排序
      * 空间复杂度O(1)
-     * 时间复杂度O(n*n
+     * 时间复杂度O(n*n)
      */
     function bubbleSort(array) {
       for (let i = array.length - 1; i > 0; i--) {
