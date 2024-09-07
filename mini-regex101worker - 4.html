@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Mini Regex101</title>
+	<!-- <script src="https://cdn.tailwindcss.com/"></script> -->
+	<style>
+        body {
+            background-color: #e5e5e5;
+        }
+
+        input,
+        button {
+            outline: none;
+        }
+
+        .container .content {
+            width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .content .title {
+            padding-bottom: 5px;
+            position: relative;
+        }
+
+        .content .title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 65%;
+            height: 1px;
+            background-color: #d4d4d4;
+        }
+
+        .regBox {
+            display: flex;
+            align-items: center;
+        }
+
+        .regBox > label {
+            flex: 10;
+        }
+
+        #regInput {
+            width: 100%;
+            height: 40px;
+            margin: 10px 0;
+            text-indent: 2em;
+        }
+
+        .btn {
+            flex: 1;
+            float: right;
+            height: 40px;
+            background-color: orange;
+        }
+
+        .content #tips {
+            height: auto;
+            line-height: 30px;
+            background-color: #fff;
+            color: red;
+        }
+
+        .content .flag {
+            height: 30px;
+            line-height: 30px;
+            border-bottom: 1px solid #d4d4d4;
+            margin-bottom: 5px;
+        }
+
+        .content label {
+            margin-right: 12px;
+        }
+
+        .content .test {
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid #d4d4d4;
+            margin-top: 10px;
+        }
+
+        #result {
+            white-space: pre-wrap;
+            word-break: break-all;
+            width: 100%;
+            min-height: 300px;
+            border: 1px solid #d2d2d2;
+            border-radius: 4px;
+            margin-top: 10px;
+            background-color: #fff;
+        }
+
+        #result > strong {
+            font-weight: normal;
+
+            &:nth-of-type(even) {
+                background-color: #9fcfff;
+            }
+
+            &:nth-of-type(odd) {
+                background-color: #d5ebff;
+            }
+        }
+
+        /* 偶数 */
+        #result > strong:nth-of-type(even) [data-group-index="1"] {
+            background-color: #a0cca2;
+        }
+
+        #result > strong:nth-of-type(even) [data-group-index="2"] {
+            background-color: #debf8c;
+        }
+
+        #result > strong:nth-of-type(even) [data-group-index="3"] {
+            background-color: #afacfb;
+        }
+
+        #result > strong:nth-of-type(even) [data-group-index="4"] {
+            background-color: #e1a9f4;
+        }
+
+        #result > strong:nth-of-type(even) [data-group-index="5"] {
+            background-color: #ed9995;
+        }
+
+        /* 奇数 */
+        #result > strong:nth-of-type(odd) [data-group-index="1"] {
+            background-color: #c4e9adfe;
+        }
+
+        #result > strong:nth-of-type(odd) [data-group-index="2"] {
+            background-color: #f4d7a7;
+        }
+
+        #result > strong:nth-of-type(odd) [data-group-index="3"] {
+            background-color: #cac7fefe;
+        }
+
+        #result > strong:nth-of-type(odd) [data-group-index="4"] {
+            background-color: #f2cefffe;
+        }
+
+        #result > strong:nth-of-type(odd) [data-group-index="5"] {
+            background-color: #fdc4bffe;
+        }
+
+        #result strong[data-group-index="0"]:not(:has(:hover)):hover {
+            outline: 3px solid #3192f4;
+        }
+
+        #result strong[data-group-index="1"]:not(:has(:hover)):hover {
+            outline: 3px solid #7acf7f;
+        }
+
+        #result strong[data-group-index="2"]:not(:has(:hover)):hover {
+            outline: 3px solid #eb9b1a;
+        }
+
+        #result strong[data-group-index="3"]:not(:has(:hover)):hover {
+            outline: 3px solid #6c67f5;
+        }
+
+        #result strong[data-group-index="4"]:not(:has(:hover)):hover {
+            outline: 3px solid #d983f5;
+        }
+
+        #result strong[data-group-index="5"]:not(:has(:hover)):hover {
+            outline: 3px solid #f4857f;
+        }
+
+        /* 零宽断言样式 */
+        .zero-width-assert {
+            padding: 0 1px;
+            border-left: 2px dotted magenta;
+            border-radius: 5%;
+        }
+
+        .zero-width-assert:nth-of-type(even):hover {
+            background-color: #9fcfff;
+            outline: 2px solid gray;
+            border-left-color: transparent;
+        }
+
+        .zero-width-assert:nth-of-type(odd):hover {
+            background-color: #d5ebff;
+            outline: 2px solid gray;
+            border-left-color: transparent;
+        }
+
+        #matchState {
+            position: fixed;
+            right: 100px;
+            top: 30px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 0.4em;
+            padding: 0 0.4em;
+        }
+
+        #matchState.success {
+            color: #fff;
+            font-weight: bold;
+            background-color: green;
+        }
+
+        #matchState.fail {
+            color: #fff;
+            background: red;
+        }
+
+        #matchState.noMatch {
+            background: #c5c5c5;
+            color: #333333;
+        }
+
+        .groupHoverTip {
+            position: fixed;
+            padding: 10px;
+            background-color: black;
+            color: white;
+            font-size: 18px;
+            white-space: pre;
+            border-radius: .5em;
+            display: none;
+            transform: translateX(-50%) translateY(-100%) translateY(-5px);
+        }
+
+        .groupHoverTip:after {
+            content: "";
+            position: absolute;
+            margin: auto;
+            border: 5px solid transparent;
+            border-top-color: black;
+            left: 50%;
+            top: 100%;
+            transform: translateX(-50%);
+        }
+	</style>
+</head>
+
+<body>
+<div class="container">
+	<div class="content">
+		<div class="title">REGULAR EXPRESSION</div>
+		<!-- (.)(.)(.)(.)(.)(.)(.)(.)(.)\b -->
+		<div class="regBox">
+			<label for="regInput">
+				<input class="border" type="text" id="regInput" value="([01]+)+b" tabindex="1">
+			</label>
+			<button class="btn">RUN</button>
+		</div>
+		<div id="matchState">processing...</div>
+		<div id="tips" class="text-red-600"></div>
+		<div class="flag">FLAGS</div>
+		<label><input type="checkbox" name="" id="flag-g" checked>g</label>
+		<label><input type="checkbox" name="" id="flag-m">m</label>
+		<label><input type="checkbox" name="" id="flag-i">i</label>
+		<label><input type="checkbox" name="" id="flag-y">y</label>
+		<label><input type="checkbox" name="" id="flag-u">u</label>
+		<label><input type="checkbox" name="" id="flag-s">s</label>
+		<label><input type="checkbox" name="" id="flag-v">v</label>
+
+		<div class="test">TEST STRING</div>
+		<!-- <textarea name="" oninput="run()"
+		  id="testStringInput">101010101011010101011010101010101010101001010101010101</textarea> -->
+		<div id="result" contenteditable>101010101011010101011010101010101010101001010101010101
+			<!--			An explanation of your regex will be automatically generated as you type.-->
+			<!--			An explanation of your regex will be automatically generated as you type.-->
+			<!--			3 chickens-->
+			<!--			55 cows-->
+			<!--			100 eggs-->
+			<!--			1 dragonfly-->
+			<!--			1 pig-->
+		</div>
+		<div class="groupHoverTip"></div>
+	</div>
+</div>
+
+<script>
+	const BASIC = 6
+	// let worker = null
+	let regInput = document.querySelector('#regInput')
+	let btnEl = document.querySelector('.btn')
+	let result = document.querySelector('#result')
+	let tips = document.querySelector('#tips')
+	let matchState = document.querySelector('#matchState')
+	let showTime = 0 // 展示时间
+	regInput.addEventListener('input', debounce(run, 100))
+	regInput.addEventListener('input', e => {
+		matchState.textContent = 'processing...'
+		matchState.classList.remove('success', 'fail', 'noMatch')
+		matchState.classList.add('success')
+	})
+	btnEl.addEventListener('click', run)
+	result.addEventListener('input', debounce(run, 100))
+	result.addEventListener('input', e => {
+		matchState.textContent = 'processing...'
+		matchState.classList.remove('success', 'fail', 'noMatch')
+		matchState.classList.add('success')
+	})
+	btnEl.click()
+	regInput.focus()
+
+	// 点击运行，正则表达式匹配
+	function run(e) {
+		let regString = regInput.value // 获取正则表达式
+		let testString = result.textContent // get result(div) value
+		if (regString === '') {
+			tips.innerHTML = ''
+			result.innerHTML = result.textContent
+			matchState.textContent = 'no match'
+			matchState.classList.remove('success', 'fail', 'noMatch')
+			matchState.classList.add('noMatch')
+			return
+		}
+		let flags = getFlags() + 'd' // 获取选中的正则匹配标签,d标记必须要有，所以不让用户去选择
+		// 用trycatch，是因为外面传进来的表达式可能是语法错误的，当然也有可能是其它错误
+		let reg
+		try {
+			reg = new RegExp(regString, flags) // 创建出正则表达式对象
+		} catch (error) {
+			if (error instanceof SyntaxError) {
+				// 给用户提示错误
+				tips.innerHTML = error.message
+				// result.innerHTML = testStringInput.value
+				result.innerHTML = result.textContent
+				matchState.textContent = 'pattern error'
+				matchState.classList.remove('success', 'fail', 'noMatch')
+				matchState.classList.add('fail')
+				return
+			} else {
+				throw error
+			}
+		}
+		tips.innerHTML = ''  // 正常运行，错误提示要清空
+		// let testString = testStringInput.value // 获取正则匹配内容
+
+		// let done = false
+		// debugger
+		// setTimeout(() => {
+		// 	if (done === false) {
+		// 		matchState.textContent = 'processing...'
+		// 		matchState.style.backgroundColor = 'green'
+		// 	}
+		// }, 500);
+
+		// debugger
+		let currentTime = Date.now() // 当前input的时间
+		getMatchesFromWorker(reg, testString, ([matches, time]) => {
+			if (currentTime < showTime) return
+			showTime = currentTime
+			// done = true
+			if (matches.length === 0) {
+				matchState.textContent = 'no match'
+				matchState.classList.remove('success', 'fail', 'noMatch')
+				matchState.classList.add('noMatch')
+				return
+			}
+			matchState.classList.remove('success', 'fail', 'noMatch')
+			matchState.classList.add('success')
+			matchState.textContent = `${matches.length} matches (${time}ms)`
+			let lastIndex = 0
+			let html = ''
+			let matchIndex = 0 // 匹配次数
+
+			for (let match of matches) {
+				html += testString.slice(lastIndex, match.index) // 切割到匹配到前的字符串
+				html += highlightMatch(match, matchIndex)
+				lastIndex = match.lastIndex
+				// // 如果不是全局匹配 /g。则只需要匹配一次
+				// if (reg.global === false) {
+				// 	break
+				// }
+				matchIndex++
+			}
+			// 最后一段字符串
+			html += testString.slice(lastIndex, testString.length)
+			if (e.target.matches('#result') || e.target.matches('#result *')) {
+				let cursorIndex = getCursorPosition(result) // 获取光标位置
+				// console.log(cursorIndex)
+				result.innerHTML = html
+				restoreCursorPosition(result, cursorIndex) // 还原光标位置
+			} else {
+				result.innerHTML = html
+			}
+		}, () => {
+			// 匹配超时
+			if (currentTime < showTime) return
+			showTime = currentTime
+			matchState.textContent = 'timeout'
+			matchState.classList.remove('success', 'fail', 'noMatch')
+			matchState.classList.add('fail')
+		})
+
+
+	}
+
+	// 鼠标放上result的结果上会有每个分组的内容悬浮在鼠标箭头上
+	let groupHoverTipEl = document.querySelector('.groupHoverTip') // 获取悬浮的元素
+	result.addEventListener('mousemove', e => {
+		if (e.target.matches('.group')) {
+			let el = e.target
+			let boxes = el.getClientRects()
+			// console.log(box)
+			let mouseX = e.clientX
+			let mouseY = e.clientY
+			let box = getHoverBox(boxes, mouseX, mouseY) // 拿到box
+			groupHoverTipEl.textContent = el.dataset.title
+			groupHoverTipEl.style.left = mouseX + 'px'
+			groupHoverTipEl.style.top = box.top + 'px'
+			groupHoverTipEl.style.display = 'block'
+		}
+	})
+
+	result.addEventListener('mouseout', e => {
+		if (e.target.matches('.group')) {
+			groupHoverTipEl.style.display = 'none'
+		}
+	})
+
+	function getHoverBox(boxes, x, y) {
+		if (boxes.length === 1) {
+			return boxes[0]
+		}
+		for (let box of boxes) {
+			if (y > box.top && y < box.bottom) {
+				return box
+			}
+		}
+	}
+
+
+	/**
+	 * 获取光标在node里面的位置
+	 * @param node
+	 * @returns {number}
+	 */
+	function getCursorPosition(node) {
+		let selection = window.getSelection()
+		let pos = 0 // 在文档中的起始坐标
+		traverseTextNode(node, textNode => {
+			if (selection.anchorNode === textNode) {
+				pos += selection.anchorOffset // 选中文本节点在文本框中的起始位置
+				return false
+			} else {
+				pos += textNode.textContent.length
+			}
+		})
+		return pos // 返回得到的坐标
+	}
+
+	/**
+	 * 还原光标在文本框中的位置
+	 * @param node
+	 * @param index
+	 */
+	function restoreCursorPosition(node, index) {
+		let selection = window.getSelection()
+		traverseTextNode(node, textNode => {
+			if (index > textNode.textContent.length) {
+				index -= textNode.textContent.length
+			} else {
+				selection.setPosition(textNode, index)
+				return false
+			}
+		})
+	}
+
+	/**
+	 * 先序遍历text node节点
+	 * @param node
+	 * @param callback
+	 * @returns {boolean}
+	 */
+	function traverseTextNode(node, callback) {
+		for (let child of node.childNodes) {
+			if (child.nodeType === document.TEXT_NODE) {
+				if (callback(child) === false) {
+					return false
+				}
+			} else if (child.nodeType === document.ELEMENT_NODE) {
+				if (traverseTextNode(child, callback) === false) {
+					return false
+				}
+			}
+		}
+		// if (node.nodeType === document.TEXT_NODE) {
+		// 	if (callback(node) === false) {
+		// 		return false
+		// 	}
+		// } else if (node.childNodes.length > 0) {
+		// 	for (let i = 0; i < node.childNodes.length; i++) {
+		// 		if (traverseTextNode(node.childNodes[i], callback) === false) {
+		// 			return false
+		// 		}
+		// 	}
+		// }
+	}
+
+	// 创建每一个匹配的html串
+	function highlightMatch(match, matchIndex) {
+		// 处理零宽断言
+		if (match[0].length === 0) {
+			let info = [
+				`Match ${matchIndex + 1}`,
+				`----------------------`,
+				`Group 0: empty string`,
+				`----------------------`,
+				`Pos: ${match.index}-${match.index}`,
+			].join('\n')
+			return `<em class="zero-width-assert group" data-title="${info}"></em>`
+		}
+		let helper = new Array(match[0].length + 1).fill('')
+		let groupIndex = 0
+		for (let index of match.indices) {
+			let start = index[0] - match.index
+			let end = index[1] - match.index
+			let info = [
+				`Match ${matchIndex + 1}`,
+				`-----------------------`,
+				`Group ${groupIndex}: ${match[groupIndex]}`,
+				`-----------------------`,
+				`Pos: ${index[0]}-${index[1]}`,
+			].join('\n')
+			// groupIndex % BASIC 表示分组颜色（子颜色）是五种，加上主颜色一种共6种。子颜色进行循环使用
+			helper[start] += `<strong class="group" data-group-index="${groupIndex % BASIC}" data-title="${info}">`
+			helper[end] = `</strong>` + helper[end]
+			groupIndex++
+		}
+		let result = ''
+		let i
+		for (i = 0; i < match[0].length; i++) {
+			result += helper[i] + match[0][i]
+		}
+		result += helper[i]
+		return result
+	}
+
+
+	function getFlags() {
+		let flags = ['g', 'm', 'i', 'y', 'u', 's', 'v']
+		return flags.filter(it => {
+			let element = document.getElementById('flag-' + it) // 获取对应的标签选项卡
+			return element.checked
+		}).join('')
+	}
+
+	function getMatchesFromWorker(reg, string, successFn, failFn) {
+		// if (worker) worker.terminate()
+		let obj = {reg: reg, string: string}
+		let worker = new Worker('./regex-worker.js')
+		let success = false
+		// 将数据传入线程中处理
+		worker.postMessage(obj)
+		// 接收传过来的数据
+		worker.addEventListener('message', e => {
+			let matches = e.data
+			success = true
+			successFn(matches)
+			worker.terminate() // 关掉worker
+		})
+		// 返回matches失败
+		setTimeout(() => {
+			if (!success) {
+				// console.log('fail')
+				worker.terminate()
+				failFn()
+			}
+		}, 1000);
+	}
+
+	/**
+	 * 防抖
+	 * @param f
+	 * @param time
+	 * @returns {(function(...[*]): void)|*}
+	 */
+	function debounce(f, time) {
+		let timeout = null
+		return function (...args) {
+			clearTimeout(timeout)
+			timeout = setTimeout(() => {
+				f(...args)
+			}, time);
+		}
+	}
+
+
+</script>
+</body>
+
+</html>
