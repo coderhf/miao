@@ -248,7 +248,7 @@
         lastIndex = reg.lastIndex
 
         // 处理零宽断言会导致死循环，因为匹配的都是“”，index永远为index.不会变
-        if (match[0].length == 0) {
+        if (match[0].length === 0) {
           reg.lastIndex++
         }
         // 如果不是全局匹配 /g。则只需要匹配一次
