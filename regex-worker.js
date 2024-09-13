@@ -16,7 +16,7 @@ addEventListener('message', e => {
       break
     }
   }
-  let time = (performance.now() - startTime).toFixed(2)
+  let time = (performance.now() - startTime).toFixed(1)
   // 把数据传过去
   this.postMessage([matches, time])
 })

@@ -3,11 +3,167 @@
 <head>
 	<meta charset="UTF-8">
 	<title>regexp-rail-graph</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<style>
+		
+		text {
+			font: 12px Arial;
+		}
+		
+		.fz-10 {
+			font-size: 10px;
+		}
+		
+		.helper {
+			cursor: help;
+		}
+		
+		svg {
+			width: 0;
+			height: 0;
+		}
+	
+	
+	</style>
+	<script src="../node.js/udp-test.js"></script>
 </head>
-<body>
-<script>
-	let reg = /foo|(bar|(ba+z{2,5})[aeiou])/
+<body class="bg-[#6b6659]">
+<header class="h-[200px] bg-fuchsia-300 flex items-center justify-center">
+	<div class="w-11/12">
+		<h1 class="text-5xl">正则表达式可视化</h1>
+		<p class="text-sm text-zinc-600 truncate">“Some people, when confronted with a problem, think ‘I know, I’ll use
+			regular expressions.’ Now they have two
+			problems.” —Jamie Zawinski</p>
+	</div>
+</header>
+<main class="w-11/12 mx-auto mt-[20px]">
+	<div>
+		<label class="block leading-[50px] h-[50px]">
+			<!--			(zhang(ziCheng)+fo)*?(?=fa)(?:fa)|ba([fa\rffaou]{1,2}?f)alf(b*?a+z{2,5})[aeio\b]|[^fa\n\t]-->
+			<textarea class="reg w-full h-full indent-2">(zhang(ziC[a-z]heng)+fo)*?(?=fa)(?:fa)|ba([^fa\rffaou]{1,2}?f)alf(b*?a+z{2,5})[aeio\b]|[^fa\n\t][\n-z1-9][a-z]</textarea>
+		</label>
+	</div>
+	<div class="tip text-red-300 mt-[20px]"></div>
+	<div class="mt-[20px] flex justify-between">
+		<div>
+			<button class="print h-[40px] leading-full w-[100px] bg-fuchsia-300">绘制</button>
+		</div>
+		<div class="text-[0px]">
+			<button class="downloadSvg h-[40px] leading-full w-[100px] bg-fuchsia-300 text-base ml-[5px]">下载SVG</button>
+			<button class="downloadPng h-[40px] leading-full w-[100px] bg-fuchsia-300 text-base ml-[5px]">下载PNG</button>
+			<button class="copyLink h-[40px] leading-full w-[100px] bg-fuchsia-300 text-base ml-[5px]">复制链接</button>
+		</div>
+	</div>
+	<div class="graph py-[30px] mt-[20px] bg-white">
+		<svg class="mx-auto" xmlns="http://www.w3.org/2000/svg">
+			<style>
+				text {
+					font: 12px Arial;
+				}
+				
+				.fz-10 {
+					font-size: 10px;
+				}
+				
+				.helper {
+					cursor: help;
+				}
+			</style>
+		</svg>
+	</div>
+</main>
 
+<footer>
+
+</footer>
+
+<script>
+	let svg = document.querySelector('svg')
+	const graphPadding = 5 // 图片的间距大小
+	const EscapeObj = {
+		d: 'digit',
+		D: 'non-digit',
+		s: 'white-space',
+		w: 'word',
+		W: 'non-word',
+		b: `backspace(0x${'\b'.charCodeAt(0).toString(16).padStart(2, '0').toUpperCase()})`,
+		f: `form feed(0x${'\f'.charCodeAt(0).toString(16).padStart(2, '0').toUpperCase()})`,
+		n: `line feed(0x${'\n'.charCodeAt(0).toString(16).padStart(2, '0').toUpperCase()})`,
+		t: `tab(0x${'\t'.charCodeAt(0).toString(16).padStart(2, '0').toUpperCase()})`,
+		r: `carriage return(0x${'\r'.charCodeAt(0).toString(16).padStart(2, '0').toUpperCase()})`,
+		v: `vertical tab(0x${'\v'.charCodeAt(0).toString(16).padStart(2, '0').toUpperCase()})`,
+		0: `null(0x${'\0'.charCodeAt(0).toString(16).padStart(2, '0').toUpperCase()})`,
+	}
+	
+	let printEl = document.querySelector('.print')
+	let regEl = document.querySelector('.reg')
+	let reg = regEl.value
+	let regTree = parseRegularExpression(reg)
+	let downloadSvg = document.querySelector('.downloadSvg')
+	let downloadPng = document.querySelector('.downloadPng')
+	let copyLinkEl = document.querySelector('.copyLink')
+	let tipEl = document.querySelector('.tip')
+	// 绘制
+	printEl.addEventListener('click', e => {
+		svg.innerHTML = ''
+		tipEl.innerHTML = ''
+		reg = regEl.value
+		try {
+			new RegExp(reg)
+			regTree = parseRegularExpression(reg)
+			let des = drawRegularExpression(regTree) // 画图
+			setSvgSize(des) // 实时设置svg的大小
+		} catch (err) {
+			tipEl.innerHTML = err
+		}
+	})
+	printEl.click()
+	// 导出svg图片
+	downloadSvg.addEventListener('click', e => {
+		let data = '<?xml version="1.0"?>' + svg.outerHTML
+		let blob = new Blob([data], {type: 'image/svg+xml'})
+		let url = URL.createObjectURL(blob)
+		let aEl = document.createElement('a')
+		aEl.href = url
+		aEl.download = 'railWay.svg'
+		aEl.click()
+	})
+	
+	// 导出png图片
+	downloadPng.addEventListener('click', e => {
+		if (svg.innerHTML === '') {
+			alert('还没有进行绘图')
+		}
+		let data = '<?xml version="1.0"?>' + svg.outerHTML
+		let blob = new Blob([data], {type: 'image/svg+xml'})
+		let url = URL.createObjectURL(blob)
+		let img = document.createElement('img')
+		img.src = url
+		img.onload = () => {
+			canvas.width = Number(svg.getAttribute('width'))
+			canvas.height = Number(svg.getAttribute('height'))
+			let ctx = canvas.getContext('2d')
+			ctx.fillStyle = 'white'
+			ctx.fillRect(0, 0, canvas.width, canvas.height)
+			
+			ctx.drawImage(img, 0, 0)
+			
+			let url = canvas.toDataURL('image/png')
+			
+			let a = document.createElement('a')
+			a.href = url
+			a.download = 'railWag.png'
+			a.click()
+		}
+	})
+	
+	// 复制链接
+	copyLinkEl.addEventListener('click', () => {
+		let link = localStorage.href
+		navigator.clipboard.writeText(link)
+		alert('复制成功')
+	})
+	
 	/**
 	 * 解析正则表达式
 	 * @param input
@@ -22,7 +178,7 @@
 			end: i,
 			branches,
 		}
-
+		
 		/**
 		 * 解析每个分支的一个部分
 		 */
@@ -39,7 +195,7 @@
 				return parseCharacter()
 			}
 		}
-
+		
 		/**
 		 * 解析所有分支（数组）
 		 */
@@ -54,7 +210,7 @@
 			}
 			return branches
 		}
-
+		
 		/**
 		 * 解析单个分支
 		 */
@@ -86,7 +242,7 @@
 			node.raw = input.slice(node.start, node.end)
 			return node
 		}
-
+		
 		/**
 		 * 解析转义字符，暂时只解析 \\后跟一个字符
 		 */
@@ -105,7 +261,7 @@
 			node.raw = input.slice(node.start, node.end)
 			return node
 		}
-
+		
 		/**
 		 * 解析单个字符
 		 */
@@ -122,7 +278,7 @@
 			node.raw = input.slice(node.start, node.end)
 			return node
 		}
-
+		
 		/**
 		 * 解析中括号括起来的字符
 		 */
@@ -143,25 +299,55 @@
 			// 解析中括号里面的内容 [^abc\b0-9a-z]
 			while (input[i] !== ']') {
 				let part = parseOneClass()
-				node.characterClasses.push(part)
+				if (part.type === 'Traverse') {
+					let el = node.characterClasses.pop()
+					part.TraverseContent.unshift(el)
+					part.start = el.start
+					part.raw = input.slice(part.start, part.end)
+				}
+					node.characterClasses.push(part)
 			}
 			i++ // skip the ']'
 			node.end = i
 			node.raw = input.slice(node.start, node.end)
 			return node
-
+			
 			/**
 			 * 解析中括号的某一部分：一个字符，一个转义
 			 */
 			function parseOneClass() {
 				if (input[i] === '\\') {
 					return parseEscape() // 解析转义
+				} else if (input[i] === '-') {
+					if (input[i - 1] !== '[' && input[i + 1] !== ']') {
+						return parseTraverse() // 解析 a-z这种情况
+					} else {
+						return parseCharacter()
+					}
 				} else {
 					return parseCharacter() // 解析单个字符
 				}
 			}
 		}
-
+		
+		/**
+		 * 解析横杠
+		 */
+		function parseTraverse() {
+			let node = {
+				type: 'Traverse',
+				start: i,
+				end: 0,
+				raw: '',
+				TraverseContent: [], // 中括号的每个内容
+			}
+			i++ // skip the -
+			node.TraverseContent.push(parseOnePart())
+			node.end = i
+			node.raw = input.slice(node.start, node.end)
+			return node
+		}
+		
 		/**
 		 * 解析量词
 		 */
@@ -204,7 +390,7 @@
 			node.raw = input.slice(node.start, node.end)
 			return node
 		}
-
+		
 		/**
 		 * 从i位置解析数字，i最后指向最后一个数字右边一个字符处
 		 */
@@ -215,7 +401,7 @@
 			}
 			return Number(input.slice(start, i))
 		}
-
+		
 		/**
 		 * 解析捕获分组
 		 */
@@ -283,11 +469,13 @@
 			// 当前括号不是零宽断言and是捕获分组即分组编号加1
 			if (!node.zeroAssertion && node.capture) {
 				groupIndex++
+			} else {
+				node.groupIndex = undefined
 			}
 			node.end = i
 			node.raw = input.slice(node.start, node.end)
 			return node
-
+			
 			/**
 			 * 解析具名分组<name>
 			 */
@@ -300,6 +488,832 @@
 			}
 		}
 	}
+	
+	// 画图
+	
+	/**
+	 * 创建一个元素并加入svg中
+	 * @param tag string 元素标签
+	 * @param attr object 元素属性
+	 * @param args rest args 里面的children
+	 */
+	function elt(tag, attr = {}, ...args) {
+		let el = document.createElementNS("http://www.w3.org/2000/svg", tag)
+		if (attr !== null) {
+			for (let key in attr) {
+				el.setAttribute(key, attr[key])
+			}
+		}
+		for (let arg of args) {
+			if (typeof arg === 'string') {
+				let childText = document.createTextNode(arg)
+				el.append(childText)
+			} else {
+				el.append(arg)
+			}
+		}
+		svg.append(el) // 必须创建后必须加入dom结构中，后续才能拿到正确数据
+		return el
+	}
+	
+	console.log((parseRegularExpression('[a-z]')))
+	// [^afaf\d\W\n]afa[fa\n]|abc[a]|aa
+	// console.log(drawQuantifierGraph(parseRegularExpression('b*').branches[0].elements[0]))
+	// console.log(drawCaptureGroupGraph(parseRegularExpression('a(bc[f])').branches[0].elements[1]))
+	// console.log(drawBranchGraph(parseRegularExpression('afb*[fa]*').branches[0]))
+	
+	// console.log(drawBranchesGraph(parseRegularExpression('afb*|[fa]*|(f)aa').branches))
+	// console.log(drawRegularExpression(parseRegularExpression('(fo)o|bar|(ba+z{2,5})[aeiou]')))
+	
+	/**
+	 * 设置svg的宽度
+	 * @param obj
+	 */
+	function setSvgSize(obj) {
+		obj.width = Math.ceil(obj.width) + 2 // 1px是因为圆的线条偏移了1像素,因为g偏移导致
+		obj.height = Math.ceil(obj.height) + 2
+		svg.setAttribute('width', String(obj.width))
+		svg.setAttribute('height', String(obj.height))
+		svg.style.width = obj.width + 'px'
+		svg.style.height = obj.height + 'px'
+	}
+	
+	/**
+	 * 画整个正则表达式
+	 */
+	function drawRegularExpression(node) {
+		let graph = drawBranchesGraph(node.branches)
+		let tagG = graph.g
+		let width = graph.width + 6 * graphPadding
+		let height = graph.height
+		let g = elt('g', {
+			'data-type': 'RegularExpression',
+			'transform': 'translate(1 1)'
+		})
+		let rect = elt('rect', {
+			fill: 'none',
+			width,
+			height,
+		})
+		let circle1 = elt('circle', {
+			fill: '#6b6659',
+			'stroke': 'black',
+			'stroke-width': '2',
+			cx: graphPadding,
+			cy: graph.y,
+			r: graphPadding,
+		})
+		let circle2 = elt('circle', {
+			fill: '#6b6659',
+			'stroke': 'black',
+			'stroke-width': '2',
+			cx: width - graphPadding,
+			cy: graph.y,
+			r: graphPadding,
+		})
+		let line = elt('path', {
+			stroke: 'black',
+			'stroke-width': '2',
+			d: `
+					M ${2 * graphPadding} ${graph.y}
+					l ${graphPadding} 0
+					M ${width - 2 * graphPadding} ${graph.y}
+					l ${-graphPadding} 0
+ 					`,
+			fill: 'none',
+		})
+		tagG.setAttribute('transform', `translate(${3 * graphPadding} 0)`)
+		g.append(line)
+		g.append(circle1)
+		g.append(circle2)
+		g.append(rect)
+		g.append(tagG)
+		return {
+			g,
+			width: g.getBBox().width,
+			height: g.getBBox().height,
+		}
+	}
+	
+	/**
+	 * 画多个分支相连
+	 * @param node
+	 */
+	function drawBranchesGraph(node) {
+		// branches中的node是一个数组
+		let g = elt('g', {
+			'data-type': 'Branches',
+		})
+		let graphs = node.map(branch => drawBranchGraph(branch))
+		let maxG = graphs[0] // 最大的元素
+		for (let graph of graphs) {
+			if (maxG.width < graph.width) {
+				maxG = graph
+			}
+		}
+		let height = graphs.map(graph => graph.height).reduce((pre, val) => pre + val) + (graphs.length - 1) * 2 * graphPadding
+		let midY = height / 2 // 中点的纵坐标
+		let width = maxG.width + 8 * graphPadding
+		let x = 4 * graphPadding
+		if (graphs.length === 1) {
+			midY = graphs[0].y
+			width = maxG.width + graphPadding * 2
+			x = graphPadding
+		}
+		let rect = elt('rect', {
+			width,
+			height,
+			fill: 'none',
+		})
+		g.append(rect)
+		let y = 0
+		let y1 = 0
+		let d = '' // graph path
+		
+		// 动态改变控制midY
+		if (graphs.length > 1) {
+			for (let i = 0; i < graphs.length; i++) {
+				let graph = graphs[i]
+				if (Math.abs(midY - (y1 + graph.y)) < graphPadding) {
+					midY = y1 + graph.y
+				}
+				y1 += graph.height + graphPadding
+			}
+		}
+		y1 = 0 // 重置
+		// 计算里面每个branch的布局
+		for (let i = 0; i < graphs.length; i++) {
+			let graph = graphs[i]
+			let tagG = graph.g
+			tagG.setAttribute('transform', `translate(${(maxG.width - graph.width) / 2 + x} ${y})`)
+			y += graph.height + graphPadding
+			g.append(tagG)
+		}
+		// 画曲线
+		for (let graph of graphs) {
+			// 上面的曲线
+			if (midY > y1 + graph.y) {
+				let dotY = midY - (y1 + graph.y) // 两个点之间的距离
+				// 两点的距离时大于2 * graphPadding
+				if (dotY > 4 * graphPadding) {
+					d += `M 0 ${midY}
+								q ${2 * graphPadding} ${graphPadding / 2} ${2 * graphPadding} ${-graphPadding}
+								l 0 ${-(dotY - 2 * graphPadding)}
+								q 0 ${-graphPadding} ${2 * graphPadding} ${-graphPadding}
+								l ${(maxG.width - graph.width) / 2} 0
+								
+								M ${width} ${midY}
+								q ${-2 * graphPadding} ${graphPadding / 2} ${-2 * graphPadding} ${-graphPadding}
+								l 0 ${-(dotY - 2 * graphPadding)}
+								q 0 ${-graphPadding} ${-2 * graphPadding} ${-graphPadding}
+								l ${-(maxG.width - graph.width) / 2} 0
+							`
+				} else if (dotY <= 4 * graphPadding) {
+					// 三阶
+					d += `M 0 ${midY}
+								c ${2 * graphPadding} 0 ${2 * graphPadding} ${-dotY} ${4 * graphPadding} ${-dotY}
+								l ${(maxG.width - graph.width) / 2} 0
+								
+								M ${width} ${midY}
+								c ${-2 * graphPadding} 0 ${-2 * graphPadding} ${-dotY} ${-4 * graphPadding} ${-dotY}
+								l ${-(maxG.width - graph.width) / 2} 0
+								`
+				}
+			} else if (midY < y1 + graph.y) { // 下面的曲线
+				let dotY = (y1 + graph.y) - midY // 两个点之间的距离
+				// 两点的距离时大于2 * graphPadding
+				if (dotY > 4 * graphPadding) {
+					d += `M 0 ${midY}
+								q ${2 * graphPadding} ${-graphPadding / 2} ${2 * graphPadding} ${graphPadding}
+								l 0 ${(dotY - 2 * graphPadding)}
+								q 0 ${graphPadding} ${2 * graphPadding} ${graphPadding}
+								l ${(maxG.width - graph.width) / 2} 0
+								
+								M ${width} ${midY}
+								q ${-2 * graphPadding} ${-graphPadding / 2} ${-2 * graphPadding} ${graphPadding}
+								l 0 ${(dotY - 2 * graphPadding)}
+								q 0 ${graphPadding} ${-2 * graphPadding} ${graphPadding}
+								l ${-(maxG.width - graph.width) / 2} 0
+							`
+				} else if (dotY <= 4 * graphPadding) {
+					// 三阶
+					d += `M 0 ${midY}
+								c ${2 * graphPadding} 0 ${2 * graphPadding} ${dotY} ${4 * graphPadding} ${dotY}
+								l ${(maxG.width - graph.width) / 2} 0
+								
+								M ${width} ${midY}
+								c ${-2 * graphPadding} 0 ${-2 * graphPadding} ${dotY} ${-4 * graphPadding} ${dotY}
+								l ${-(maxG.width - graph.width) / 2} 0
+								`
+				}
+			} else {
+				// 画直线
+				// 有可能只有一个branch，那么间距只有一个graphPadding
+				d += `M 0 ${midY}
+							l ${x} 0
+							
+							M ${width} ${midY}
+							l ${-x} 0
+							`
+			}
+			y1 += graph.height + graphPadding
+		}
+		let cLine = elt('path', {
+			stroke: 'black',
+			'stroke-width': '2',
+			d,
+			fill: 'none',
+		})
+		g.append(cLine)
+		// g.setAttribute('transform', `translate(${cnt * graphPadding} 0)`,)
+		return {
+			g,
+			width,
+			height,
+			y: midY,
+		}
+	}
+	
+	/**
+	 * 画一个分支
+	 * @param node
+	 */
+	function drawBranchGraph(node) {
+		// debugger
+		let graphs = []
+		let parts = [] // 连续字符
+		let charEl = '' // 最后一个字符元素
+		// 一个分支有很多不同类型的正则
+		node.elements.forEach(el => {
+			if (el.type === 'Character') {
+				parts.push(el.character)
+				charEl = el
+			} else if (el.type !== 'Character') {
+				if (parts.length > 0) {
+					charEl.character = parts.join('')
+					parts = []
+					graphs.push(drawGraph(charEl)) // 画连续字符
+				}
+				graphs.push(drawGraph(el))
+			}
+		})
+		if (parts.length > 0) {
+			charEl.character = parts.join('')
+			parts = []
+			graphs.push(drawGraph(charEl)) // 画连续字符
+		}
+		// 求出最大高度的子元素g
+		let maxG = graphs[0]
+		for (let i = 1; i < graphs.length; i++) {
+			if (graphs[i].height > maxG.height) {
+				maxG = graphs[i]
+			}
+		}
+		let upMaxH = Math.max(...graphs.map(graph => graph.y)) // 以连线的中点为准将每个部分分为上下，求上面的最大高度
+		let downMaxH = Math.max(...graphs.map(graph => graph.height - graph.y)) // 下面部分最大高度
+		let width = graphs.map(graph => graph.width).reduce((pre, val) => pre + val) + (graphs.length - 1) * 2 * graphPadding
+		let height = upMaxH + downMaxH
+		// let maxGDist = (height - maxG.height) / 2 // 最高的元素在rect布局应该移动的距离
+		let g = elt('g', {
+			'data-type': 'Branch',
+		})
+		let rect = elt('rect', {
+			width,
+			height,
+			fill: 'none',
+		})
+		g.append(rect)
+		let x = 0
+		// debugger
+		let d = '' // 表示路径
+		let w = 0 // 用来记录水平总宽度
+		for (let i = 0; i < graphs.length; i++) {
+			let graph = graphs[i]
+			let tagG = graph.g
+			if (maxG !== tagG) {
+				tagG.setAttribute('transform', `translate(${x}, ${upMaxH - graph.y})`)
+			}
+			// ${(maxG.rectH - graph.height) / 2 + maxG.textH}
+			x += graph.width + 2 * graphPadding
+			if (i === 0) {
+				w += graph.width
+			} else {
+				w += graph.width + 2 * graphPadding
+			}
+			if (i !== graphs.length - 1) {
+				d += `M ${w} ${upMaxH} l ${2 * graphPadding} 0`
+			}
+			g.append(tagG)
+		}
+		let line = elt('path', {
+			'stroke-width': '2',
+			stroke: 'black',
+			'stroke-linecap': 'butt',
+			d,
+		})
+		g.append(line)
+		let gBox = g.getBBox()
+		return {
+			g,
+			width: gBox.width,
+			height: gBox.height,
+			y: upMaxH,
+		}
+	}
+	
+	/**
+	 * 画字符
+	 * @param node
+	 */
+	function drawCharacterGraph(node) {
+		let g = elt('g', {
+			'data-type': 'Character'
+		})
+		// text标签节点
+		let text = elt('text', null, elt('tspan', {
+			class: 'quote',
+			fill: '#908c83',
+		}, '“'), elt('tspan', null, node.character), elt('tspan', {
+			class: 'quote',
+			fill: '#908c83'
+		}, '”'))
+		let textBox = text.getBBox()
+		// 方块
+		let rect = elt('rect', {
+			width: textBox.width + graphPadding * 2,
+			height: textBox.height + graphPadding * 2,
+			rx: "0.2em",
+			fill: '#dae9e5',
+		})
+		// 移动text在g的中间位置
+		text.setAttribute('transform', `translate(${graphPadding}, ${graphPadding + (-textBox.y)})`)
+		g.append(rect)
+		g.append(text)
+		let gBox = g.getBBox()
+		return {
+			g,
+			width: gBox.width,
+			height: gBox.height,
+			y: gBox.height / 2 // 连线的位置
+		}
+	}
+	
+	/**
+	 * 画转义字符
+	 * @param node
+	 */
+	function drawEscapeGraph(node) {
+		if (!EscapeObj[node.escape]) {
+			node.character = node.escape
+			node.type = 'character'
+			// 当字符来画
+			return drawCharacterGraph(node)
+		}
+		let g = elt('g', {
+			'data-type': 'Escape'
+		})
+		let text = elt('text', null, EscapeObj[node.escape])
+		let textBox = text.getBBox()
+		let rect = elt('rect', {
+			width: textBox.width + graphPadding * 2,
+			height: textBox.height + graphPadding * 2,
+			rx: "0.2em",
+			fill: '#b9db58',
+		})
+		// 移动text在g的中间位置
+		text.setAttribute('transform', `translate(${graphPadding}, ${graphPadding + (-textBox.y)})`)
+		g.append(rect)
+		g.append(text)
+		let gBox = g.getBBox()
+		return {
+			g,
+			width: gBox.width,
+			height: gBox.height,
+			y: gBox.height / 2
+		}
+	}
+	
+	/**
+	 * 画中括号
+	 * @param node
+	 */
+	function drawCharacterClassGraph(node) {
+		let graphs = [] // 存储每个node的形状
+		let chars = [] // 存储不重复的元素内容
+		// 画形状
+		node.characterClasses.forEach(el => {
+			if (el.type === 'Character') {
+				// 去重操作
+				if (!chars.includes(el.character)) {
+					graphs.push(drawCharacterGraph(el)) // 画字符
+					chars.push(el.character)
+				}
+			} else if (el.type === 'Escape') { // 转义
+				if (!chars.includes(el.escape)) {
+					graphs.push(drawEscapeGraph(el)) // 画转义字符
+					chars.push(el.escape)
+				}
+			} else if (el.type === 'Traverse') {
+				if (!chars.includes(el.TraverseContent)) {
+					graphs.push(drawTraverse(el)) // 画a-z字符
+					chars.push(el.TraverseContent)
+				}
+			}
+		})
+		let maxWidth = Math.max(...graphs.map(graph => graph.width)) // 最大元素宽度
+		let totalWidth = maxWidth + graphPadding * 2 // 拿到总宽度：是所有元素的最大宽度加上graphPadding
+		let totalHeight = graphs.map(graph => graph.height).reduce((pre, val) => pre + val) + (graphs.length + 1) * graphPadding // 总高度
+		let g = elt('g', {
+			'data-type': 'CharacterClass',
+		})
+		let text
+		// 判断是否有^（取反）符号
+		if (node.invert) {
+			text = elt('text', {
+				'alignment-baseline': 'text-before-edge',
+				class: 'fz-10'
+			}, elt('tspan', null, 'None of:'))
+		} else {
+			text = elt('text', {
+				'alignment-baseline': 'text-before-edge',
+				class: 'fz-10'
+			}, elt('tspan', null, 'One of:'))
+		}
+		let TextBox = text.getBBox()
+		text.setAttribute('transform', `translate(0, ${0 - TextBox.y})`)
+		let g1 = elt('g', {
+			transform: `translate(${graphPadding}, ${graphPadding + (TextBox.height)})`
+		})
+		let rect = elt('rect', {
+			width: totalWidth,
+			height: totalHeight,
+			rx: '0.2em',
+			fill: '#cbcbba',
+			transform: `translate(0, ${TextBox.height})`
+		})
+		// 文字内容大于总宽度时，让文字内容等于总宽度
+		if (TextBox.width > totalWidth) {
+			rect.setAttribute('width', String(TextBox.width))
+			// maxWidth = TextBox.width
+			g1.setAttribute('transform', `translate(${(TextBox.width - maxWidth) / 2} ${graphPadding + (TextBox.height)})`)
+		}
+		let h = 0 // 间距累计
+		// 遍历出每个子node
+		for (let graph of graphs) {
+			graph.g.setAttribute('transform', `translate(${(maxWidth - graph.width) / 2}, ${h})`)
+			h += graph.height + graphPadding
+			g1.append(graph.g)
+		}
+		g.append(rect)
+		g.append(text)
+		g.append(g1)
+		let gBox = g.getBBox()
+		let rectBox = rect.getBBox()
+		return {
+			g,
+			width: gBox.width,
+			height: gBox.height,
+			y: rectBox.height / 2 + TextBox.height,
+		}
+	}
+	
+	/**
+	 * 画 a-z语法图
+	 * @param node
+	 */
+	function drawTraverse(node) {
+		let g = elt('g', {
+			'data-type': 'Traverse',
+		})
+		let graphs = node.TraverseContent.map(it => drawGraph(it))
+		// // 求出最大高度的子元素g
+		// let maxG = graphs[0]
+		// for (let i = 1; i < graphs.length; i++) {
+		// 	if (graphs[i].height > maxG.height) {
+		// 		maxG = graphs[i]
+		// 	}
+		// }
+		let text = elt('text', null, '-')
+		let textBox = text.getBBox()
+		let width = graphs.map(graph => graph.width).reduce((pre, val) => pre + val) + 2 * graphPadding + textBox.width
+		let height = graphs[0].height
+		let rect = elt('rect', {
+			width,
+			height,
+			fill: 'none',
+		})
+		graphs[0].g.setAttribute('transform', `translate(0 0)`)
+		text.setAttribute('transform', `translate(${graphs[0].width + graphPadding} ${(height - textBox.height) / 2 + (-textBox.y)})`)
+		graphs[1].g.setAttribute('transform', `translate(${graphs[0].width + textBox.width + 2 * graphPadding} 0)`)
+		g.append(graphs[0].g)
+		g.append(graphs[1].g)
+		g.append(text)
+		g.append(rect)
+		let gBox = g.getBBox()
+		return {
+			g,
+			width: gBox.width,
+			height: gBox.height,
+			y: height / 2
+		}
+	}
+	/**
+	 * 画量词
+	 * @param node
+	 */
+	function drawQuantifierGraph(node) {
+		let graph = drawGraph(node.repeatElement)
+		let uGap = 2 * graphPadding // 上面的间距
+		let dGap = 2 * graphPadding
+		let lGap = 2 * graphPadding
+		let rGap = 2 * graphPadding
+		if (node.min !== 0) uGap = 0
+		if (node.min === 1 && node.max === 1) {
+			uGap = dGap = lGap = rGap = 0
+		}
+		let tagG = graph.g
+		let text = null
+		let g = elt('g', {
+			'data-type': 'Quantifier',
+		})
+		
+		// 分情况讨论
+		if (node.min !== 0 && node.max !== Infinity && !(node.min === 1 && node.max === 1)) {
+			let des = ''
+			let title = ''
+			if (node.min === 1) {
+				title = `repeats at most ${node.max} times in total`
+				if (node.max - node.min === 1) {
+					des = 'at most once'
+				} else {
+					des = `at most ${node.max - node.min} times`
+				}
+			} else {
+				title = `repeats ${node.min}...${node.max} times in total`
+				des = `${node.min - 1}...${node.max - 1} times`
+			}
+			text = elt('text', {
+				class: 'helper fz-10',
+			}, elt('tspan', null, des), elt('title', null, title))
+			g.append(text)
+		}
+		
+		let textAndRectW = 0 // 文本与rect宽度只差
+		let width = graph.width + lGap + rGap
+		let height = graph.height + uGap + dGap + (text?.getBBox().height || 0)
+		if (text && text.getBBox().width > width) {
+			textAndRectW = text.getBBox().width - width
+			width = text.getBBox().width
+		}
+		let rect = elt('rect', {
+			width,
+			height,
+			fill: 'none'
+		})
+		g.append(rect)
+		// 文字移到右下角去
+		if (text) {
+			text.setAttribute('transform', `translate(${width - text.getBBox().width} ${-text.getBBox().y + graph.height + uGap + dGap})`)
+		}
+		tagG.setAttribute('transform', `translate(${lGap} ${uGap})`)
+		
+		// 画直线
+		let line1 = elt('path', {
+			'stroke': 'black',
+			'stroke-width': '2',
+			'fill': 'none',
+			'stroke-linecap': 'butt',
+			d: `
+					M 0 ${graph.y + uGap}
+					l ${lGap} 0
+					M ${width} ${graph.y + uGap}
+					l ${-(rGap + textAndRectW)} 0
+				`
+		})
+		g.append(line1)
+		
+		// 向上画 0
+		if (node.min === 0) {
+			// 非贪婪
+			if (node.greedy === false) {
+				let lineArrow = elt('path', {
+					'stroke': 'black',
+					'stroke-width': '2',
+					'stroke-linecap': 'butt',
+					'fill': 'none',
+					d: `
+							M ${graphPadding} ${graphPadding}
+							l ${-graphPadding} ${graphPadding}
+							M ${graphPadding} ${graphPadding}
+							l ${graphPadding} ${graphPadding}
+ 							`
+				})
+				g.append(lineArrow)
+			}
+			let line = elt('path', {
+				'stroke': 'black',
+				'stroke-width': '2',
+				'stroke-linecap': 'butt',
+				'fill': 'none',
+				d: `
+						M 0 ${graph.y + 2 * graphPadding}
+						a ${graphPadding} ${graphPadding} 0 0 0 ${graphPadding} ${-graphPadding}
+						
+						l 0 ${-graph.y}
+						a ${graphPadding} ${graphPadding} 0 0 1 ${graphPadding} ${-graphPadding}
+
+						l ${graph.width} 0
+
+						a ${graphPadding} ${graphPadding} 0 0 1 ${graphPadding} ${graphPadding}
+						l 0 ${graph.y}
+						a ${graphPadding} ${graphPadding} 0 0 0 ${graphPadding} ${graphPadding}
+					`
+			})
+			g.append(line)
+		}
+		// // g.setAttribute('transform', `translate(${2 * graphPadding} ${upGap})`)
+		if (node.max > 1) { // 向下画 1+
+			if (node.greedy) { // 贪婪匹配，则画箭头
+				let lineArrow = elt('path', {
+					'stroke': 'black',
+					'stroke-width': '2',
+					'stroke-linecap': 'butt',
+					'fill': 'none',
+					d: `
+							M ${graph.width + 3 * graphPadding} ${(graph.height - graph.y) / 2 + graph.y + uGap + graphPadding}
+							l ${-graphPadding} ${-graphPadding}
+							M ${graph.width + 3 * graphPadding} ${(graph.height - graph.y) / 2 + graph.y + uGap + graphPadding}
+							l ${graphPadding} ${-graphPadding}
+ 							`
+				})
+				g.append(lineArrow)
+			}
+			let line = elt('path', {
+				'stroke': 'black',
+				'stroke-width': '2',
+				'fill': 'none',
+				'stroke-linecap': 'butt',
+				d: `
+						M ${lGap} ${graph.y + uGap}
+						a ${graphPadding} ${graphPadding} 0 0 0 ${-graphPadding} ${graphPadding}
+						l 0 ${graph.height - graph.y}
+						a ${graphPadding} ${graphPadding} 0 0 0 ${graphPadding} ${graphPadding}
+						l ${graph.width} 0
+
+						a ${graphPadding} ${graphPadding} 0 0 0 ${graphPadding} ${-graphPadding}
+						l 0 ${-(graph.height - graph.y)}
+						a ${graphPadding} ${graphPadding} 0 0 0 ${-graphPadding} ${-graphPadding}
+					`
+			})
+			g.append(line)
+		}
+		
+		g.append(tagG)
+		let gBox = g.getBBox()
+		return {
+			g,
+			width: gBox.width,
+			height: gBox.height,
+			y: graph.y + uGap,
+		}
+	}
+	
+	/**
+	 * 画捕获分组
+	 * @param node
+	 */
+	function drawCaptureGroupGraph(node) {
+		let graph = drawBranchesGraph(node.branches)
+		let tagG = graph.g
+		let g = elt('g', {
+			'data-type': 'CaptureGroup',
+			// 'transform': `translate(3 3)`
+		})
+		if (node.capture === false) { // 非捕获
+			let rect = elt('rect', {
+				fill: 'none',
+				width: graph.width,
+				height: graph.height,
+			})
+			g.append(rect)
+			g.append(tagG)
+			let gBox = g.getBBox()
+			return {
+				g,
+				width: gBox.width,
+				height: gBox.height,
+				y: graph.y,
+			}
+		} else { // 捕获
+			let text = null // 文本节点
+			if (node.zeroAssertion === false) { // 非零宽
+				text = elt('text', {
+					class: 'fz-10',
+				}, elt('tspan', null, `group #${node.groupIndex}`))
+				g.append(text)
+				text.setAttribute('transform', `translate(0 ${-text.getBBox().y})`)
+			} else { // 零宽
+				if (node.positive === true && node.lookahead === true) {
+					text = elt('text', {
+						class: 'fz-10',
+					}, elt('tspan', null, 'positive lookahead'))
+					g.append(text)
+					text.setAttribute('transform', `translate(0 ${-text.getBBox().y})`)
+				}
+				if (node.positive === true && node.lookahead === false) {
+					text = elt('text', {
+						class: 'fz-10',
+					}, elt('tspan', null, 'positive lookbehind'))
+					g.append(text)
+					text.setAttribute('transform', `translate(0 ${-text.getBBox().y})`)
+				}
+				if (node.positive === false && node.lookahead === true) {
+					text = elt('text', {
+						class: 'fz-10',
+					}, elt('tspan', null, 'negative lookahead'))
+					g.append(text)
+					text.setAttribute('transform', `translate(0 ${-text.getBBox().y})`)
+				}
+				if (node.positive === false && node.lookahead === false) {
+					text = elt('text', {
+						class: 'fz-10',
+					}, elt('tspan', null, 'negative lookbehind'))
+					g.append(text)
+					text.setAttribute('transform', `translate(0 ${-text.getBBox().y})`)
+				}
+			}
+			let textH = text?.getBBox().height || 0
+			let textW = text?.getBBox().width || 0
+			let width = graph.width + 4 * graphPadding
+			let height = graph.height + 4 * graphPadding + textH
+			let textAndRectW = 0 // 文本与rect的宽度只差
+			// 文本宽度大于rect宽度
+			if (textW > width) {
+				textAndRectW = textW - width
+				width = textW
+			}
+			let rect = elt('rect', {
+				fill: 'none',
+				width,
+				height,
+			})
+			g.append(rect)
+			// 画直线
+			let line1 = elt('path', {
+				'stroke': 'black',
+				'stroke-width': '2',
+				'fill': 'none',
+				d: `
+					M 0 ${graph.y + 2 * graphPadding + textH}
+					l ${2 * graphPadding} 0
+					M ${width} ${graph.y + 2 * graphPadding + textH}
+					l ${-(2 * graphPadding + textAndRectW)} 0
+				`
+			})
+			g.append(line1)
+			// 画虚线矩形
+			let rect1 = elt('rect', {
+				width,
+				height: height - textH,
+				stroke: '#908c83',
+				'stroke-width': '2',
+				'stroke-dasharray': '4 4',
+				fill: 'none',
+				// rx: 3,
+				// ry: 3,
+			})
+			rect1.setAttribute('transform', `translate(0 ${textH})`)
+			tagG.setAttribute('transform', `translate(${2 * graphPadding} ${(height - textH - graph.height) / 2 + textH})`)
+			g.append(tagG)
+			g.append(rect1)
+			let gBox = g.getBBox()
+			return {
+				g,
+				width: gBox.width,
+				height: gBox.height,
+				y: graph.y + 2 * graphPadding + textH
+			}
+		}
+	}
+	
+	function drawGraph(node) {
+		if (node.type === 'Character') {
+			return drawCharacterGraph(node)
+		} else if (node.type === 'Branch') {
+			return drawBranchGraph(node)
+		} else if (node.type === 'Escape') {
+			return drawEscapeGraph(node)
+		} else if (node.type === 'CharacterClass') {
+			return drawCharacterClassGraph(node)
+		} else if (node.type === 'Quantifier') {
+			return drawQuantifierGraph(node)
+		} else if (node.type === 'CaptureGroup') {
+			return drawCaptureGroupGraph(node)
+		} else if (node.type === 'Traverse') {
+			return drawTraverse(node)
+		}
+	}
+
 </script>
 </body>
 </html>
