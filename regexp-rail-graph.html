@@ -22,6 +22,10 @@
 			width: 0;
 			height: 0;
 		}
+
+		.bold {
+			font-weight: bold
+		}
 	
 	
 	</style>
@@ -40,7 +44,7 @@
 	<div>
 		<label class="block leading-[50px] h-[50px]">
 			<!--			(zhang(ziCheng)+fo)*?(?=fa)(?:fa)|ba([fa\rffaou]{1,2}?f)alf(b*?a+z{2,5})[aeio\b]|[^fa\n\t]-->
-			<textarea class="reg w-full h-full indent-2">(zhang(ziC[a-z]heng)+fo)*?(?=fa)(?:fa)|ba([^fa\rffaou]{1,2}?f)alf(b*?a+z{2,5})[aeio\b]|[^fa\n\t][\n-z1-9][a-z]</textarea>
+			<textarea class="reg w-full h-full indent-2">^(zh\^ang(ziC[a-z]|heng)+fo)*?(?=fa)(?:fa)$|^ba([^fa\rffaou]{1,2}?f)alf(b*?a+z{2,5})[aeio\b]|[^fa\n\t][\n-z1-91-9][a-z]</textarea>
 		</label>
 	</div>
 	<div class="tip text-red-300 mt-[20px]"></div>
@@ -68,6 +72,10 @@
 				.helper {
 					cursor: help;
 				}
+
+				.bold {
+					font-weight: bold;
+				}
 			</style>
 		</svg>
 	</div>
@@ -79,6 +87,8 @@
 
 <script>
 	let svg = document.querySelector('svg')
+	let style = document.querySelector('svg style')
+	console.log(style)
 	const graphPadding = 5 // 图片的间距大小
 	const EscapeObj = {
 		d: 'digit',
@@ -106,6 +116,7 @@
 	// 绘制
 	printEl.addEventListener('click', e => {
 		svg.innerHTML = ''
+		svg.append(style)
 		tipEl.innerHTML = ''
 		reg = regEl.value
 		try {
@@ -255,6 +266,9 @@
 				escape: '', // 转义字符的那个字符内容
 			}
 			i++ // skip the \
+			// if (input[i] === '^' || input[i] === '$') {
+			// 	return parseCharacter()
+			// }
 			node.escape = input[i]
 			i++ // 跳过被转义的那个字符
 			node.end = i
@@ -411,7 +425,7 @@
 				start: i,
 				end: 0,
 				raw: '',
-				groupIndex: groupIndex, // 分组的编号
+				groupIndex, // 分组的编号
 				capture: true, // 捕获分组
 				zeroAssertion: false, // 是否是零宽断言
 				positive: true, // 断言是否是正向还是反向断言
@@ -463,15 +477,16 @@
 					}
 				}
 			}
-			// 解析括号里面的内容
-			node.branches = parseBranches()
-			i++ // skip ')'
 			// 当前括号不是零宽断言and是捕获分组即分组编号加1
 			if (!node.zeroAssertion && node.capture) {
 				groupIndex++
 			} else {
 				node.groupIndex = undefined
 			}
+			// 解析括号里面的内容
+			node.branches = parseBranches()
+			i++ // skip ')'
+			
 			node.end = i
 			node.raw = input.slice(node.start, node.end)
 			return node
@@ -489,7 +504,7 @@
 		}
 	}
 	
-	// 画图
+	console.log(parseRegularExpression('(zhang(ziCheng))'))
 	
 	/**
 	 * 创建一个元素并加入svg中
@@ -516,14 +531,7 @@
 		return el
 	}
 	
-	console.log((parseRegularExpression('[a-z]')))
-	// [^afaf\d\W\n]afa[fa\n]|abc[a]|aa
-	// console.log(drawQuantifierGraph(parseRegularExpression('b*').branches[0].elements[0]))
-	// console.log(drawCaptureGroupGraph(parseRegularExpression('a(bc[f])').branches[0].elements[1]))
-	// console.log(drawBranchGraph(parseRegularExpression('afb*[fa]*').branches[0]))
-	
-	// console.log(drawBranchesGraph(parseRegularExpression('afb*|[fa]*|(f)aa').branches))
-	// console.log(drawRegularExpression(parseRegularExpression('(fo)o|bar|(ba+z{2,5})[aeiou]')))
+
 	
 	/**
 	 * 设置svg的宽度
@@ -657,14 +665,14 @@
 				// 两点的距离时大于2 * graphPadding
 				if (dotY > 4 * graphPadding) {
 					d += `M 0 ${midY}
-								q ${2 * graphPadding} ${graphPadding / 2} ${2 * graphPadding} ${-graphPadding}
-								l 0 ${-(dotY - 2 * graphPadding)}
+								q ${2 * graphPadding} ${graphPadding / 2} ${2 * graphPadding} ${-2 * graphPadding}
+								l 0 ${-(dotY - 3 * graphPadding)}
 								q 0 ${-graphPadding} ${2 * graphPadding} ${-graphPadding}
 								l ${(maxG.width - graph.width) / 2} 0
 								
 								M ${width} ${midY}
-								q ${-2 * graphPadding} ${graphPadding / 2} ${-2 * graphPadding} ${-graphPadding}
-								l 0 ${-(dotY - 2 * graphPadding)}
+								q ${-2 * graphPadding} ${graphPadding / 2} ${-2 * graphPadding} ${-2 * graphPadding}
+								l 0 ${-(dotY - 3 * graphPadding)}
 								q 0 ${-graphPadding} ${-2 * graphPadding} ${-graphPadding}
 								l ${-(maxG.width - graph.width) / 2} 0
 							`
@@ -684,14 +692,14 @@
 				// 两点的距离时大于2 * graphPadding
 				if (dotY > 4 * graphPadding) {
 					d += `M 0 ${midY}
-								q ${2 * graphPadding} ${-graphPadding / 2} ${2 * graphPadding} ${graphPadding}
-								l 0 ${(dotY - 2 * graphPadding)}
+								q ${2 * graphPadding} ${-graphPadding / 2} ${2 * graphPadding} ${2 * graphPadding}
+								l 0 ${(dotY - 3 * graphPadding)}
 								q 0 ${graphPadding} ${2 * graphPadding} ${graphPadding}
 								l ${(maxG.width - graph.width) / 2} 0
 								
 								M ${width} ${midY}
-								q ${-2 * graphPadding} ${-graphPadding / 2} ${-2 * graphPadding} ${graphPadding}
-								l 0 ${(dotY - 2 * graphPadding)}
+								q ${-2 * graphPadding} ${-graphPadding / 2} ${-2 * graphPadding} ${2 * graphPadding}
+								l 0 ${(dotY - 3 * graphPadding)}
 								q 0 ${graphPadding} ${-2 * graphPadding} ${graphPadding}
 								l ${-(maxG.width - graph.width) / 2} 0
 							`
@@ -746,9 +754,35 @@
 		// 一个分支有很多不同类型的正则
 		node.elements.forEach(el => {
 			if (el.type === 'Character') {
-				parts.push(el.character)
-				charEl = el
-			} else if (el.type !== 'Character') {
+				// 处理特殊字符 ^&
+				if (el.character === '^' || el.character === '$') {
+					if (parts.length > 0) {
+						charEl.character = parts.join('')
+						parts = []
+						graphs.push(drawGraph(charEl)) // 画连续字符
+					}
+					if (el.character === '^') {
+						el.character = 'Start of line'
+					}
+					if (el.character === '$') {
+						el.character = 'End of line'
+					}
+					graphs.push(drawBeginAndEndGraph(el))
+				} else {
+					parts.push(el.character)
+					charEl = el
+				}
+			} else if (el.type === 'Escape') {
+				// 处理转义字符中的^$变成普通字符
+				if (el.escape === '^' || el.escape === '$') {
+					if (el.escape === '^') el.character = '^'
+					if (el.escape === '$') el.character = '$'
+					parts.push(el.character)
+					charEl = el
+				} else {
+					graphs.push(drawEscapeGraph(el))
+				}
+			} else {
 				if (parts.length > 0) {
 					charEl.character = parts.join('')
 					parts = []
@@ -771,7 +805,7 @@
 		}
 		let upMaxH = Math.max(...graphs.map(graph => graph.y)) // 以连线的中点为准将每个部分分为上下，求上面的最大高度
 		let downMaxH = Math.max(...graphs.map(graph => graph.height - graph.y)) // 下面部分最大高度
-		let width = graphs.map(graph => graph.width).reduce((pre, val) => pre + val) + (graphs.length - 1) * 2 * graphPadding
+		let width = graphs.map(graph => graph.width).reduce((pre, val) => pre + val) + (graphs.length - 1) * graphPadding
 		let height = upMaxH + downMaxH
 		// let maxGDist = (height - maxG.height) / 2 // 最高的元素在rect布局应该移动的距离
 		let g = elt('g', {
@@ -794,14 +828,14 @@
 				tagG.setAttribute('transform', `translate(${x}, ${upMaxH - graph.y})`)
 			}
 			// ${(maxG.rectH - graph.height) / 2 + maxG.textH}
-			x += graph.width + 2 * graphPadding
+			x += graph.width + graphPadding + 3
 			if (i === 0) {
 				w += graph.width
 			} else {
-				w += graph.width + 2 * graphPadding
+				w += graph.width + graphPadding + 3
 			}
 			if (i !== graphs.length - 1) {
-				d += `M ${w} ${upMaxH} l ${2 * graphPadding} 0`
+				d += `M ${w} ${upMaxH} l ${graphPadding + 3} 0`
 			}
 			g.append(tagG)
 		}
@@ -821,6 +855,35 @@
 		}
 	}
 	
+	/**
+	 * 解析 ^ $
+	 * @param node
+	 */
+	function drawBeginAndEndGraph(node) {
+		let g = elt('g', {
+			'data-type': 'BeginAndEnd',
+		})
+		let text = elt('text', {
+			fill: '#fff',
+		}, node.character)
+		let textBox = text.getBBox()
+		let rect = elt('rect', {
+			width: textBox.width + graphPadding * 2,
+			height: textBox.height + graphPadding * 2,
+			rx: "0.2em",
+			fill: '#6b6659',
+		})
+		text.setAttribute('transform', `translate(${graphPadding}, ${graphPadding + (-textBox.y)})`)
+		g.append(rect)
+		g.append(text)
+		let gBox = g.getBBox()
+		return {
+			g,
+			width: gBox.width,
+			height: gBox.height,
+			y: gBox.height / 2 // 连线的位置
+		}
+	}
 	/**
 	 * 画字符
 	 * @param node
@@ -899,7 +962,8 @@
 	 */
 	function drawCharacterClassGraph(node) {
 		let graphs = [] // 存储每个node的形状
-		let chars = [] // 存储不重复的元素内容
+		let chars = [] // 存储不重复的元素内容 转义和字符
+		let TraverseAlone = [] // 不重复的a-z语法内容
 		// 画形状
 		node.characterClasses.forEach(el => {
 			if (el.type === 'Character') {
@@ -914,9 +978,17 @@
 					chars.push(el.escape)
 				}
 			} else if (el.type === 'Traverse') {
-				if (!chars.includes(el.TraverseContent)) {
+				let str = ''
+				for (let it of el.TraverseContent) {
+					if (it.type === 'Escape') {
+						str += it.escape
+					} else if (it.type === 'Character') {
+						str += it.character
+					}
+				}
+				if (!TraverseAlone.includes(str)) { // 去重
 					graphs.push(drawTraverse(el)) // 画a-z字符
-					chars.push(el.TraverseContent)
+					TraverseAlone.push(str) // 是数组，所以toString()好判断重复项
 				}
 			}
 		})
@@ -993,7 +1065,9 @@
 		// 		maxG = graphs[i]
 		// 	}
 		// }
-		let text = elt('text', null, '-')
+		let text = elt('text', {
+			class: 'bold',
+		}, '-')
 		let textBox = text.getBBox()
 		let width = graphs.map(graph => graph.width).reduce((pre, val) => pre + val) + 2 * graphPadding + textBox.width
 		let height = graphs[0].height
@@ -1027,9 +1101,14 @@
 		let dGap = 2 * graphPadding
 		let lGap = 2 * graphPadding
 		let rGap = 2 * graphPadding
-		if (node.min !== 0) uGap = 0
+		if (node.min !== 0) {
+			uGap = 0
+		}
 		if (node.min === 1 && node.max === 1) {
 			uGap = dGap = lGap = rGap = 0
+		}
+		if (node.greedy === true) { // 贪婪画箭头
+			rGap = 3 * graphPadding
 		}
 		let tagG = graph.g
 		let text = null
@@ -1073,7 +1152,7 @@
 		g.append(rect)
 		// 文字移到右下角去
 		if (text) {
-			text.setAttribute('transform', `translate(${width - text.getBBox().width} ${-text.getBBox().y + graph.height + uGap + dGap})`)
+			text.setAttribute('transform', `translate(${width - text.getBBox().width} ${-text.getBBox().y + graph.height + uGap + dGap + 3})`)
 		}
 		tagG.setAttribute('transform', `translate(${lGap} ${uGap})`)
 		
@@ -1086,8 +1165,8 @@
 			d: `
 					M 0 ${graph.y + uGap}
 					l ${lGap} 0
-					M ${width} ${graph.y + uGap}
-					l ${-(rGap + textAndRectW)} 0
+					M ${lGap + graph.width} ${graph.y + uGap}
+					l ${(rGap + textAndRectW)} 0
 				`
 		})
 		g.append(line1)
@@ -1140,9 +1219,9 @@
 					'stroke-linecap': 'butt',
 					'fill': 'none',
 					d: `
-							M ${graph.width + 3 * graphPadding} ${(graph.height - graph.y) / 2 + graph.y + uGap + graphPadding}
+							M ${graph.width + lGap + 2 * graphPadding} ${graph.y + uGap + 3 * graphPadding}
 							l ${-graphPadding} ${-graphPadding}
-							M ${graph.width + 3 * graphPadding} ${(graph.height - graph.y) / 2 + graph.y + uGap + graphPadding}
+							M ${graph.width + lGap + 2 * graphPadding} ${graph.y + uGap + 3 * graphPadding}
 							l ${graphPadding} ${-graphPadding}
  							`
 				})
@@ -1155,14 +1234,14 @@
 				'stroke-linecap': 'butt',
 				d: `
 						M ${lGap} ${graph.y + uGap}
-						a ${graphPadding} ${graphPadding} 0 0 0 ${-graphPadding} ${graphPadding}
-						l 0 ${graph.height - graph.y}
-						a ${graphPadding} ${graphPadding} 0 0 0 ${graphPadding} ${graphPadding}
+						a ${2 * graphPadding} ${2 * graphPadding} 0 0 0 ${-2 * graphPadding} ${2 * graphPadding}
+						l 0 ${graph.height - graph.y - 2 * graphPadding}
+						a ${2 * graphPadding} ${2 * graphPadding} 0 0 0 ${2 * graphPadding} ${2 * graphPadding}
 						l ${graph.width} 0
 
-						a ${graphPadding} ${graphPadding} 0 0 0 ${graphPadding} ${-graphPadding}
-						l 0 ${-(graph.height - graph.y)}
-						a ${graphPadding} ${graphPadding} 0 0 0 ${-graphPadding} ${-graphPadding}
+						a ${2 * graphPadding} ${2 * graphPadding} 0 0 0 ${2 * graphPadding} ${-2 * graphPadding}
+						l 0 ${-(graph.height - graph.y - 2 * graphPadding)}
+						a ${2 * graphPadding} ${2 * graphPadding} 0 0 0 ${-2 * graphPadding} ${-2 * graphPadding}
 					`
 			})
 			g.append(line)
@@ -1244,12 +1323,12 @@
 			}
 			let textH = text?.getBBox().height || 0
 			let textW = text?.getBBox().width || 0
-			let width = graph.width + 4 * graphPadding
+			let width = graph.width + 2 * graphPadding
 			let height = graph.height + 4 * graphPadding + textH
-			let textAndRectW = 0 // 文本与rect的宽度只差
+			// let textAndRectW = 0 // 文本与rect的宽度只差
 			// 文本宽度大于rect宽度
 			if (textW > width) {
-				textAndRectW = textW - width
+				// textAndRectW = textW - width
 				width = textW
 			}
 			let rect = elt('rect', {
@@ -1265,9 +1344,9 @@
 				'fill': 'none',
 				d: `
 					M 0 ${graph.y + 2 * graphPadding + textH}
-					l ${2 * graphPadding} 0
+					l ${(width - graph.width) / 2} 0
 					M ${width} ${graph.y + 2 * graphPadding + textH}
-					l ${-(2 * graphPadding + textAndRectW)} 0
+					l ${-((width - graph.width) / 2)} 0
 				`
 			})
 			g.append(line1)
@@ -1283,7 +1362,7 @@
 				// ry: 3,
 			})
 			rect1.setAttribute('transform', `translate(0 ${textH})`)
-			tagG.setAttribute('transform', `translate(${2 * graphPadding} ${(height - textH - graph.height) / 2 + textH})`)
+			tagG.setAttribute('transform', `translate(${(width - graph.width) / 2} ${(height - textH - graph.height) / 2 + textH})`)
 			g.append(tagG)
 			g.append(rect1)
 			let gBox = g.getBBox()
