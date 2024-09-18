@@ -387,6 +387,44 @@ var coderhf = (function () {
     return array
   }
 
+  function pullAll(array, values) {
+    for (let i = array.length - 1; i >= 0; i--) {
+      if (values.includes(array[i])) {
+        array.splice(i, 1)
+      }
+    }
+    return array
+  }
+
+  function pullAllBy(array, values, iteratee = it => it) {
+    iteratee = this.iterater(iteratee)
+    values = values.map(it => iteratee(it))
+    for (let i = array.length - 1; i >= 0; i--) {
+      if (values.includes(iteratee(array[i]))) {
+        array.splice(i, 1)
+      }
+    }
+  }
+
+  function pullAllWith(array, values, comparator) {
+    if (typeof comparator != 'function') return array
+    for (let i = array.length - 1; i >= 0; i--) {
+      let isDel = values.some(it => comparator(array[i], it))
+      if (isDel) array.splice(i, 1)
+    }
+    return array
+  }
+
+  function pullAt(array, indexes) {
+    if (!indexes) return array
+    let ans = []
+    for (let idx of indexes) {
+      ans.push(array[idx])
+    }
+    this.pullAll(array, ans)
+    return ans
+  }
+
   function reverse(array) {
     let n = array.length
     let midIdx = Math.floor(n / 2) // 拿到中间的索引
@@ -791,7 +829,7 @@ var coderhf = (function () {
     return min
   }
 
-  function round(number, precision) {
+  function round(number, precision = 0) {
     let res = Math.pow(10, precision)
     return Math.round(number * res) / res
   }
@@ -1320,6 +1358,169 @@ var coderhf = (function () {
     return firstArr
   }
 
+  function nth(array, n = 0) {
+    if (n < 0) {
+      n = array.length + n
+    }
+    return array[n]
+  }
+
+  function sortedIndex(array, value) {}
+
+  function tail(array) {
+    return array.slice(1)
+  }
+
+  function take(array, n = 1) {
+    return array.slice(0, n)
+  }
+
+  function takeRight(array, n = 1) {
+    if (n == 0) {
+      return []
+    }
+    return array.slice(-n)
+  }
+
+  function takeRightWhile(array, predicate = it => it) {
+    predicate = this.iterater(predicate)
+    for (let i = array.length - 1; i >= 0; i--) {
+      if (!predicate(array[i])) {
+        return array.slice(i + 1)
+      }
+    }
+  }
+
+  function takeWhile(array, predicate = it => it) {
+    predicate = this.iterater(predicate)
+    for (let i = 0; i < array.length; i++) {
+      if (!predicate(array[i])) {
+        if (i == 0) {
+          return []
+        }
+        return array.slice(0, i)
+      }
+    }
+  }
+
+  function union(...arrays) {
+    let newArray = this.flattenDeep(arrays)
+    let ans = []
+    for (let val of newArray) {
+      if (!ans.includes(val)) {
+        ans.push(val)
+      }
+    }
+    return ans
+  }
+
+  function unionBy(...args) {
+    let iteratee
+    let ans = []
+    let helper = []
+    if (Array.isArray(args[args.length - 1])) {
+      iteratee = it => it
+    } else {
+      iteratee = this.iterater(args[args.length - 1])
+      args.pop() // 删除
+    }
+    let newArray = this.flattenDeep(args)
+    for (let val of newArray) {
+      if (!helper.includes(iteratee(val))) {
+        helper.push(iteratee(val))
+        ans.push(val)
+      }
+    }
+    return ans
+  }
+
+  function unionWith(...args) {
+    let comparator
+    let ans = []
+    if (Array.isArray(args[args.length - 1])) {
+      comparator = it => it
+    } else {
+      comparator = this.iterater(args[args.length - 1])
+      args.pop() // 删除
+    }
+    let newArray = this.flattenDeep(args)
+    for (let item of newArray) {
+      let isTrue = ans.some(it => comparator(it, item))
+      if (!isTrue) ans.push(item)
+    }
+    return ans
+  }
+
+  function uniq(array) {
+    let ans = []
+    for (let val of array) {
+      if (!ans.includes(val)) {
+        ans.push(val)
+      }
+    }
+    return ans
+  }
+
+  function uniqBy(array, iteratee = it => it) {
+    iteratee = this.iterater(iteratee)
+    let helper = []
+    let ans = []
+    for (let val of array) {
+      if (!helper.includes(iteratee(val))) {
+        helper.push(iteratee(val))
+        ans.push(val)
+      }
+    }
+    return ans
+  }
+
+  function uniqWith(array, comparator = it => it) {
+    let ans = []
+    comparator = this.iterater(comparator)
+    for (let item of array) {
+      let isTrue = ans.some(it => comparator(it, item))
+      if (!isTrue) ans.push(item)
+    }
+    return ans
+  }
+
+  /**
+   * 接收的是已经排好序的数组
+   * 
+   * @param {Array} array - 输入的数组，可以是任意类型的数组，但通常情况下应该是包含可比较元素的数组
+   * @returns {Array} 返回去除了重复元素的新数组
+   */
+  function sortedUniq(array) {
+    // 函数体，实现排序及去重逻辑
+    let newArr = []
+    for (let i = 0; i < array.length; i++) {
+      if (i === 0 || array[i] !== array[i - 1]) {
+        newArr.push(array[i])
+      }
+    }
+    return newArr
+  }
+
+/**
+ * 对排序数组去除重复元素
+ * @param {Array} array - 输入的排好序的数组
+ * @param {Function} iteratee - 用于获取元素比较值的函数
+ * @returns {Array} - 去重后的新数组
+ */
+function sortedUniqBy(array, iteratee) {
+  // 对iteratee进行适配，确保其可以用于后续的操作
+  iteratee = this.iterater(iteratee)
+  // 函数体，实现去重逻辑
+  let newArr = []
+  // 遍历输入数组
+  for (let i = 0; i < array.length; i++) {
+    // 判断当前元素与前一个元素是否不同，如果不同则将其加入新数组
+    if (i === 0 || iteratee(array[i]) !== iteratee(array[i - 1])) {
+      newArr.push(array[i])
+    }
+  }
+  return newArr
+}
   // 递归下降法实现json的解析
   // 即对于递归结构的文本的解析，通过为每种语法实现一个解析函数
   // 解析函数开始时全局指针指向这个值在文本中开始的位置
@@ -1492,6 +1693,10 @@ var coderhf = (function () {
     join: join,
     last: last,
     pull: pull,
+    pullAll: pullAll,
+    pullAllBy: pullAllBy,
+    pullAllWith: pullAllWith,
+    pullAt: pullAt,
     reverse: reverse,
     every: every,
     some: some,
@@ -1541,6 +1746,21 @@ var coderhf = (function () {
     intersection: intersection,
     intersectionBy: intersectionBy,
     intersectionWith: intersectionWith,
+    nth: nth,
+    sortedIndex: sortedIndex,
+    tail: tail,
+    take: take,
+    takeRight: takeRight,
+    takeRightWhile: takeRightWhile,
+    takeWhile: takeWhile,
+    union: union,
+    unionBy: unionBy,
+    unionWith: unionWith,
+    uniq: uniq,
+    uniqBy: uniqBy,
+    uniqWith: uniqWith,
+    sortedUniq: sortedUniq,
+    sortedUniqBy: sortedUniqBy,
     parseJSON: parseJSON,
     stringifyJSON: stringifyJSON,
   }
