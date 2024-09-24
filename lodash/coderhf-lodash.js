@@ -1486,7 +1486,7 @@ var coderhf = (function () {
 
   /**
    * 接收的是已经排好序的数组
-   * 
+   *
    * @param {Array} array - 输入的数组，可以是任意类型的数组，但通常情况下应该是包含可比较元素的数组
    * @returns {Array} 返回去除了重复元素的新数组
    */
@@ -1501,26 +1501,126 @@ var coderhf = (function () {
     return newArr
   }
 
-/**
- * 对排序数组去除重复元素
- * @param {Array} array - 输入的排好序的数组
- * @param {Function} iteratee - 用于获取元素比较值的函数
- * @returns {Array} - 去重后的新数组
- */
-function sortedUniqBy(array, iteratee) {
-  // 对iteratee进行适配，确保其可以用于后续的操作
-  iteratee = this.iterater(iteratee)
-  // 函数体，实现去重逻辑
-  let newArr = []
-  // 遍历输入数组
-  for (let i = 0; i < array.length; i++) {
-    // 判断当前元素与前一个元素是否不同，如果不同则将其加入新数组
-    if (i === 0 || iteratee(array[i]) !== iteratee(array[i - 1])) {
-      newArr.push(array[i])
+  /**
+   * 对排序数组去除重复元素
+   * @param {Array} array - 输入的排好序的数组
+   * @param {Function} iteratee - 用于获取元素比较值的函数
+   * @returns {Array} - 去重后的新数组
+   */
+  function sortedUniqBy(array, iteratee) {
+    // 对iteratee进行适配，确保其可以用于后续的操作
+    iteratee = this.iterater(iteratee)
+    // 函数体，实现去重逻辑
+    let newArr = []
+    // 遍历输入数组
+    for (let i = 0; i < array.length; i++) {
+      // 判断当前元素与前一个元素是否不同，如果不同则将其加入新数组
+      if (i === 0 || iteratee(array[i]) !== iteratee(array[i - 1])) {
+        newArr.push(array[i])
+      }
+    }
+    return newArr
+  }
+
+  /**
+   * 实现数组的zip函数，将多个数组按照位置对应元素组合成一个新的二维数组
+   * @param {...Array} arrays - 一个或多个数组，这些数组的长度可以不同
+   * @returns {Array} - 一个新的二维数组，内部每个子数组包含原始数组在同一位置的元素
+   */
+  function zip(...arrays) {
+    // 初始化一个新的二维数组
+    let newArr = []
+    // 获取最长的数组的长度，用于后续遍历
+    let maxCol = Math.max(...arrays.map(array => array.length))
+    // 遍历列
+    for (let j = 0; j < maxCol; j++) {
+      // 初始化一个临时数组，用于存储当前索引位置的元素集合
+      let arr = []
+      // 遍历行（每个元素）
+      for (let i = 0; i < arrays.length; i++) {
+        // 将每个数组当前索引位置的元素添加到临时数组中
+        arr.push(arrays[i][j])
+      }
+      // 将临时数组添加到新的二维数组中
+      newArr.push(arr)
+    }
+    // 返回最终的二维数组
+    return newArr
+  }
+
+  function zipObject(props = [], values = []) {
+    let obj = {}
+    for (let i = 0; i < props.length; i++) {
+      obj[props[i]] = values[i]
+    }
+    return obj
+  }
+
+  function zipObjectDeep(props = [], values = []) {}
+
+  function zipWith() {
+    let ans = []
+    let iteratee = arguments[arguments.length - 1]
+    let arrays = Array.from(arguments).slice(0, arguments.length - 1)
+    iteratee = this.iterater(iteratee)
+    let maxCount = Math.max(...arrays.map(arr => arr.length))
+    for (let i = 0; i < maxCount; i++) {
+      let args = []
+      arrays.forEach(arr => args.push(arr[i]))
+      ans.push(iteratee(...args))
+    }
+    return ans
+  }
+
+  function unzip(array) {
+    let ans = []
+    for (let i = 0; i < array[0].length; i++) {
+      let arr = []
+      array.forEach(item => arr.push(item[i]))
+      ans.push(arr)
+    }
+    return ans
+  }
+
+  function unzipWith(array, iteratee) {
+    iteratee = this.iterater(iteratee)
+    let ans = []
+    for (let i = 0; i < array[0].length; i++) {
+      let temp = []
+      array.forEach(item => temp.push(item[i]))
+      ans.push(iteratee(...temp))
+    }
+    return ans
+  }
+
+  /**
+   * 两数相加
+   * @param {Number} augend
+   * @param {Number} addend
+   */
+  function add(augend, addend) {
+    return augend + addend
+  }
+
+  function find(collection, predicate, fromIndex = 0) {
+    predicate = this.iterater(predicate)
+    for (let i = fromIndex; i < collection.length; i++) {
+      let col = collection[i]
+      if (predicate(col)) {
+        return col
+      }
     }
   }
-  return newArr
-}
+
+  function findLast(collection, predicate, fromIndex = collection.length - 1) {
+    predicate = this.iterater(predicate)
+    for (let i = fromIndex; i >= 0; i--) {
+      let col = collection[i]
+      if (predicate(col)) {
+        return col
+      }
+    }
+  }
   // 递归下降法实现json的解析
   // 即对于递归结构的文本的解析，通过为每种语法实现一个解析函数
   // 解析函数开始时全局指针指向这个值在文本中开始的位置
@@ -1761,6 +1861,15 @@ function sortedUniqBy(array, iteratee) {
     uniqWith: uniqWith,
     sortedUniq: sortedUniq,
     sortedUniqBy: sortedUniqBy,
+    zip: zip,
+    zipObject: zipObject,
+    zipObjectDeep: zipObjectDeep,
+    zipWith: zipWith,
+    unzip: unzip,
+    unzipWith: unzipWith,
+    add: add,
+    find: find,
+    findLast: findLast,
     parseJSON: parseJSON,
     stringifyJSON: stringifyJSON,
   }
