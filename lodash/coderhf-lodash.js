@@ -902,6 +902,8 @@ var coderhf = (function () {
     return result
   }
 
+  
+
   function get(object, path, defaultValue) {
     if (Array.isArray(path)) {
       for (let key of path) {
