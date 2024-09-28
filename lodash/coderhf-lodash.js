@@ -1672,10 +1672,13 @@ var coderhf = (function () {
     // 函数实现
     let ans = []
     for (let i = 0; i < arrays.length; i++) {
-      let temp = ans
-      ans = []
-      ans.push(...this.difference(temp, arrays[i]))
-      ans.push(...this.difference(arrays[i], temp))
+      let arr = arrays[i]
+      for (let j = 0; j < arrays.length; j++) {
+        if (i !== j) {
+          arr = difference(arr, arrays[j])
+        }
+      }
+      ans.push(...arr)
     }
     return ans
   }
@@ -1685,10 +1688,13 @@ var coderhf = (function () {
     let iteratee = this.iterater(args.at(-1))
     args.pop()
     for (let i = 0; i < args.length; i++) {
-      let temp = ans
-      ans = []
-      ans.push(...this.differenceBy(temp, args[i], iteratee))
-      ans.push(...this.differenceBy(args[i], temp, iteratee))
+      let arr = args[i]
+      for (let j = 0; j < args.length; j++) {
+        if (i !== j) {
+          arr = differenceBy(arr, args[j], iteratee)
+        }
+      }
+      ans.push(...arr)
     }
     return ans
   }
@@ -1698,10 +1704,13 @@ var coderhf = (function () {
     let comparator = this.iterater(args.at(-1))
     args.pop()
     for (let i = 0; i < args.length; i++) {
-      let temp = ans
-      ans = []
-      ans.push(...this.differenceWith(temp, args[i], comparator))
-      ans.push(...this.differenceWith(args[i], temp, comparator))
+      let arr = args[i]
+      for (let j = 0; j < args.length; j++) {
+        if (i !== j) {
+          arr = differenceWith(arr, args[j], comparator)
+        }
+      }
+      ans.push(...arr)
     }
     return ans
   }
