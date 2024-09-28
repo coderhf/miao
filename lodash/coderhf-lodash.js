@@ -579,24 +579,40 @@ var coderhf = (function () {
     return ans
   }
 
-  function forEach(collection, iterater) {
-    if (typeof iterater !== 'function') {
-      iterater = (val, idx, collection) => {
-        console.log(val, idx, collection)
-      }
-    }
+  function forEach(collection, iteratee) {
+    iteratee = this.iterater(iteratee)
     if (typeof collection === 'object' && collection !== null) {
       if (Array.isArray(collection)) {
         for (let i = 0; i < collection.length; i++) {
-          let bol = iterater(collection[i], i, collection)
+          let bol = iteratee(collection[i], i, collection)
           if (bol === false) return collection
         }
       } else {
         for (let key in collection) {
           if (collection.hasOwnProperty(key)) {
-            let bol = iterater(collection[key], key, collection)
+            let bol = iteratee(collection[key], key, collection)
             if (bol === false) return collection
           }
+        }
+      }
+    }
+    return collection
+  }
+
+  function forEachRight(collection, iteratee) {
+    iteratee = this.iterater(iteratee)
+    if (typeof collection === 'object' && collection !== null) {
+      if (Array.isArray(collection)) {
+        for (let i = collection.length - 1; i >= 0; i--) {
+          let bol = iteratee(collection[i], i, collection)
+          if (bol === false) return collection
+        }
+      } else {
+        let keys = Object.keys(collection)
+        for (let i = keys.length - 1; i >= 0; i--) {
+          let key = keys[i]
+          let bol = iteratee(collection[key], key, collection)
+          if (bol === false) return collection
         }
       }
     }
@@ -1899,6 +1915,7 @@ var coderhf = (function () {
     groupBy: groupBy,
     keyBy: keyBy,
     forEach: forEach,
+    forEachRight,
     map: map,
     filter: filter,
     reduce: reduce,
