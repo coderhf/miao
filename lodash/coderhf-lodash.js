@@ -882,7 +882,7 @@ var coderhf = (function () {
       for (let i = 0; i < collection.length; i++) {
         let arr = iterater(collection[i], i, collection)
         if (Array.isArray(arr)) {
-          result.push(this.flattenDepth(arr, depth))
+          result.push(...this.flattenDepth(arr, depth))
         } else {
           result.push(arr)
         }
@@ -892,7 +892,7 @@ var coderhf = (function () {
         if (collection.hasOwnProperty(key)) {
           let arr = iterater(collection(key))
           if (Array.isArray(arr)) {
-            result.push(this.flattenDepth(arr, depth))
+            result.push(...this.flattenDepth(arr, depth))
           } else {
             result.push(arr)
           }
@@ -902,7 +902,31 @@ var coderhf = (function () {
     return result
   }
 
-  
+  function flatMapDeep(collection, iterater) {
+    let result = []
+    if (Array.isArray(collection)) {
+      for (let i = 0; i < collection.length; i++) {
+        let arr = iterater(collection[i], i, collection)
+        if (Array.isArray(arr)) {
+          result.push(...this.flattenDeep(arr))
+        } else {
+          result.push(arr)
+        }
+      }
+    } else if (typeof collection === 'object' && collection !== 'null') {
+      for (let key of collection) {
+        if (collection.hasOwnProperty(key)) {
+          let arr = iterater(collection(key))
+          if (Array.isArray(arr)) {
+            result.push(...this.flattenDeep(arr))
+          } else {
+            result.push(arr)
+          }
+        }
+      }
+    }
+    return result
+  }
 
   function get(object, path, defaultValue) {
     if (Array.isArray(path)) {
@@ -1623,6 +1647,65 @@ var coderhf = (function () {
       }
     }
   }
+
+  /**
+   * 从数组中移除指定的值。
+   *
+   * 该函数的作用是从给定的数组中移除一个或多个指定的值，
+   * 并返回一个新的数组，该数组中不包含被移除的值。这个函数
+   * 适用于那些想要过滤掉特定元素，但又不想修改原数组的场景。
+   *
+   * @param {Array} array - 原始数组，可以包含任何类型的元素。
+   * @param {...any} values - 一个或多个想要从数组中移除的值。
+   * @return {Array} 一个新的数组，其中不包含被移除的值。
+   */
+  function without(array, ...values) {
+    return array.filter(it => !values.includes(it))
+  }
+
+  /**
+   * 实现多个数组的异或操作
+   * @param {Array[]} arrays - 多个数组参数组成的数组
+   * @returns {Array} - 返回异或操作后的结果数组
+   */
+  function xor(...arrays) {
+    // 函数实现
+    let ans = []
+    for (let i = 0; i < arrays.length; i++) {
+      let temp = ans
+      ans = []
+      ans.push(...this.difference(temp, arrays[i]))
+      ans.push(...this.difference(arrays[i], temp))
+    }
+    return ans
+  }
+
+  function xorBy(...args) {
+    let ans = []
+    let iteratee = this.iterater(args.at(-1))
+    args.pop()
+    for (let i = 0; i < args.length; i++) {
+      let temp = ans
+      ans = []
+      ans.push(...this.differenceBy(temp, args[i], iteratee))
+      ans.push(...this.differenceBy(args[i], temp, iteratee))
+    }
+    return ans
+  }
+
+  function xorWith(...args) {
+    let ans = []
+    let comparator = this.iterater(args.at(-1))
+    args.pop()
+    for (let i = 0; i < args.length; i++) {
+      let temp = ans
+      ans = []
+      ans.push(...this.differenceWith(temp, args[i], comparator))
+      ans.push(...this.differenceWith(args[i], temp, comparator))
+    }
+    return ans
+  }
+
   // 递归下降法实现json的解析
   // 即对于递归结构的文本的解析，通过为每种语法实现一个解析函数
   // 解析函数开始时全局指针指向这个值在文本中开始的位置
@@ -1786,6 +1869,7 @@ var coderhf = (function () {
     flatten: flatten,
     flattenDeep: flattenDeep,
     flattenDepth: flattenDepth,
+    flatMapDeep: flatMapDeep,
     fromPairs: fromPairs,
     toPairs: toPairs,
     head: head,
@@ -1872,6 +1956,10 @@ var coderhf = (function () {
     add: add,
     find: find,
     findLast: findLast,
+    without,
+    xor,
+    xorBy,
+    xorWith,
     parseJSON: parseJSON,
     stringifyJSON: stringifyJSON,
   }
