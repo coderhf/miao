@@ -1731,6 +1731,30 @@ var coderhf = (function () {
     return ans
   }
 
+  function includes(collection, value, fromIndex = 0) {
+    let bol = false
+    if (typeof collection === 'object' && collection !== null) {
+      if (Array.isArray(collection)) {
+        bol = collection.includes(value, fromIndex)
+      } else {
+        let values = Object.values(collection)
+        bol = values.includes(value, fromIndex)
+      }
+    } else if (typeof collection === 'string') {
+      bol = collection.includes(value, fromIndex)
+    }
+    return bol
+  }
+
+  function invokeMap(collection, path, ...args) {
+    if (typeof collection === 'object' && collection !== null) {
+      if (!Array.isArray(collection)) {
+        collection = Object.values(collection)
+      }
+    }
+    return collection.map(item => (typeof path === 'function' ? path : collection[path]).apply(item, args))
+  }
+
   // 递归下降法实现json的解析
   // 即对于递归结构的文本的解析，通过为每种语法实现一个解析函数
   // 解析函数开始时全局指针指向这个值在文本中开始的位置
@@ -1986,6 +2010,8 @@ var coderhf = (function () {
     xor,
     xorBy,
     xorWith,
+    includes,
+    invokeMap,
     parseJSON: parseJSON,
     stringifyJSON: stringifyJSON,
   }
