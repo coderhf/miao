@@ -16,6 +16,10 @@
             outline: none;
         }
 
+				strong {
+					font-weight: normal;
+				}
+
         .container .content {
             width: 700px;
             margin: 0 auto;
@@ -46,7 +50,7 @@
             flex: 10;
         }
 
-        #regInput {
+        #regInput, .replace input {
             width: 100%;
             height: 40px;
             margin: 10px 0;
@@ -85,7 +89,7 @@
             margin-top: 10px;
         }
 
-        #result {
+        #result, pre {
             white-space: pre-wrap;
             word-break: break-all;
             width: 100%;
@@ -95,6 +99,10 @@
             margin-top: 10px;
             background-color: #fff;
         }
+
+				pre {
+					font-size: 16px;
+				}
 
         #result > strong {
             font-weight: normal;
@@ -241,6 +249,7 @@
             top: 100%;
             transform: translateX(-50%);
         }
+
 	</style>
 </head>
 
@@ -251,7 +260,7 @@
 		<!-- (.)(.)(.)(.)(.)(.)(.)(.)(.)\b -->
 		<div class="regBox">
 			<label for="regInput">
-				<input class="border" type="text" id="regInput" value="(.)(.)(.)(.)(.)(.)(.)(.)(.)\b" tabindex="1">
+				<input class="border" type="text" id="regInput" value=".(.)." tabindex="1">
 			</label>
 			<button class="btn">RUN</button>
 		</div>
@@ -269,16 +278,20 @@
 		<div class="test">TEST STRING</div>
 		<!-- <textarea name="" oninput="run()"
 		  id="testStringInput">101010101011010101011010101010101010101001010101010101</textarea> -->
-		<div id="result" contenteditable>
-						An explanation of your regex will be automatically generated as you type.
-						An explanation of your regex will be automatically generated as you type.
-						3 chickens
-						55 cows
-						100 eggs
-						1 dragonfly
-						1 pig
-		</div>
+			<!-- An explanation of your regex will be automatically generated as you type.
+			An explanation of your regex will be automatically generated as you type.
+			3 chickens
+			55 cows
+			100 eggs
+			1 dragonfly
+			1 pig -->
+		<div id="result" contenteditable>afballllfloaf</div>
 		<div class="groupHoverTip"></div>
+		<div class="replace">
+			<div class="test">SUBSTITUTION</div>
+			<input type="text">
+			<pre></pre>
+		</div>
 	</div>
 </div>
 
@@ -290,6 +303,9 @@
 	let result = document.querySelector('#result')
 	let tips = document.querySelector('#tips')
 	let matchState = document.querySelector('#matchState')
+	let replaceTextEl = document.querySelector('.replace input') // 替换文本元素
+	let preEl = document.querySelector('.replace pre') // 替换后的文本内容 
+	let reg // 存储正则 表达式
 	let showTime = 0 // 展示时间
 	regInput.addEventListener('input', debounce(run, 100))
 	regInput.addEventListener('input', e => {
@@ -307,6 +323,15 @@
 	btnEl.click()
 	regInput.focus()
 
+	// 替换功能
+	replaceTextEl.addEventListener('input', replaceAllText)
+
+	function replaceAllText() {
+		let text = replaceTextEl.value || ''
+		let resultText = result.textContent
+		preEl.innerHTML = resultText.replace(reg, text)
+	}
+	replaceAllText()
 	// 点击运行，正则表达式匹配
 	function run(e) {
 		let regString = regInput.value // 获取正则表达式
@@ -320,8 +345,7 @@
 			return
 		}
 		let flags = getFlags() + 'd' // 获取选中的正则匹配标签,d标记必须要有，所以不让用户去选择
-		// 用trycatch，是因为外面传进来的表达式可能是语法错误的，当然也有可能是其它错误
-		let reg
+		// 用try catch，是因为外面传进来的表达式可能是语法错误的，当然也有可能是其它错误
 		try {
 			reg = new RegExp(regString, flags) // 创建出正则表达式对象
 		} catch (error) {
@@ -389,6 +413,7 @@
 			} else {
 				result.innerHTML = html
 			}
+			replaceAllText()
 		}, () => {
 			// 匹配超时
 			if (currentTime < showTime) return
@@ -397,9 +422,8 @@
 			matchState.classList.remove('success', 'fail', 'noMatch')
 			matchState.classList.add('fail')
 		})
-
-
 	}
+
 
 	// 鼠标放上result的结果上会有每个分组的内容悬浮在鼠标箭头上
 	let groupHoverTipEl = document.querySelector('.groupHoverTip') // 获取悬浮的元素
