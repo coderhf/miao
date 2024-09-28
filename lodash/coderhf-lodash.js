@@ -882,7 +882,7 @@ var coderhf = (function () {
       for (let i = 0; i < collection.length; i++) {
         let arr = iterater(collection[i], i, collection)
         if (Array.isArray(arr)) {
-          result.push(...this.flattenDepth(arr, depth))
+          result.push(this.flattenDepth(arr, depth))
         } else {
           result.push(arr)
         }
@@ -892,7 +892,7 @@ var coderhf = (function () {
         if (collection.hasOwnProperty(key)) {
           let arr = iterater(collection(key))
           if (Array.isArray(arr)) {
-            result.push(...this.flattenDepth(arr, depth))
+            result.push(this.flattenDepth(arr, depth))
           } else {
             result.push(arr)
           }
